@@ -1,0 +1,8 @@
+.Avatar {
+  color: rgb(215, 216, 219);
+  @apply flex items-center gap-2 text-lg;
+}
+
+.UserAvatar {
+  @apply rounded-md mr-1;
+}

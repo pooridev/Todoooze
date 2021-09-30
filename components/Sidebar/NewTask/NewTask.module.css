@@ -1,0 +1,15 @@
+.NewTask {
+  @apply flex items-center justify-between transition-all hover:bg-gray-lighter mt-9 border-2 border-gray-lighter bg-gray-light rounded-md relative overscroll-none;
+}
+
+.NewTaskButtonWrapper {
+  @apply px-2 flex-1;
+}
+
+.NewTaskButton {
+  @apply bg-transparent  w-full text-lg border-none text-gray-lightest flex gap-2 p-1 items-center cursor-default;
+}
+
+.newTaskIcon {
+  @apply transition-all w-[1.2rem] h-[1.2rem];
+}

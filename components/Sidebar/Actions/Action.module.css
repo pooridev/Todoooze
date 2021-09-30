@@ -1,0 +1,15 @@
+.Actions {
+  @apply mt-5;
+}
+
+.Action {
+  @apply rounded-md hover:bg-gray-light my-1;
+}
+
+.Action a {
+  @apply flex gap-2 py-1 px-3 items-center text-gray-lightest cursor-default;
+}
+
+.Icon {
+  @apply w-[1.2rem] h-[1.2rem];
+}
