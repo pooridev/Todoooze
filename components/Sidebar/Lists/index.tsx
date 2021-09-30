@@ -1,5 +1,4 @@
 import { FC, useState, MouseEvent } from 'react';
-
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 
 import styles from './Lists.module.css';
@@ -75,7 +74,7 @@ const Lists: FC = () => {
               }`}>
               {item['tasks'].map((task: { id: number; title: string }) => (
                 <li className={styles['Task']} key={task['id']}>
-                  <Icon iconName='solidCircle' />
+                  <input type='checkbox' className={styles['TaskCheckbox']} />
                   {task['title']}
                 </li>
               ))}
