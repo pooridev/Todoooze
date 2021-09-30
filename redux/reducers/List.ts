@@ -35,10 +35,10 @@ const initialState: IListState = {
   ]
 };
 
-export default (
+const reducer = (
   state = initialState,
   { type, payload }: AnyAction
-): ListState => {
+): IListState => {
   switch (type) {
     case types.OPEN_LIST: {
       const newList = state.lists.map(item => {
@@ -78,3 +78,5 @@ export default (
       return state;
   }
 };
+
+export default reducer;
