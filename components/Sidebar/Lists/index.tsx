@@ -74,8 +74,12 @@ const Lists: FC = () => {
               }`}>
               {item['tasks'].map((task: { id: number; title: string }) => (
                 <li className={styles['Task']} key={task['id']}>
-                  <input type='checkbox' className={styles['TaskCheckbox']} />
-                  {task['title']}
+                  <input
+                    type='checkbox'
+                    id={task['title']}
+                    className={styles['TaskCheckbox']}
+                  />
+                  <label htmlFor={task['title']}>{task['title']}</label>
                 </li>
               ))}
             </ul>
