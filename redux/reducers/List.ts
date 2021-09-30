@@ -1,23 +1,9 @@
 import { types } from './../types';
 import { AnyAction } from 'redux';
 
-interface ListState {
-  lists: {
-    iconName: string;
-    title: string;
-    id: number;
-    isOpen: boolean;
-    isMenuOpen: boolean;
-    tasks: {
-      title: string;
-      id: number;
-      isDone: boolean;
-      description: string;
-    }[];
-  }[];
-}
+import { IListState } from './../../types/IListState';
 
-const initialState: ListState = {
+const initialState: IListState = {
   lists: [
     {
       iconName: 'profile',
