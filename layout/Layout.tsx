@@ -2,7 +2,7 @@ import { FC, ReactChild } from 'react';
 import Sidebar from '../components/Sidebar';
 import styles from './Layout.module.css';
 
-type childrenType = ReactChild;
+type childrenType = { children: ReactChild };
 
 /**
  * @description main layout to render shared components around the app
