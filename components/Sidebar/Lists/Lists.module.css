@@ -2,7 +2,7 @@
   @apply mt-5;
 }
 
-.Lists li {
+.List {
   @apply mt-2 relative;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .Title {
-  @apply rounded-md font-medium flex px-3 justify-between text-gray-lightest;
+  @apply rounded-md font-medium flex px-3 py-1 justify-between text-gray-lightest;
 }
 
 .Title svg {
@@ -93,7 +93,7 @@
 }
 
 .Task {
-  @apply flex items-center gap-2 rounded-md pl-8 text-gray-lightest;
+  @apply flex items-center gap-2 my-1 rounded-md pl-8 py-1 text-gray-lightest;
 }
 
 .Task:hover {
