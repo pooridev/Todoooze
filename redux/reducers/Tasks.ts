@@ -1,9 +1,9 @@
-import { types } from './../types';
+import { types } from '../types';
 import { AnyAction } from 'redux';
 
-import { IListState } from './../../types/IListState';
+import { ITasksState } from '../../types/ITasksState';
 
-const initialState: IListState = {
+const initialState: ITasksState = {
   lists: [
     {
       iconName: 'profile',
@@ -12,9 +12,9 @@ const initialState: IListState = {
       isOpen: false,
       isMenuOpen: false,
       tasks: [
-        { title: 'Auth', id: 1, isDone: false, description: 'Fix api bugs' },
-        { title: 'API', id: 2, isDone: false, description: 'Fix api bugs' },
-        { title: 'Bug fix', id: 3, isDone: false, description: 'Fix api bugs' }
+        { title: 'Auth', id: 1, status: 'todo', description: 'Fix api bugs' },
+        { title: 'API', id: 2, status: 'todo', description: 'Fix api bugs' },
+        { title: 'Bug fix', id: 3, status: 'todo', description: 'Fix api bugs' }
       ]
     },
     {
@@ -27,7 +27,7 @@ const initialState: IListState = {
         {
           title: 'IG content',
           id: 1,
-          isDone: false,
+          status: 'todo',
           description: 'Fix api bugs'
         }
       ]
@@ -38,7 +38,7 @@ const initialState: IListState = {
 const reducer = (
   state = initialState,
   { type, payload }: AnyAction
-): IListState => {
+): ITasksState => {
   switch (type) {
     case types.OPEN_LIST: {
       const newList = state.lists.map(item => {

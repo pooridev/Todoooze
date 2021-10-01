@@ -1,4 +1,4 @@
-export interface IListState {
+export interface ITasksState {
   lists: {
     iconName: string;
     title: string;
@@ -8,7 +8,7 @@ export interface IListState {
     tasks: {
       title: string;
       id: number;
-      isDone: boolean;
+      status: 'todo' | 'in_progress' | 'done';
       description: string;
     }[];
   }[];

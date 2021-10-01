@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import ListReducer from './reducers/List';
+import ListReducer from './reducers/Tasks';
 
 const rootReducer = ListReducer;
 const store = createStore(rootReducer);

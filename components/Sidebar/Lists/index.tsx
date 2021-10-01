@@ -2,9 +2,9 @@ import { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Lists.module.css';
-import { openList } from './../../../redux/actions/List';
+import { openList } from '../../../redux/actions/Tasks';
 import Icon from '../../../shared/icon';
-import { IListState } from '../../../types/IListState';
+import { ITasksState } from '../../../types/ITasksState';
 
 type IListItem = {
   id: number;
@@ -21,7 +21,7 @@ type IListItem = {
 
 const Lists: FC = () => {
   const [areListsOpen, setAreListsOpen] = useState(false);
-  const { lists } = useSelector((state: IListState) => state);
+  const { lists } = useSelector((state: ITasksState) => state);
 
   const dispatch = useDispatch();
 

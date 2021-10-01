@@ -1,4 +1,4 @@
-import { types } from './../types';
+import { types } from '../types';
 import { AnyAction } from 'redux';
 
 export const openList = (payload: number): AnyAction => {
