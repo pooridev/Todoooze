@@ -1,9 +1,10 @@
-import { FC, useState, MouseEvent } from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { FC, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Lists.module.css';
-import { openList, openMenu, closeMenu } from './../../../redux/actions/List';
+import { openList } from './../../../redux/actions/List';
 import Icon from './../../../shared/Icon';
+import { IListState } from '../../../types/IListState';
 
 type IListItem = {
   id: number;
@@ -13,26 +14,18 @@ type IListItem = {
   tasks: Array<{ id: number; title: string }>;
 };
 
+/**
+ *
+ * @description a component that renders a list of task lists on the sidebar.
+ */
+
 const Lists: FC = () => {
-  const [areListsOpen, setAreListsOpen] = useState<boolean>(false);
+  const [areListsOpen, setAreListsOpen] = useState(false);
+  const { lists } = useSelector((state: IListState) => state);
+
   const dispatch = useDispatch();
 
-  const { lists } = useSelector((state: RootStateOrAny) => state);
-
   const toggleListsDropdown = () => setAreListsOpen(prev => !prev);
-
-  const openListOptionsHandler = (
-    e: MouseEvent<HTMLButtonElement>,
-    id: number
-  ) => {
-    e.stopPropagation();
-    dispatch(openMenu(id));
-  };
-
-  const closeListOptionsHandler = (id: number) => {
-    console.log(id);
-    dispatch(closeMenu(id));
-  };
 
   return (
     <div className={styles['Lists']}>
@@ -62,9 +55,7 @@ const Lists: FC = () => {
                 />
                 <span>{item['title']}</span>
               </span>
-              <button
-                onClick={event => openListOptionsHandler(event, item['id'])}
-                className={styles['OpenOptionsButton']}>
+              <button className={styles['OpenOptionsButton']}>
                 <Icon iconName='threeDots' />
               </button>
             </div>
