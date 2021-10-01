@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import Icon from '../../../shared/Icon';
+import Icon from '../../../shared/icon';
 import styles from './NewTask.module.css';
 
 const NewTask: FC = () => {

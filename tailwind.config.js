@@ -18,7 +18,7 @@ module.exports = {
           darkest: 'rgb(31, 32, 35)'
         }
       },
-      fill: () => ({
+      fill: (theme) => ({
         lightest: 'rgb(215, 216, 219)',
         lighter: 'rgb(69, 72, 78)',
         light: 'rgb(48, 50, 54)',

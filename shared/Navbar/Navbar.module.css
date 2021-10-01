@@ -1,3 +1,12 @@
 .Navbar {
-  @apply border-b-2 text-white border-gray-light px-10 py-6;
+  @apply border-b-2 text-white border-gray-light px-10 py-6 flex items-center gap-6;
+}
+
+.ToggleSidebar {
+  @apply lg:hidden cursor-default;
+}
+
+.ToggleIcon {
+  transition: fill 0.05s ease-in-out;
+  @apply hover:fill-lightest w-5 h-5;
 }

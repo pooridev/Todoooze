@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
-import Icon from '../../../shared/Icon';
+import Icon from '../../../shared/icon';
 import styles from './Action.module.css';
 
 /**

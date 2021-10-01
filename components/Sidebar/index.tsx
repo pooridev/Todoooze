@@ -1,25 +1,36 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 
 import styles from './Sidebar.module.css';
-import Avatar from './Avatar/index';
+import Avatar from './Avatar';
 import NewTask from './NewTask';
-import Actions from './Actions/index';
-import Lists from './Lists/index';
+import Actions from './Actions';
+import Lists from './Lists';
+import { useSidebar } from '../../providers/Sidebar';
+import useOutsideClickHandler from './../../hooks/useOutsideClickHandler';
+
+/**
+ * @description main sidebar of the app
+ *
+ */
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  // isOpen: to determine if the sidebar is open or not
+  // toggle: The function to call to toggle the sidebar.
+  const { isOpen, closeSidebar } = useSidebar();
 
-  const openDropdownHandler = () => setIsOpen(true);
-  const closeDropdownHandler = () => setIsOpen(false);
+  const sidebarRef = useRef<HTMLElement | null>(null);
+
+  const sidebarClasses = [styles.Sidebar];
+
+  if (isOpen) sidebarClasses.push(styles.Open);
+
+  // to close the sidebar when clicking outside of it
+  useOutsideClickHandler({ callback: closeSidebar, ref: sidebarRef });
 
   return (
-    <aside className={styles.Sidebar}>
+    <aside className={sidebarClasses.join(' ')} ref={sidebarRef}>
       <Avatar />
-      <NewTask
-        onClose={closeDropdownHandler}
-        isOpen={isOpen}
-        onOpen={openDropdownHandler}
-      />
+      <NewTask />
       <Actions />
       <Lists />
     </aside>

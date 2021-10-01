@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Lists.module.css';
 import { openList } from './../../../redux/actions/List';
-import Icon from './../../../shared/Icon';
+import Icon from '../../../shared/icon';
 import { IListState } from '../../../types/IListState';
 
 type IListItem = {
