@@ -36,11 +36,13 @@ const useOutsideClickHandler = (props: IProps): void => {
       }
     };
 
-    document.addEventListener('mousedown', event => handleClickOutside(event));
+    document.addEventListener('mousedown', event =>
+      handleClickOutside(event as any)
+    );
 
     return () => {
       document.removeEventListener('mousedown', event =>
-        handleClickOutside(event)
+        handleClickOutside(event as any)
       );
     };
   }, [ref]);
