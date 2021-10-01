@@ -11,6 +11,7 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.15.0",
     "@types/react-redux": "^7.1.18",
+    "moment": "^2.29.1",
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
