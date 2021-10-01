@@ -1,0 +1,3 @@
+.Navbar {
+  @apply border-b-2 text-white border-gray-light px-10 py-6;
+}
