@@ -21,7 +21,7 @@ type IListItem = {
 
 const Lists: FC = () => {
   const [areListsOpen, setAreListsOpen] = useState(false);
-  const { lists } = useSelector((state: ITasksState) => state);
+  const { projects } = useSelector((state: ITasksState) => state);
 
   const dispatch = useDispatch();
 
@@ -31,7 +31,7 @@ const Lists: FC = () => {
     <div className={styles['Lists']}>
       <header className={styles['Header']} onClick={toggleListsDropdown}>
         <h3>
-          Your lists
+          Your projects
           <Icon
             iconName='arrowRight'
             className={areListsOpen ? styles['RotateArrow'] : ''}
@@ -42,7 +42,7 @@ const Lists: FC = () => {
         className={`${styles['TaskLists']}${
           areListsOpen ? styles['Open'] : ''
         }`}>
-        {lists.map((item: IListItem) => (
+        {projects.map((item: IListItem) => (
           <li key={item.id} className={styles['List']}>
             <div
               key={item.id}

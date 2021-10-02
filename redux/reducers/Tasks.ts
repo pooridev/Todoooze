@@ -4,9 +4,8 @@ import { AnyAction } from 'redux';
 import { ITasksState } from '../../types/ITasksState';
 
 const initialState: ITasksState = {
-  lists: [
+  projects: [
     {
-      iconName: 'profile',
       title: 'Calistu',
       id: 1,
       isOpen: false,
@@ -18,7 +17,6 @@ const initialState: ITasksState = {
       ]
     },
     {
-      iconName: 'profile',
       title: 'Junior Coders',
       id: 2,
       isOpen: false,
@@ -40,35 +38,10 @@ const reducer = (
   { type, payload }: AnyAction
 ): ITasksState => {
   switch (type) {
-    case types.OPEN_LIST: {
-      const newList = state.lists.map(item => {
+    case types.TOGGLE_PROJECT: {
+      const newList = state.projects.map(item => {
         if (item.id === payload) {
           item.isOpen = !item.isOpen;
-          return item;
-        }
-      });
-      return { ...state, ...newList };
-    }
-    case types.DELETE_LIST: {
-      const newList = state.lists.map(list => list.id !== payload.id);
-      return {
-        ...state,
-        ...newList
-      };
-    }
-    case types.OPEN_MENU: {
-      const newList = state.lists.map(item => {
-        if (item.id === payload) {
-          item.isMenuOpen = !item.isMenuOpen;
-          return item;
-        }
-      });
-      return { ...state, ...newList };
-    }
-    case types.CLOSE_MENU: {
-      const newList = state.lists.map(item => {
-        if (item.id === payload) {
-          item.isMenuOpen = !item.isMenuOpen;
           return item;
         }
       });

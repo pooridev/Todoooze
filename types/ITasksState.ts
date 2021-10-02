@@ -1,15 +1,14 @@
 export interface ITasksState {
-  lists: {
-    iconName: string;
+  projects: Array<{
     title: string;
     id: number;
     isOpen: boolean;
     isMenuOpen: boolean;
-    tasks: {
+    tasks: Array<{
       title: string;
       id: number;
       status: 'todo' | 'in_progress' | 'done';
       description: string;
-    }[];
-  }[];
+    }>;
+  }>;
 }

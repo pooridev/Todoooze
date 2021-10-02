@@ -1,10 +1,12 @@
-import Navbar from '../shared/Navbar';
+import Navbar from '../components/Home/Navbar';
+import TasksArea from '../components/TasksArea';
 
 const Home = () => {
   return (
-    <Navbar>
-      <h1>Home</h1>
-    </Navbar>
+    <>
+      <Navbar />
+      <TasksArea />
+    </>
   );
 };
 
