@@ -1,0 +1,14 @@
+/* Handle */
+*::-webkit-scrollbar-thumb {
+  @apply bg-gray-dark;
+}
+
+/* width and height */
+*::-webkit-scrollbar {
+  @apply w-[10px] h-[10px];
+}
+
+/* Track */
+*::-webkit-scrollbar-track {
+  @apply bg-gray-light rounded-sm;
+}

@@ -1,6 +1,6 @@
 import { FC, ReactChild } from 'react';
 import { useSidebar } from '../../providers/Sidebar';
-import Icon from '../icon';
+import { BarsIcon } from '../icon';
 
 import styles from './Navbar.module.css';
 
@@ -23,7 +23,7 @@ const Navbar: FC<INavbarProps> = ({ children }) => {
   return (
     <nav className={styles.Navbar}>
       <button className={styles.ToggleSidebar} onClick={openSidebar}>
-        <Icon iconName='bars' className={styles.ToggleIcon} />
+        <BarsIcon className={styles.ToggleIcon} />
       </button>
       {children}
     </nav>

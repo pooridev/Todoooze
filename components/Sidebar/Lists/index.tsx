@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Lists.module.css';
 import { openList } from '../../../redux/actions/Tasks';
-import Icon from '../../../shared/icon';
+import { ArrowRight, ThreeDotsIcon } from '../../../shared/icon';
 import { ITasksState } from '../../../types/ITasksState';
 
 type IListItem = {
@@ -32,10 +32,7 @@ const Lists: FC = () => {
       <header className={styles['Header']} onClick={toggleListsDropdown}>
         <h3>
           Your projects
-          <Icon
-            iconName='arrowRight'
-            className={areListsOpen ? styles['RotateArrow'] : ''}
-          />
+          <ArrowRight className={areListsOpen ? styles['RotateArrow'] : ''} />
         </h3>
       </header>
       <ul
@@ -49,14 +46,13 @@ const Lists: FC = () => {
               className={styles['Title']}
               onClick={() => dispatch(openList(item['id']))}>
               <span className='flex items-center gap-2 w-full'>
-                <Icon
-                  iconName='arrowRight'
+                <ArrowRight
                   className={item['isOpen'] ? styles['RotateArrow'] : ''}
                 />
                 <span>{item['title']}</span>
               </span>
               <button className={styles['OpenOptionsButton']}>
-                <Icon iconName='threeDots' />
+                <ThreeDotsIcon />
               </button>
             </div>
             <ul

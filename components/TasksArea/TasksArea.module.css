@@ -1,0 +1,15 @@
+.TasksArea {
+  @apply flex min-h-full w-11/12 gap-1 overflow-x-auto mx-auto mt-5 cursor-default select-none;
+}
+
+.TasksStatus {
+  @apply p-3 min-w-96 text-gray-lightest font-semibold;
+}
+
+.TasksStatus span {
+  @apply text-gray-400 font-medium;
+}
+
+.StatusHeader {
+  @apply flex gap-4 items-center w-full border-b-2 pb-3 border-gray-dark;
+}

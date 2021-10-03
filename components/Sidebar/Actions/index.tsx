@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
-import Icon from '../../../shared/icon';
+import { RecentIcon, SearchIcon } from '../../../shared/icon';
 import styles from './Action.module.css';
 
 /**
@@ -15,7 +15,7 @@ const Actions: FC = () => {
       <li className={styles['Action']}>
         <Link href='/search'>
           <a>
-            <Icon iconName='search' className={styles['Icon']} />
+            <SearchIcon className={styles['Icon']} />
             Search
           </a>
         </Link>
@@ -23,7 +23,7 @@ const Actions: FC = () => {
       <li className={styles['Action']}>
         <Link href='/recent'>
           <a>
-            <Icon iconName='recent' className={styles['Icon']} />
+            <RecentIcon className={styles['Icon']} />
             Recent
           </a>
         </Link>

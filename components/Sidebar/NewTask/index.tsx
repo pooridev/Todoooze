@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import Icon from '../../../shared/icon';
+import { WritingIcon } from '../../../shared/icon';
 import styles from './NewTask.module.css';
 
 const NewTask: FC = () => {
@@ -8,8 +8,7 @@ const NewTask: FC = () => {
     <div className={`${styles['NewTask']} group`}>
       <div className={styles['NewTaskButtonWrapper']}>
         <button className={styles['NewTaskButton']}>
-          <Icon
-            iconName='writing'
+          <WritingIcon
             className={`${styles['newTaskIcon']} group-hover:fill-lightest`}
           />
           New task

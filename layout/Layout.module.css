@@ -1,7 +1,7 @@
 .Layout {
-  @apply flex min-h-screen bg-gray-darkest;
+  @apply flex  min-h-screen bg-gray-darkest;
 }
 
 .Main {
-  @apply flex-1 overflow-auto;
+  @apply flex-1 overflow-hidden;
 }

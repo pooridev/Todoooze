@@ -6,6 +6,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      minWidth: {
+        '96': '24rem'
+      },
       boxShadow: {
         DEFAULT: 'rgb(0 0 0 / 20%) 0px 4px 24px'
       },
@@ -18,7 +21,7 @@ module.exports = {
           darkest: 'rgb(31, 32, 35)'
         }
       },
-      fill: (theme) => ({
+      fill: theme => ({
         lightest: 'rgb(215, 216, 219)',
         lighter: 'rgb(69, 72, 78)',
         light: 'rgb(48, 50, 54)',
