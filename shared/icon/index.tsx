@@ -7,3 +7,7 @@ export * from './WritingIcon';
 export * from './RecentIcon';
 export * from './SearchIcon';
 export * from './ThreeDotsIcon';
+export * from './InProgressIcon';
+export * from './InReviewIcon';
+export * from './TodoIcon';
+export * from './DoneIcon';
