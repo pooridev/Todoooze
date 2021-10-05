@@ -2,26 +2,20 @@ import { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Lists.module.css';
-import { openList } from '../../../redux/actions/Tasks';
+import { openList } from '../../../redux/actions/project';
 import { ArrowRight, ThreeDotsIcon } from '../../../shared/icon';
-import { ITasksState } from '../../../types/ITasksState';
-
-type IListItem = {
-  id: number;
-  isOpen: boolean;
-  isMenuOpen: boolean;
-  title: string;
-  tasks: Array<{ id: number; title: string }>;
-};
+import { IProjectState } from '../../../types/IProjectState';
+import { ProjectType } from '../../../types/ProjectType';
+import { TaskType } from '../../../types/TaskType';
 
 /**
  *
- * @description a component that renders a list of task lists on the sidebar.
+ * @description a component that renders a list of projects on the main sidebar.
  */
 
 const Lists: FC = () => {
   const [areListsOpen, setAreListsOpen] = useState(false);
-  const { projects } = useSelector((state: ITasksState) => state);
+  const { projects } = useSelector((state: IProjectState) => state);
 
   const dispatch = useDispatch();
 
@@ -39,7 +33,7 @@ const Lists: FC = () => {
         className={`${styles['TaskLists']}${
           areListsOpen ? styles['Open'] : ''
         }`}>
-        {projects.map((item: IListItem) => (
+        {projects.map((item: ProjectType) => (
           <li key={item.id} className={styles['List']}>
             <div
               key={item.id}
@@ -59,7 +53,7 @@ const Lists: FC = () => {
               className={`${styles['Tasks']} ${
                 item['isOpen'] ? styles['OpenTasks'] : ''
               }`}>
-              {item['tasks'].map((task: { id: number; title: string }) => (
+              {item['tasks'].map((task: TaskType) => (
                 <li className={styles['Task']} key={task['id']}>
                   <input
                     type='checkbox'

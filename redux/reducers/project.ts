@@ -1,9 +1,9 @@
 import { types } from '../types';
 import { AnyAction } from 'redux';
 
-import { ITasksState } from '../../types/ITasksState';
+import { IProjectState } from '../../types/IProjectState';
 
-const initialState: ITasksState = {
+const initialState: IProjectState = {
   projects: [
     {
       title: 'Calistu',
@@ -36,7 +36,7 @@ const initialState: ITasksState = {
 const reducer = (
   state = initialState,
   { type, payload }: AnyAction
-): ITasksState => {
+): IProjectState => {
   switch (type) {
     case types.TOGGLE_PROJECT: {
       const newList = state.projects.map(item => {
