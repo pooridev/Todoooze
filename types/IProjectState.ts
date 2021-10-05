@@ -1,11 +1,5 @@
-import { TaskType } from './TaskType';
+import { ProjectType } from './ProjectType';
 
 export interface IProjectState {
-  projects: Array<{
-    title: string;
-    id: number | string;
-    isOpen: boolean;
-    isMenuOpen: boolean;
-    tasks: Array<TaskType>;
-  }>;
+  projects: Array<ProjectType>;
 }
