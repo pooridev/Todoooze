@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 import styles from './Sidebar.module.css';
 import Avatar from './Avatar';
-import NewTask from './NewTask';
+import NewTask from './NewProject';
 import Actions from './Actions';
 import Lists from './Lists';
 import { useSidebar } from '../../providers/Sidebar';

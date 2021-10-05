@@ -1,3 +1,7 @@
+body {
+  @apply overflow-y-hidden;
+}
+
 /* Handle */
 *::-webkit-scrollbar-thumb {
   @apply bg-gray-dark;

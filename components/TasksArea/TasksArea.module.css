@@ -1,5 +1,5 @@
 .TasksArea {
-  @apply flex min-h-full w-11/12 gap-1 overflow-x-auto mx-auto mt-5 cursor-default select-none;
+  @apply flex min-h-full w-11/12 gap-1 overflow-x-auto overflow-y-hidden mx-auto mt-5 cursor-default select-none;
 }
 
 .TasksStatus {
@@ -12,4 +12,17 @@
 
 .StatusHeader {
   @apply flex gap-4 items-center w-full border-b-2 pb-3 border-gray-dark;
+}
+
+.Task {
+  @apply p-5 bg-gray-dark my-2 relative rounded-md flex justify-between items-start;
+}
+
+.Avatar {
+  @apply flex-1 rounded-full object-contain;
+}
+
+.AvatarStatus {
+  content: '';
+  @apply bg-green-600 w-[6px] h-[6px] z-10 rounded-full absolute top-5 right-5;
 }

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
 import { WritingIcon } from '../../../shared/icon';
-import styles from './NewTask.module.css';
+import styles from './NewProject.module.css';
 
-const NewTask: FC = () => {
+const NewProject: FC = () => {
   return (
     <div className={`${styles['NewTask']} group`}>
       <div className={styles['NewTaskButtonWrapper']}>
@@ -11,11 +11,11 @@ const NewTask: FC = () => {
           <WritingIcon
             className={`${styles['newTaskIcon']} group-hover:fill-lightest`}
           />
-          New task
+          New Project
         </button>
       </div>
     </div>
   );
 };
 
-export default NewTask;
+export default NewProject;
