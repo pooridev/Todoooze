@@ -1,7 +1,11 @@
-import { createStore } from 'redux';
-import ListReducer from './reducers/Tasks';
+import { compose, createStore } from 'redux';
+import projectReducer from './reducers/project';
 
-const rootReducer = ListReducer;
-const store = createStore(rootReducer);
+const rootReducer = projectReducer;
 
-export { store };
+const enhancers = compose(
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__
+    ? window.devToolsExtension()
+    : f => f
+);
+export const store = createStore(rootReducer, enhancers);
