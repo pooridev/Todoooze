@@ -5,10 +5,12 @@ import projectReducer from './reducers/project';
 const rootReducer = projectReducer;
 
 const composeEnhancers =
-  (typeof window === 'object' &&
-    // @ts-ignore
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})) ||
-  compose;
+  // @ts-ignore
+  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? // @ts-ignore
+      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    : // @ts-ignore
+      compose;
 
 const enhancer = composeEnhancers();
 
