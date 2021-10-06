@@ -2,7 +2,7 @@
   @apply mt-5;
 }
 
-.List {
+.Project {
   @apply mt-2 relative;
 }
 
@@ -33,16 +33,16 @@
   transform: rotate(90deg);
 }
 
-.TaskLists {
+.Projects {
   transition: all ease 0.2s;
   @apply h-0 overflow-hidden mt-2;
 }
 
-.TaskLists.Open {
-  animation: TaskLists 0.2s forwards !important;
+.Projects.Open {
+  animation: Projects 0.2s forwards !important;
 }
 
-@keyframes TaskLists {
+@keyframes Projects {
   0% {
     height: 0;
   }

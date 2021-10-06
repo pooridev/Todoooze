@@ -1,7 +1,7 @@
 import { TaskType } from './TaskType';
 
 export type ProjectType = {
-  id: number;
+  id: number | string;
   isOpen: boolean;
   isMenuOpen: boolean;
   title: string;

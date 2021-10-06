@@ -15,20 +15,16 @@ import {
 } from '../../shared/icon';
 import styles from './TasksArea.module.css';
 import userAvatar from '../../assets/images/avatar.jpg';
+import { IProjectState } from './../../types/IProjectState';
+import { ProjectType } from '../../types/ProjectType';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/dist/client/router';
 
-const itemsFromBackend = [
-  { id: uuid(), content: 'First task' },
-  { id: uuid(), content: 'Second task' },
-  { id: uuid(), content: 'Third task' },
-  { id: uuid(), content: 'Fourth task' },
-  { id: uuid(), content: 'Fifth task' }
-];
-
-const columnsFromBackend = {
+const columnsData = {
   [uuid()]: {
     name: 'Todo',
     icon: <TodoIcon />,
-    items: itemsFromBackend
+    items: []
   },
   [uuid()]: {
     name: 'In Progress',
@@ -85,7 +81,63 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 const TasksArea = () => {
-  const [columns, setColumns] = useState(columnsFromBackend);
+  const [columns, setColumns] = useState(columnsData);
+
+  const router = useRouter();
+
+  // The given ID in the path
+  const { project_id } = router.query;
+
+  // All projects that made by user
+  const projects = useSelector((state: IProjectState) => state.projects);
+
+  // Find that particular project, so we can render its tasks
+  const project = projects.find((p: ProjectType) => p?.id === project_id);
+
+  const tasks = project?.tasks || [];
+
+  const todoTasks = tasks?.filter(task => task.status === 'todo');
+  const inProgressTasks = tasks?.filter(task => task.status === 'in_progress');
+  const inReviewTasks = tasks?.filter(task => task.status === 'in_review');
+  const DoneTasks = tasks?.filter(task => task.status === 'done');
+
+  /**
+   * This part updates the columns as soon as URL changed
+   */
+  useEffect(() => {
+    const columnsArray = Object.entries(columns);
+
+    columnsArray.forEach(([columnId, column]) => {
+      if (column.name === 'Todo' && todoTasks?.length !== 0) {
+        const copyOfColumn = { ...column };
+        copyOfColumn.items = [...todoTasks];
+
+        setColumns({ ...columns, [columnId]: copyOfColumn });
+      }
+
+      if (column.name === 'In Progress' && inProgressTasks?.length !== 0) {
+        const copyOfColumn = { ...column };
+        copyOfColumn.items = [...inProgressTasks];
+
+        setColumns({ ...columns, [columnId]: copyOfColumn });
+      }
+
+      if (column.name === 'In Review' && inReviewTasks?.length !== 0) {
+        const copyOfColumn = { ...column };
+        copyOfColumn.items = [...inReviewTasks];
+
+        setColumns({ ...columns, [columnId]: copyOfColumn });
+      }
+
+      if (column.name === 'Done' && DoneTasks?.length !== 0) {
+        const copyOfColumn = { ...column };
+        copyOfColumn.items = [...DoneTasks];
+
+        setColumns({ ...columns, [columnId]: copyOfColumn });
+      }
+    });
+  }, [project_id]);
+
   return (
     <section className={styles.TasksArea}>
       {/* <div className={styles.TasksStatus}>
@@ -114,15 +166,15 @@ const TasksArea = () => {
       </div> */}
       <DragDropContext
         onDragEnd={result => onDragEnd(result, columns, setColumns)}>
-        {Object.entries(columns).map(([columnId, column], index) => {
+        {Object.entries(columns)?.map(([columnId, column], index) => {
           return (
             <div className={styles.TasksStatus} key={columnId}>
               <header key={columnId} className={styles.StatusHeader}>
                 {column.icon}
                 <p>{column.name}</p>
-                <span>{column.items.length}</span>
+                <span>{column?.items?.length}</span>
               </header>
-              <div style={{ minHeight: '100%'}}>
+              <div style={{ minHeight: '100%' }}>
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided, snapshot) => {
                     return (
@@ -130,11 +182,11 @@ const TasksArea = () => {
                         style={{ minHeight: '100vh' }}
                         {...provided.droppableProps}
                         ref={provided.innerRef}>
-                        {column.items.map((item, index) => {
+                        {column?.items?.map((item, index) => {
                           return (
                             <Draggable
-                              key={item.id}
-                              draggableId={item.id}
+                              key={item?.id}
+                              draggableId={item?.id}
                               index={index}>
                               {(provided, snapshot) => {
                                 return (
@@ -143,7 +195,7 @@ const TasksArea = () => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}>
-                                    <p>{item.content}</p>
+                                    <p>{item?.title}</p>
                                     <Image
                                       alt='Pooria Faramarzian'
                                       width='19'

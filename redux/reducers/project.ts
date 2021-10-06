@@ -7,7 +7,7 @@ const initialState: IProjectState = {
   projects: [
     {
       title: 'Calistu',
-      id: 1,
+      id: "1",
       isOpen: false,
       isMenuOpen: false,
       tasks: [
@@ -18,7 +18,7 @@ const initialState: IProjectState = {
     },
     {
       title: 'Junior Coders',
-      id: 2,
+      id: "2",
       isOpen: false,
       isMenuOpen: false,
       tasks: [
