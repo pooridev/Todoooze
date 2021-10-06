@@ -13,11 +13,13 @@
     "@types/react-redux": "^7.1.18",
     "moment": "^2.29.1",
     "next": "11.1.2",
+    "next-redux-wrapper": "^7.0.5",
     "react": "17.0.2",
     "react-beautiful-dnd-next": "^11.0.5",
     "react-dom": "17.0.2",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
     "uuidv4": "^6.2.12"
   },
   "devDependencies": {
