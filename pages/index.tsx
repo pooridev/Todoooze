@@ -1,7 +1,10 @@
+import { useSelector } from 'react-redux';
+
 import TasksArea from '../components/TasksArea';
 import Navbar from './../shared/Navbar/index';
-import { useSelector } from 'react-redux';
 import { IProjectState } from './../types/IProjectState';
+import styles from './Home.module.css'
+
 
 const Home = () => {
   // All projects that made by user
@@ -11,7 +14,9 @@ const Home = () => {
   const recentProject = projects[projects.length - 1];
   return (
     <>
-      <Navbar>{recentProject.title}&apos; tasks</Navbar>
+      <Navbar>
+      <h2 className={styles.Title}>{recentProject?.title}&apos; tasks </h2>
+      </Navbar>
       <TasksArea />
     </>
   );
