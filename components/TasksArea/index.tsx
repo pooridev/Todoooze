@@ -85,17 +85,25 @@ const TasksArea = () => {
 
   const router = useRouter();
 
-  // The given ID in the path
+  // The given ID in the path (URL)
   const { project_id } = router.query;
 
   // All projects that made by user
   const projects = useSelector((state: IProjectState) => state.projects);
 
-  // Find that particular project, so we can render its tasks
-  const project = projects.find((p: ProjectType) => p?.id === project_id);
+  /*
+   * Find that particular project, so we can render its tasks
+   * We will get the most recent one, if we were on Home page
+   * (It means whenever the ID was undefined)
+   */
+  let project = projects.find((p: ProjectType) => p?.id === project_id);
+  
+  if (!project_id) project = projects[projects.length - 1]; // get the most recent one
 
+  // All tasks that particular project contains
   const tasks = project?.tasks || [];
 
+  // Each status that we want to render on each column
   const todoTasks = tasks?.filter(task => task.status === 'todo');
   const inProgressTasks = tasks?.filter(task => task.status === 'in_progress');
   const inReviewTasks = tasks?.filter(task => task.status === 'in_review');

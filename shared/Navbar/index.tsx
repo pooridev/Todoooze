@@ -14,7 +14,7 @@ import styles from './Navbar.module.css';
  */
 
 type INavbarProps = {
-  children: ReactChild;
+  children: ReactChild | ReactChild[];
 };
 
 const Navbar: FC<INavbarProps> = ({ children }) => {
