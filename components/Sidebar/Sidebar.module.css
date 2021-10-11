@@ -1,6 +1,6 @@
 .Sidebar {
   transform: translateX(-100%);
-  @apply flex flex-col lg:transform z-10 transition-all absolute lg:relative h-screen lg:translate-x-0 p-4 w-[300px] bg-gray-darkest select-none border-r border-gray-light;
+  @apply flex flex-col lg:transform z-10 transition-all absolute lg:relative h-screen lg:translate-x-0 p-4 w-[270px] bg-gray-darkest select-none border-r border-gray-light;
 }
 
 .Open {
