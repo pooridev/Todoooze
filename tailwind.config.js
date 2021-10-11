@@ -7,10 +7,11 @@ module.exports = {
   theme: {
     extend: {
       minWidth: {
-        '96': '24rem'
+        96: '24rem'
       },
       boxShadow: {
-        DEFAULT: 'rgb(0 0 0 / 20%) 0px 4px 24px'
+        DEFAULT: 'rgb(0 0 0 / 25%) 0px 1px 1px',
+        lg: 'rgb(0 0 0 / 50%) 0px 16px 70px'
       },
       colors: {
         gray: {
@@ -18,7 +19,8 @@ module.exports = {
           lighter: 'rgb(69, 72, 78)',
           light: 'rgb(48, 50, 54)',
           dark: 'rgb(39, 40, 43)',
-          darkest: 'rgb(31, 32, 35)'
+          darkest: 'rgb(31, 32, 35)',
+          placeholder: 'rgb(98, 102, 109)'
         }
       },
       fill: theme => ({
