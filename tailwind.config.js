@@ -10,6 +10,7 @@ module.exports = {
         96: '24rem'
       },
       boxShadow: {
+        sm: 'rgb(0 0 0 / 20%) 0px 4px 24px',
         DEFAULT: 'rgb(0 0 0 / 25%) 0px 1px 1px',
         lg: 'rgb(0 0 0 / 50%) 0px 16px 70px'
       },
