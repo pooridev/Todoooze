@@ -1,0 +1,42 @@
+.Button {
+  color: rgb(138, 143, 152);
+  transition: all 0.1s ease-in;
+  @apply flex gap-2 items-center shadow bg-gray-light py-1 px-2 text-sm rounded-md;
+}
+
+.Button:hover.Button svg,
+.Button:hover,
+.Item:hover.Item svg,
+.Item:hover {
+  @apply fill-lightest text-gray-lightest;
+}
+
+.Menu {
+  @apply opacity-0 hidden;
+}
+
+.Open {
+  @apply opacity-100 block absolute top-7;
+}
+
+.Items {
+  background: linear-gradient(
+    136.61deg,
+    rgb(39, 40, 43) 13.72%,
+    rgb(45, 46, 49) 74.3%
+  );
+  @apply flex flex-col  bg-gray-light shadow-sm rounded-md;
+}
+
+.Item {
+  color: rgb(138, 143, 152);
+  @apply flex gap-3 items-center shadow bg-transparent hover:bg-gray-light py-2 pl-4 pr-8 font-semibold text-sm;
+}
+
+.Item:first-child {
+  @apply rounded-t-md;
+}
+
+.Item:last-child {
+  @apply rounded-b-md;
+}

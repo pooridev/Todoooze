@@ -5,14 +5,17 @@ import '../styles/globals.css';
 import Layout from '../layout/Layout';
 import { SidebarProvider } from '../providers/Sidebar';
 import { wrapper } from './../redux/store';
+import { ModalProvider } from '../providers/Modal';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SidebarProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </SidebarProvider>
+    <ModalProvider>
+      <SidebarProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SidebarProvider>
+    </ModalProvider>
   );
 }
 

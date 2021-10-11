@@ -6,19 +6,22 @@ import {
   Draggable
 } from 'react-beautiful-dnd-next';
 import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/dist/client/router';
 
 import {
   DoneIcon,
   InProgressIcon,
   InReviewIcon,
-  TodoIcon
+  TodoIcon,
+  AddIcon
 } from '../../shared/icon';
 import styles from './TasksArea.module.css';
 import userAvatar from '../../assets/images/avatar.jpg';
 import { IProjectState } from './../../types/IProjectState';
 import { ProjectType } from '../../types/ProjectType';
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/dist/client/router';
+import NewTaskModal from './NewTaskModal';
+import { useModal } from '../../providers/Modal';
 
 const columnsData = {
   [uuid()]: {
@@ -83,7 +86,9 @@ const onDragEnd = (result, columns, setColumns) => {
 const TasksArea = () => {
   const [columns, setColumns] = useState(columnsData);
 
+  const { openModal } = useModal();
   const router = useRouter();
+  const [currentStatus, setCurrentStatus] = useState({ title: '', icon: null });
 
   // The given ID in the path (URL)
   const { project_id } = router.query;
@@ -97,7 +102,7 @@ const TasksArea = () => {
    * (It means whenever the ID was undefined)
    */
   let project = projects.find((p: ProjectType) => p?.id === project_id);
-  
+
   if (!project_id) project = projects[projects.length - 1]; // get the most recent one
 
   // All tasks that particular project contains
@@ -147,88 +152,78 @@ const TasksArea = () => {
   }, [project_id]);
 
   return (
-    <section className={styles.TasksArea}>
-      {/* <div className={styles.TasksStatus}>
-        <header className={styles.StatusHeader}>
-          <TodoIcon /> <p>Todo</p> <span>2</span>
-        </header>
-        <div>TASKS</div>
-      </div>
-      <div className={styles.TasksStatus}>
-        <header className={styles.StatusHeader}>
-          <InProgressIcon /> <p>In Progress</p> <span>1</span>
-        </header>
-        <div>TASKS</div>
-      </div>
-      <div className={styles.TasksStatus}>
-        <header className={styles.StatusHeader}>
-          <InReviewIcon /> <p>In Review</p> <span>0</span>
-        </header>
-        <div>TASKS</div>
-      </div>
-      <div className={styles.TasksStatus}>
-        <header className={styles.StatusHeader}>
-          <DoneIcon /> <p>Done</p> <span>0</span>
-        </header>
-        <div>TASKS</div>
-      </div> */}
-      <DragDropContext
-        onDragEnd={result => onDragEnd(result, columns, setColumns)}>
-        {Object.entries(columns)?.map(([columnId, column], index) => {
-          return (
-            <div className={styles.TasksStatus} key={columnId}>
-              <header key={columnId} className={styles.StatusHeader}>
-                {column.icon}
-                <p>{column.name}</p>
-                <span>{column?.items?.length}</span>
-              </header>
-              <div style={{ minHeight: '100%' }}>
-                <Droppable droppableId={columnId} key={columnId}>
-                  {(provided, snapshot) => {
-                    return (
-                      <div
-                        style={{ minHeight: '100vh' }}
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}>
-                        {column?.items?.map((item, index) => {
-                          return (
-                            <Draggable
-                              key={item?.id}
-                              draggableId={item?.id}
-                              index={index}>
-                              {(provided, snapshot) => {
-                                return (
-                                  <div
-                                    className={styles.Task}
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}>
-                                    <p>{item?.title}</p>
-                                    <Image
-                                      alt='Pooria Faramarzian'
-                                      width='19'
-                                      height='19'
-                                      src={userAvatar}
-                                      className={styles.Avatar}
-                                    />
-                                    <div className={styles.AvatarStatus} />
-                                  </div>
-                                );
-                              }}
-                            </Draggable>
-                          );
-                        })}
-                        {provided.placeholder}
-                      </div>
-                    );
-                  }}
-                </Droppable>
+    <>
+      <section className={styles.TasksArea}>
+        <DragDropContext
+          onDragEnd={result => onDragEnd(result, columns, setColumns)}>
+          {Object.entries(columns)?.map(([columnId, column], index) => {
+            return (
+              <div className={styles.TasksStatus} key={columnId}>
+                <header key={columnId} className={styles.StatusHeader}>
+                  <div className={styles.HeaderText}>
+                    {column.icon}
+                    <p>{column.name}</p>
+                    <span>{column?.items?.length}</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setCurrentStatus({ title: column.name , icon: column.icon});
+                      openModal();
+                    }}
+                    title='Add new task'
+                    className={styles.AddTaskButton}>
+                    <AddIcon />
+                  </button>
+                </header>
+                <div style={{ minHeight: '100%' }}>
+                  <Droppable droppableId={columnId} key={columnId}>
+                    {(provided, snapshot) => {
+                      return (
+                        <div
+                          style={{ minHeight: '100vh' }}
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}>
+                          {column?.items?.map((item, index) => {
+                            return (
+                              <Draggable
+                                key={item?.id}
+                                draggableId={item?.id}
+                                index={index}>
+                                {(provided, snapshot) => {
+                                  return (
+                                    <div
+                                      className={styles.Task}
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}>
+                                      <p>{item?.title}</p>
+                                      <Image
+                                        alt='Pooria Faramarzian'
+                                        width='19'
+                                        height='19'
+                                        src={userAvatar}
+                                        className={styles.Avatar}
+                                      />
+                                      <div className={styles.AvatarStatus} />
+                                    </div>
+                                  );
+                                }}
+                              </Draggable>
+                            );
+                          })}
+                          {provided.placeholder}
+                        </div>
+                      );
+                    }}
+                  </Droppable>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </DragDropContext>
-    </section>
+            );
+          })}
+        </DragDropContext>
+        <NewTaskModal taskStatus={currentStatus} projectName={project.title} />;
+      </section>
+    </>
   );
 };
 

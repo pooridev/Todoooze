@@ -1,0 +1,20 @@
+.Form {
+  @apply flex flex-col pt-2 px-1;
+}
+
+.Description,
+.Title {
+  @apply bg-transparent outline-none text-gray-lightest caret-white placeholder-gray-placeholder;
+}
+
+.Title {
+  @apply mt-1 text-xl;
+}
+
+.Description {
+  @apply flex flex-col bg-transparent mt-3 text-base resize-none;
+}
+
+.Menus {
+  @apply flex gap-2 relative;
+}

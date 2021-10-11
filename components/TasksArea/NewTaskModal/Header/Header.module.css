@@ -1,0 +1,21 @@
+.Header {
+  @apply select-none flex justify-between items-center text-gray-lightest text-base;
+}
+
+.Info {
+  @apply flex items-center gap-3;
+}
+
+.ProjectName {
+  @apply py-1 px-2 cursor-default rounded-md bg-gray-light flex gap-2 items-center shadow;
+}
+
+.ProjectName:hover svg,
+.CloseModalButton:hover svg {
+  transition: 0.02s ease-in-out;
+  @apply fill-lightest;
+}
+
+.CloseModalButton {
+  @apply mr-2 transition-all cursor-default p-2 rounded-md hover:bg-gray-light;
+}

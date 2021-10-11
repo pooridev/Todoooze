@@ -1,0 +1,20 @@
+.Modal {
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  transform: scaleX(0) !important;
+  background: linear-gradient(
+    136.61deg,
+    rgb(39, 40, 43) 13.72%,
+    rgb(45, 46, 49) 74.3%
+  );
+  transition: all 0.2s ease-in-out;
+  @apply p-4 w-10/12 lg:w-8/12 xl:w-5/12 z-30 opacity-0 shadow-lg rounded-lg;
+}
+
+.Open {
+  transform: scaleX(1) !important;
+  transform: translate(-50%, -50%) !important;
+  @apply opacity-100;
+}

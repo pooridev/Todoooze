@@ -1,5 +1,5 @@
 .TasksArea {
-  @apply flex min-h-full w-11/12 gap-1 overflow-x-auto overflow-y-hidden mx-auto mt-5 cursor-default select-none;
+  @apply flex min-h-full relative w-[96%] gap-1 overflow-x-auto overflow-y-hidden mx-auto mt-5 cursor-default select-none;
 }
 
 .TasksStatus {
@@ -11,11 +11,32 @@
 }
 
 .StatusHeader {
-  @apply flex gap-4 items-center w-full border-b-2 pb-3 border-gray-dark;
+  @apply flex justify-between items-center w-full border-b-2 pb-3 border-gray-dark;
+}
+
+.HeaderText {
+  @apply flex gap-4 items-center;
+}
+
+.AddTaskButton {
+  @apply mr-2 cursor-default transition-all p-2 rounded-md hover:bg-gray-light;
+}
+
+.AddTaskButton:hover.AddTaskButton svg {
+  @apply transition-all fill-lightest;
 }
 
 .Task {
   @apply p-5 bg-gray-dark my-2 relative rounded-md flex justify-between items-start;
+}
+
+/* To Switch Cursor while dragging the task */
+.Grabbing {
+  cursor: grabbing !important;
+}
+
+.Default {
+  cursor: default !important;
 }
 
 .Avatar {
@@ -23,6 +44,5 @@
 }
 
 .AvatarStatus {
-  content: '';
   @apply bg-green-600 w-[6px] h-[6px] z-10 rounded-full absolute top-5 right-5;
 }
