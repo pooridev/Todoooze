@@ -10,13 +10,13 @@
 <h1 align="center">
 Responsive Views 👇
 </h1>
-<div style="display: flex; justify-content: center">
+<div style="display: flex; justify-content: center; width: 100%">
 <img style="max-height:100%;width:400px;object-fit: cover;" src="https://user-images.githubusercontent.com/66781740/137218166-f340d61a-5aa9-4dc9-8ebf-a6eb6c5a0755.png">
 
 </div>
  
  <br/>
- <div style="display: flex; justify-content: center">
+ <div style="display: flex; justify-content: center; width: 100%">
  <img align="center" style="max-height:100%;width:400px;object-fit: cover;" src="https://user-images.githubusercontent.com/66781740/137218333-94c72594-199b-488d-9c23-d1642863b8a6.png">
 
 </div>
