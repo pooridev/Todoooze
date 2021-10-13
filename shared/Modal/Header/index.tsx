@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import { CloseIcon, ProfileIcon } from '../../../../shared/icon';
+import { CloseIcon, ProfileIcon } from '../../icon';
 import styles from './Header.module.css';
-import { useModal } from '../../../../providers/Modal';
-import useOutsideClickHandler from './../../../../hooks/useOutsideClickHandler';
+import { useModal } from '../../../providers/Modal';
+import useOutsideClickHandler from '../../../hooks/useOutsideClickHandler';
 
 interface IProps {
   projectName: string;

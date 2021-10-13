@@ -4,6 +4,7 @@ import styles from './Modal.module.css';
 import useOutsideClickHandler from './../../hooks/useOutsideClickHandler';
 import { useModal } from '../../providers/Modal';
 import { Mode } from 'fs';
+import Header from './Header';
 
 /**
  *
@@ -16,12 +17,13 @@ import { Mode } from 'fs';
 
 interface IProps {
   children: ReactChild | ReactChild[];
+  projectName: string;
   isOpen: boolean;
 }
 
 const Modal = (props: IProps) => {
 
-  const { isOpen, children } = props;
+  const { isOpen, children, projectName } = props;
 
   const cssClasses = [styles.Modal];
 
@@ -29,6 +31,7 @@ const Modal = (props: IProps) => {
 
   return (
     <div className={cssClasses.join(' ')}>
+      <Header projectName={projectName} />
       {/* the content of the modal */}
       {children}
     </div>

@@ -15,7 +15,7 @@ import {
 } from '../../../shared/icon';
 import { useModal } from '../../../providers/Modal';
 import { usePatch } from './../../../hooks/usePatch';
-import Header from './Header';
+import Header from '../../../shared/Modal/Header';
 import Menu from './Menu';
 
 interface IProps {
@@ -70,8 +70,7 @@ const NewTaskModal = (props: IProps) => {
   });
 
   return (
-    <Modal isOpen={isOpen}>
-      <Header projectName={projectName} />
+    <Modal projectName={projectName} isOpen={isOpen}>
       <form className={styles.Form} onSubmit={e => e.preventDefault()}>
         <input
           onChange={({ target }) => setFormData({ title: target.value })}
