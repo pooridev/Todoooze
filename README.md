@@ -2,8 +2,8 @@
 
 <table>
   <tr>
-    
-    <td colspan="2"><h3>Larg Screens View</h3><img src="https://user-images.githubusercontent.com/66781740/137217796-3a51f8a1-0463-4bf6-9602-768a091949d8.png" /></td>
+    <h3>Larg Screens View</h3>
+    <td colspan="2"><img src="https://user-images.githubusercontent.com/66781740/137217796-3a51f8a1-0463-4bf6-9602-768a091949d8.png" /></td>
   </tr>
   <tr>
     <td>
