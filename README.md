@@ -1,5 +1,5 @@
 <h1 align="center">
-  Larg Screens View 👇
+  Larg Screen View 👇
 </h1>
                                            
 
@@ -10,8 +10,15 @@
 <h1 align="center">
 Responsive Views 👇
 </h1>
- <img align="center" style="max-height:100%;width:400px;object-fit: cover;margin:auto" src="https://user-images.githubusercontent.com/66781740/137218166-f340d61a-5aa9-4dc9-8ebf-a6eb6c5a0755.png">
+<div style="display: flex; justify-content: center">
+<img style="max-height:100%;width:400px;object-fit: cover;" src="https://user-images.githubusercontent.com/66781740/137218166-f340d61a-5aa9-4dc9-8ebf-a6eb6c5a0755.png">
+
+</div>
+ 
  <br/>
- <img align="center" style="max-height:100%;width:400px;object-fit: cover; margin:auto" src="https://user-images.githubusercontent.com/66781740/137218333-94c72594-199b-488d-9c23-d1642863b8a6.png">
+ <div style="display: flex; justify-content: center">
+ <img align="center" style="max-height:100%;width:400px;object-fit: cover;" src="https://user-images.githubusercontent.com/66781740/137218333-94c72594-199b-488d-9c23-d1642863b8a6.png">
+
+</div>
 
 
