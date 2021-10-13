@@ -1,11 +1,12 @@
 <table>
   <tr>
     <h1>Larg Screens View</h1>
-    <td colspan="2"><img      style="max-width:100%;height:auto;"  src="https://user-images.githubusercontent.com/66781740/137217796-3a51f8a1-0463-4bf6-9602-768a091949d8.png" /></td>
+    <td colspan="2"><img  style="max-width:100%;height:auto;"  src="https://user-images.githubusercontent.com/66781740/137217796-3a51f8a1-0463-4bf6-9602-768a091949d8.png" /></td>
   </tr> 
   <tr>
-   <h1>Responsive View</h1>
+   
     <td>
+      <h1 align="center">Responsive View</h1>
       <img 
         style="max-width:100%;height:auto;" 
          src="https://user-images.githubusercontent.com/66781740/137218166-f340d61a-5aa9-4dc9-8ebf-a6eb6c5a0755.png" />
