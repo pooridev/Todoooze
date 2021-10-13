@@ -6,10 +6,10 @@ Preview
   </tr>
   <tr>
     <td>
-      <img src"https://user-images.githubusercontent.com/66781740/137218166-f340d61a-5aa9-4dc9-8ebf-a6eb6c5a0755.png" />
+      <img src="https://user-images.githubusercontent.com/66781740/137218166-f340d61a-5aa9-4dc9-8ebf-a6eb6c5a0755.png" />
     </td>
     <td>
-      <img src"https://user-images.githubusercontent.com/66781740/137218333-94c72594-199b-488d-9c23-d1642863b8a6.png" />
+      <img src="https://user-images.githubusercontent.com/66781740/137218333-94c72594-199b-488d-9c23-d1642863b8a6.png" />
     </td>
   </tr>
 </table>
