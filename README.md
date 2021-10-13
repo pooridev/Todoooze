@@ -8,7 +8,7 @@
 ---
 
 <h1 align="center">
-Responsive Views 👇
+Responsive View 👇
 </h1>
 
 <div align="center">
