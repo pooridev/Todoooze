@@ -1,3 +1,13 @@
+<p align="center">
+  Larg Screens View 👇
+</p>
+                                           
+<div align="center">
+  <img width="300" src="https://user-images.githubusercontent.com/79286306/134972775-48abfec8-9774-4b21-82ea-7f375312bf0d.jpg">
+</div>
+
+
+
 <table>
   <tr>
     <h1>Larg Screens View</h1>
