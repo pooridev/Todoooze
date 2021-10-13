@@ -1,5 +1,5 @@
 .TasksArea {
-  @apply flex min-h-full relative w-[96%] gap-1 overflow-x-auto overflow-y-hidden mx-auto mt-5 cursor-default select-none;
+  @apply flex min-h-full w-[96%] gap-1 overflow-x-auto overflow-y-hidden mx-auto mt-5 cursor-default select-none;
 }
 
 .TasksStatus {

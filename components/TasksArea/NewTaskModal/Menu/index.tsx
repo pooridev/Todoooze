@@ -1,4 +1,5 @@
-import { FC, ReactElement, useState, useRef, useEffect } from 'react';
+import { FC, ReactElement, useState, useRef } from 'react';
+
 import styles from './Menu.module.css';
 import useOutsideClickHandler from './../../../../hooks/useOutsideClickHandler';
 
@@ -7,13 +8,12 @@ interface IProps {
     title: string;
     icon?: ReactElement;
   }>;
-  
+
   onChange: (selectedItem) => void;
 
   defaultChecked?: {
     title: string;
     icon?: ReactElement;
-  
   };
   label: {
     title: string;
@@ -44,7 +44,7 @@ const Menu: FC<IProps> = props => {
   useOutsideClickHandler({ ref: menuRef, callback: closeMenu });
 
   return (
-    <>
+    <div className='relative'>
       <button className={styles.Button} onClick={openMenu}>
         <span>{defaultChecked?.icon || label?.icon}</span>
         <span>{defaultChecked?.title || label.title}</span>
@@ -68,7 +68,7 @@ const Menu: FC<IProps> = props => {
           ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 
