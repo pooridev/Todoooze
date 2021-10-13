@@ -30,7 +30,7 @@
 
 .Item {
   color: rgb(138, 143, 152);
-  @apply flex gap-3 whitespace-nowrap items-center shadow bg-transparent hover:bg-gray-light py-2 pl-4 pr-8 font-semibold text-sm;
+  @apply flex gap-3 whitespace-nowrap items-center bg-transparent hover:bg-gray-light py-2 pl-4 pr-8 font-semibold text-sm;
 }
 
 .Item:first-child {
