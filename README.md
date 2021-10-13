@@ -1,17 +1,17 @@
-<p align="center">
+<h1 align="center">
   Larg Screens View 👇
-</p>
+</h1>
                                            
 
   <img style="max-height:100%;width:100%;" src="https://user-images.githubusercontent.com/66781740/137217796-3a51f8a1-0463-4bf6-9602-768a091949d8.png">
   
 ---
 
-<p align="center">
+<h1 align="center">
 Responsive Views 👇
-</p>
- <img style="max-height:100%;width:400px;object-fit: cover;margin:auto" src="https://user-images.githubusercontent.com/66781740/137218166-f340d61a-5aa9-4dc9-8ebf-a6eb6c5a0755.png">
+</h1>
+ <img align="center" style="max-height:100%;width:400px;object-fit: cover;margin:auto" src="https://user-images.githubusercontent.com/66781740/137218166-f340d61a-5aa9-4dc9-8ebf-a6eb6c5a0755.png">
  <br/>
- <img style="max-height:100%;width:400px;object-fit: cover; margin:auto" src="https://user-images.githubusercontent.com/66781740/137218333-94c72594-199b-488d-9c23-d1642863b8a6.png">
+ <img align="center" style="max-height:100%;width:400px;object-fit: cover; margin:auto" src="https://user-images.githubusercontent.com/66781740/137218333-94c72594-199b-488d-9c23-d1642863b8a6.png">
 
 
