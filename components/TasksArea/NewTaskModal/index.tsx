@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, ReactElement, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { v4 as uuidv4 } from 'uuid';
@@ -20,6 +20,8 @@ import { useModal } from '../../../providers/Modal';
 import Menu from './Menu';
 import { TaskType } from '../../../types/TaskType';
 import { addTask } from '../../../redux/actions/project';
+import { ProjectType } from '../../../types/ProjectType';
+import { IProjectState } from './../../../types/IProjectState';
 
 interface IProps {
   projectName: string;
@@ -92,6 +94,12 @@ const NewTaskModal = (props: IProps) => {
   // The given ID in the path (URL)
   const { project_id } = router.query;
 
+  // All projects that made by user
+  const projects = useSelector((state: IProjectState) => state.projects);
+
+  // We would get the most recent project
+  const recentProject = projects[projects.length - 1];
+
   const addTaskHandler = () => {
     const TASK_PAYLOAD: TaskType = {
       title: taskData.title,
@@ -101,9 +109,9 @@ const NewTaskModal = (props: IProps) => {
     };
 
     const PROJECT_PAYLOAD = {
-      id: project_id + ''
+      id: project_id?.toString() || recentProject.id
     };
-
+debugger
     const isValid = validateForm(TASK_PAYLOAD);
 
     if (isValid) dispatch(addTask(TASK_PAYLOAD, PROJECT_PAYLOAD));
