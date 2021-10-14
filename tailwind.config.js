@@ -22,6 +22,9 @@ module.exports = {
           dark: 'rgb(39, 40, 43)',
           darkest: 'rgb(31, 32, 35)',
           placeholder: 'rgb(98, 102, 109)'
+        },
+        indigo: {
+          DEFAULT: 'rgb(94, 106, 210)'
         }
       },
       fill: theme => ({
