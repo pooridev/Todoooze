@@ -4,6 +4,7 @@ import styles from './Modal.module.css';
 import useOutsideClickHandler from './../../hooks/useOutsideClickHandler';
 import { useModal } from '../../providers/Modal';
 import Header from './Header';
+import Footer from './Footer';
 
 /**
  *
@@ -16,13 +17,13 @@ import Header from './Header';
 
 interface IProps {
   children: ReactChild | ReactChild[];
+  onSubmit: () => void;
   projectName: string;
   isOpen: boolean;
 }
 
 const Modal = (props: IProps) => {
-
-  const { isOpen, children, projectName } = props;
+  const { isOpen, children, projectName, onSubmit } = props;
 
   const cssClasses = [styles.Modal];
 
@@ -33,6 +34,7 @@ const Modal = (props: IProps) => {
       <Header projectName={projectName} />
       {/* the content of the modal */}
       {children}
+      <Footer onSubmit={onSubmit} />
     </div>
   );
 };

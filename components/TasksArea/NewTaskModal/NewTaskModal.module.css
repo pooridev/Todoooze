@@ -1,5 +1,5 @@
 .Form {
-  @apply flex flex-col pt-2 px-1;
+  @apply flex flex-col m-4 pt-2 px-1;
 }
 
 .Description,

@@ -1,5 +1,5 @@
 .Header {
-  @apply select-none flex justify-between items-center text-gray-lightest text-base;
+  @apply select-none m-4 flex justify-between items-center text-gray-lightest text-base;
 }
 
 .Info {

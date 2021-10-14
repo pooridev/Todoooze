@@ -1,0 +1,7 @@
+.Footer {
+  @apply flex py-3 px-4 justify-end border-t border-gray-light;
+}
+
+.SubmitButton {
+  @apply px-4 py-1 bg-indigo text-sm text-gray-lightest font-semibold rounded-md;
+}
