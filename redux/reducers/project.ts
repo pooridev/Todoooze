@@ -7,28 +7,17 @@ const initialState: IProjectState = {
   projects: [
     {
       title: 'Calistu',
-      id: "1",
+      id: '1',
       isOpen: false,
       isMenuOpen: false,
-      tasks: [
-        { title: 'Auth', id: 1, status: 'todo', description: 'Fix api bugs' },
-        { title: 'API', id: 2, status: 'todo', description: 'Fix api bugs' },
-        { title: 'Bug fix', id: 3, status: 'todo', description: 'Fix api bugs' }
-      ]
+      tasks: []
     },
     {
       title: 'Junior Coders',
-      id: "2",
+      id: '2',
       isOpen: false,
       isMenuOpen: false,
-      tasks: [
-        {
-          title: 'IG content',
-          id: 1,
-          status: 'todo',
-          description: 'Fix api bugs'
-        }
-      ]
+      tasks: []
     }
   ]
 };
@@ -46,6 +35,17 @@ const reducer = (
         }
       });
       return { ...state, ...newList };
+    }
+    case types.ADD_TASK: {
+      debugger;
+      const newList = state.projects.map(item => {
+        if (item.id === payload.projectPayload.id) {
+          item.tasks.push(payload.taskPayload);
+          return item;
+        }
+        return item;
+      });      
+      return {  projects: newList };
     }
     default:
       return state;

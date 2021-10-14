@@ -149,7 +149,7 @@ const TasksArea = () => {
         setColumns({ ...columns, [columnId]: copyOfColumn });
       }
     });
-  }, [project_id]);
+  }, [project_id, projects]);
 
   return (
     <>

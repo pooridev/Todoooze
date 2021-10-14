@@ -1,6 +1,6 @@
 export type TaskType = {
   title: string;
-  id: number | string;
+  id:  string;
   status?: 'todo' | 'in_progress' | 'in_review' | 'done';
   description: string;
 };

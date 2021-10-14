@@ -58,9 +58,6 @@ const Menu: FC<IProps> = props => {
               onClick={() => {
                 onChange(item);
                 closeMenu();
-                // To update the button content (icon and title)
-                label.icon = item.icon;
-                label.title = item.title;
               }}>
               {item?.icon}
               <span>{item.title}</span>
