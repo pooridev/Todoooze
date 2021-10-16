@@ -111,11 +111,13 @@ const NewTaskModal = (props: IProps) => {
     const PROJECT_PAYLOAD = {
       id: project_id?.toString() || recentProject.id
     };
-debugger
+
     const isValid = validateForm(TASK_PAYLOAD);
 
     if (isValid) dispatch(addTask(TASK_PAYLOAD, PROJECT_PAYLOAD));
     else alert('Title and Prority are required');
+
+    resetForm();
   };
 
   // we need to transform the status to the one that the TaskType expects
@@ -132,6 +134,16 @@ debugger
       default:
         throw Error('Invalid status');
     }
+  };
+
+  // To clear text fields and selected menu items in the modal form
+  const resetForm = () => {
+    setTaskData({
+      title: '',
+      description: '',
+      status: taskStatus,
+      priority: { title: 'Priority', icon: <PriorityIcon /> }
+    });
   };
 
   useEffect(
