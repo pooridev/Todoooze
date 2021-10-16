@@ -118,6 +118,7 @@ const TasksArea = () => {
    * This part updates the columns as soon as URL changed
    */
   useEffect(() => {
+    clearColumnsTasks()
     const columnsArray = Object.entries(columns);
 
     columnsArray.forEach(([columnId, column]) => {
@@ -150,6 +151,11 @@ const TasksArea = () => {
       }
     });
   }, [project_id, projects]);
+
+  // To clear tasks while navigating between projects
+  const clearColumnsTasks = () => {
+    setColumns(columnsData)
+  }
 
   return (
     <>
