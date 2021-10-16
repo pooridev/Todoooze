@@ -5,64 +5,19 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Modal from '../../../shared/Modal';
 import styles from './NewTaskModal.module.css';
-import {
-  HighIcon,
-  LowIcon,
-  MediumIcon,
-  UrgentIcon,
-  PriorityIcon,
-  TodoIcon,
-  InProgressIcon,
-  InReviewIcon,
-  DoneIcon
-} from '../../../shared/icon';
+import { PriorityIcon } from '../../../shared/icon';
 import { useModal } from '../../../providers/Modal';
 import Menu from '../../../shared/Menu';
 import { TaskType } from '../../../types/TaskType';
 import { addTask } from '../../../redux/actions/project';
 import { IProjectState } from './../../../types/IProjectState';
+import { statusItems } from '../../../constant/statusItems';
+import { priorityItems } from '../../../constant/priorityItems';
 
 interface IProps {
   projectName: string;
   taskStatus: { title: string; icon: ReactElement };
 }
-
-const priorityItems = [
-  {
-    title: 'Urgent',
-    icon: <UrgentIcon />
-  },
-  {
-    title: 'High',
-    icon: <HighIcon />
-  },
-  {
-    title: 'Medium',
-    icon: <MediumIcon />
-  },
-  {
-    title: 'Low',
-    icon: <LowIcon />
-  }
-];
-const statusItems = [
-  {
-    title: 'Todo',
-    icon: <TodoIcon />
-  },
-  {
-    title: 'In Progress',
-    icon: <InProgressIcon />
-  },
-  {
-    title: 'In Review',
-    icon: <InReviewIcon />
-  },
-  {
-    title: 'Done',
-    icon: <DoneIcon />
-  }
-];
 
 const validateForm = TASK_PAYLOAD => {
   const { title, priority } = TASK_PAYLOAD;
@@ -152,7 +107,7 @@ const NewTaskModal = (props: IProps) => {
 
   return (
     <Modal onSubmit={addTaskHandler} projectName={projectName} isOpen={isOpen}>
-      <form className={styles.Form} onSubmit={e => e.preventDefault()}>
+      <form className={styles.Form}>
         <input
           onChange={({ target }) =>
             setTaskData({ ...taskData, title: target.value })

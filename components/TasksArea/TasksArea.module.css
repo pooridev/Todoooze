@@ -25,24 +25,3 @@
 .AddTaskButton:hover.AddTaskButton svg {
   @apply transition-all fill-lightest;
 }
-
-.Task {
-  @apply p-5 bg-gray-dark my-2 relative rounded-md flex justify-between items-start;
-}
-
-/* To Switch Cursor while dragging the task */
-.Grabbing {
-  cursor: grabbing !important;
-}
-
-.Default {
-  cursor: default !important;
-}
-
-.Avatar {
-  @apply flex-1 rounded-full object-contain;
-}
-
-.AvatarStatus {
-  @apply bg-green-600 w-[6px] h-[6px] z-10 rounded-full absolute top-5 right-5;
-}

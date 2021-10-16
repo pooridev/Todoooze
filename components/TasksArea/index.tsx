@@ -1,50 +1,17 @@
 import { useState, useEffect } from 'react';
 import { uuid } from 'uuidv4';
-import {
-  DragDropContext,
-  Droppable,
-  Draggable
-} from 'react-beautiful-dnd-next';
-import Image from 'next/image';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd-next';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/dist/client/router';
 
-import {
-  DoneIcon,
-  InProgressIcon,
-  InReviewIcon,
-  TodoIcon,
-  AddIcon
-} from '../../shared/icon';
+import { AddIcon } from '../../shared/icon';
 import styles from './TasksArea.module.css';
-import userAvatar from '../../assets/images/avatar.jpg';
 import { IProjectState } from './../../types/IProjectState';
 import { ProjectType } from '../../types/ProjectType';
 import NewTaskModal from './NewTaskModal';
 import { useModal } from '../../providers/Modal';
-
-const columnsData = {
-  [uuid()]: {
-    name: 'Todo',
-    icon: <TodoIcon />,
-    items: []
-  },
-  [uuid()]: {
-    name: 'In Progress',
-    icon: <InProgressIcon />,
-    items: []
-  },
-  [uuid()]: {
-    name: 'In Review',
-    icon: <InReviewIcon />,
-    items: []
-  },
-  [uuid()]: {
-    name: 'Done',
-    icon: <DoneIcon />,
-    items: []
-  }
-};
+import DraggableTask from './DraggableTask';
+import { columnsData } from './../../constant/columnsData';
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -118,7 +85,7 @@ const TasksArea = () => {
    * This part updates the columns as soon as URL changed
    */
   useEffect(() => {
-    clearColumnsTasks()
+    clearColumnsTasks();
     const columnsArray = Object.entries(columns);
 
     columnsArray.forEach(([columnId, column]) => {
@@ -154,8 +121,8 @@ const TasksArea = () => {
 
   // To clear tasks while navigating between projects
   const clearColumnsTasks = () => {
-    setColumns(columnsData)
-  }
+    setColumns(columnsData);
+  };
 
   return (
     <>
@@ -173,7 +140,10 @@ const TasksArea = () => {
                   </div>
                   <button
                     onClick={() => {
-                      setCurrentStatus({ title: column.name , icon: column.icon});
+                      setCurrentStatus({
+                        title: column.name,
+                        icon: column.icon
+                      });
                       openModal();
                     }}
                     title='Add new task'
@@ -189,35 +159,8 @@ const TasksArea = () => {
                           style={{ minHeight: '100vh' }}
                           {...provided.droppableProps}
                           ref={provided.innerRef}>
-                          {column?.items?.map((item, index) => {
-                            return (
-                              <Draggable
-                                key={item?.id}
-                                draggableId={item?.id}
-                                index={index}>
-                                {(provided, snapshot) => {
-                                  return (
-                                    <div
-                                      className={styles.Task}
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}>
-                                      <p>{item?.title}</p>
-                                      <Image
-                                        alt='Pooria Faramarzian'
-                                        width='19'
-                                        height='19'
-                                        src={userAvatar}
-                                        className={styles.Avatar}
-                                      />
-                                      <div className={styles.AvatarStatus} />
-                                    </div>
-                                  );
-                                }}
-                              </Draggable>
-                            );
-                          })}
                           {provided.placeholder}
+                          <DraggableTask column={column} />
                         </div>
                       );
                     }}
