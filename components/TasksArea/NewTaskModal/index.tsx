@@ -17,10 +17,9 @@ import {
   DoneIcon
 } from '../../../shared/icon';
 import { useModal } from '../../../providers/Modal';
-import Menu from './Menu';
+import Menu from '../../../shared/Menu';
 import { TaskType } from '../../../types/TaskType';
 import { addTask } from '../../../redux/actions/project';
-import { ProjectType } from '../../../types/ProjectType';
 import { IProjectState } from './../../../types/IProjectState';
 
 interface IProps {

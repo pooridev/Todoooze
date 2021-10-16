@@ -1,7 +1,7 @@
 import { FC, ReactElement, useState, useRef } from 'react';
 
 import styles from './Menu.module.css';
-import useOutsideClickHandler from './../../../../hooks/useOutsideClickHandler';
+import useOutsideClickHandler from '../../hooks/useOutsideClickHandler';
 
 interface IProps {
   items: Array<{
@@ -22,7 +22,7 @@ interface IProps {
 }
 
 /**
- * @description Menu component that renders a list of items
+ * @description Menu component that renders a list of selectable items
  */
 
 const Menu: FC<IProps> = props => {
