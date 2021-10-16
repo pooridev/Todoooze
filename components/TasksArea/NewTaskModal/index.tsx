@@ -107,7 +107,7 @@ const NewTaskModal = (props: IProps) => {
 
   return (
     <Modal onSubmit={addTaskHandler} projectName={projectName} isOpen={isOpen}>
-      <form className={styles.Form}>
+      <form className={styles.Form} onSubmit={e => e.preventDefault()}>
         <input
           onChange={({ target }) =>
             setTaskData({ ...taskData, title: target.value })
