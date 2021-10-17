@@ -3,6 +3,8 @@ import { uuid } from 'uuidv4';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd-next';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/dist/client/router';
+import Image from 'next/image';
+import { Draggable } from 'react-beautiful-dnd-next';
 
 import { AddIcon } from '../../shared/icon';
 import styles from './TasksArea.module.css';
@@ -12,7 +14,7 @@ import NewTaskModal from './NewTaskModal';
 import { useModal } from '../../providers/Modal';
 import DraggableTask from './DraggableTask';
 import { columnsData } from './../../constant/columnsData';
-
+import userAvatar from '../../assets/images/avatar.jpg';
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
   const { source, destination } = result;
@@ -151,19 +153,17 @@ const TasksArea = () => {
                     <AddIcon />
                   </button>
                 </header>
-                <div style={{ minHeight: '100%' }}>
+                <div>
                   <Droppable droppableId={columnId} key={columnId}>
-                    {(provided, snapshot) => {
-                      return (
-                        <div
-                          style={{ minHeight: '100vh' }}
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}>
-                          {provided.placeholder}
-                          <DraggableTask column={column} />
-                        </div>
-                      );
-                    }}
+                    {(provided, snapshot) => (
+                      <div
+                        style={{ minHeight: '100vh' }}
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}>
+                        <DraggableTask column={column} />
+                        {provided.placeholder}
+                      </div>
+                    )}
                   </Droppable>
                 </div>
               </div>

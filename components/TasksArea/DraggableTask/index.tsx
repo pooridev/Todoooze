@@ -1,4 +1,4 @@
-import { FC, ReactElement, ReactChild } from 'react';
+import { FC, ReactElement } from 'react';
 import Image from 'next/image';
 import { Draggable } from 'react-beautiful-dnd-next';
 
