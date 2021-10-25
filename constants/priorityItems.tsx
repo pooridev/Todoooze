@@ -1,4 +1,9 @@
-import { HighIcon, LowIcon, MediumIcon, UrgentIcon } from "../shared/icon";
+import {
+  HighIcon,
+  LowIcon,
+  MediumIcon,
+  UrgentIcon
+} from '../components/shared/icon';
 
 export const priorityItems = [
   {

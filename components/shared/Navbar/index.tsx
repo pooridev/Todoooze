@@ -1,8 +1,12 @@
 import { FC, ReactChild } from 'react';
-import { useSidebar } from '../../providers/Sidebar';
-import { BarsIcon } from '../icon';
 
+import { useSidebar } from '../../../providers/Sidebar';
+import { BarsIcon } from '../icon';
 import styles from './Navbar.module.css';
+
+type INavbarProps = {
+  children: ReactChild | ReactChild[];
+};
 
 /**
  * @description A navbar with global styling for
@@ -12,10 +16,6 @@ import styles from './Navbar.module.css';
  *
  * openSidebar: The function to open the sidebar.
  */
-
-type INavbarProps = {
-  children: ReactChild | ReactChild[];
-};
 
 const Navbar: FC<INavbarProps> = ({ children }) => {
   const { openSidebar } = useSidebar();

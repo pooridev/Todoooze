@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { CloseIcon, ProfileIcon } from '../../../shared/icon';
-import { useModal } from '../../../providers/Modal';
+import { useModal } from '../../../../providers/Modal';
 import styles from './Header.module.css';
 
 

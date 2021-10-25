@@ -1,20 +1,17 @@
 import { useState, useEffect } from 'react';
-import { uuid } from 'uuidv4';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd-next';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/dist/client/router';
-import Image from 'next/image';
-import { Draggable } from 'react-beautiful-dnd-next';
 
-import { AddIcon } from '../../shared/icon';
+import { AddIcon } from '../shared/icon';
 import styles from './TasksArea.module.css';
 import { IProjectState } from './../../types/IProjectState';
 import { ProjectType } from '../../types/ProjectType';
 import NewTaskModal from './NewTaskModal';
 import { useModal } from '../../providers/Modal';
 import DraggableTask from './DraggableTask';
-import { columnsData } from './../../constant/columnsData';
-import userAvatar from '../../assets/images/avatar.jpg';
+import { columnsData } from '../../constants/columnsData';
+
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
   const { source, destination } = result;

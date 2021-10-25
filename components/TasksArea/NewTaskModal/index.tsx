@@ -3,16 +3,16 @@ import { useEffect, ReactElement, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { v4 as uuidv4 } from 'uuid';
 
-import Modal from '../../../shared/Modal';
+import Modal from '../../shared/Modal';
 import styles from './NewTaskModal.module.css';
-import { PriorityIcon } from '../../../shared/icon';
+import { PriorityIcon } from '../../shared/icon';
 import { useModal } from '../../../providers/Modal';
-import Menu from '../../../shared/Menu';
+import Menu from '../../shared/Menu';
 import { TaskType } from '../../../types/TaskType';
 import { addTask } from '../../../redux/actions/project';
 import { IProjectState } from './../../../types/IProjectState';
-import { statusItems } from '../../../constant/statusItems';
-import { priorityItems } from '../../../constant/priorityItems';
+import { statusItems } from '../../../constants/statusItems';
+import { priorityItems } from '../../../constants/priorityItems';
 
 interface IProps {
   projectName: string;

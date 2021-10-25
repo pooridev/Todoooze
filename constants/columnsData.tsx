@@ -5,7 +5,7 @@ import {
   InProgressIcon,
   InReviewIcon,
   DoneIcon
-} from '../shared/icon/index';
+} from '../components/shared/icon';
 
 export const columnsData = {
   [uuidv4()]: {

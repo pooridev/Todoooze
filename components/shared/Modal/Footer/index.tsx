@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { useModal } from '../../../providers/Modal';
+import { useModal } from '../../../../providers/Modal';
 import styles from './Footer.module.css';
 
 type PropsType = {

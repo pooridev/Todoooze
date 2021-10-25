@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import TasksArea from '../components/TasksArea';
-import Navbar from './../shared/Navbar/index';
+import Navbar from '../components/shared/Navbar';
 import { IProjectState } from './../types/IProjectState';
 import styles from './Home.module.css';
 

@@ -19,7 +19,7 @@
 }
 
 .AddTaskButton {
-  @apply mr-2 cursor-default transition-all p-2 rounded-md hover:bg-gray-light;
+  @apply mr-2 cursor-pointer transition-all p-2 rounded-md hover:bg-gray-light;
 }
 
 .AddTaskButton:hover.AddTaskButton svg {
