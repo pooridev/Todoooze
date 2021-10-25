@@ -2,10 +2,11 @@ import { useRouter } from 'next/dist/client/router';
 import { useSelector } from 'react-redux';
 import TasksArea from '../../components/TasksArea';
 
-import Navbar from '../../shared/Navbar';
+import Navbar from '../../components/shared/Navbar';
 import { ProjectType } from '../../types/ProjectType';
 import { IProjectState } from './../../types/IProjectState';
 import styles from './project.module.css';
+
 const ProjectPage = () => {
   const router = useRouter();
 
