@@ -4,19 +4,22 @@ import 'tailwindcss/tailwind.css';
 import '../styles/globals.css';
 import Layout from '../layout/Layout';
 import { SidebarProvider } from '../providers/Sidebar';
-import { wrapper } from './../redux/store';
 import { ModalProvider } from '../providers/Modal';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ModalProvider>
-      <SidebarProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </SidebarProvider>
-    </ModalProvider>
+    <Provider store={store}>
+      <ModalProvider>
+        <SidebarProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SidebarProvider>
+      </ModalProvider>
+    </Provider>
   );
 }
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;
