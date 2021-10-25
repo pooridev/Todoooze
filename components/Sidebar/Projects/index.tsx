@@ -8,13 +8,11 @@ import { ArrowRight, ThreeDotsIcon } from '../../shared/icon';
 import { IProjectState } from '../../../types/IProjectState';
 import { ProjectType } from '../../../types/ProjectType';
 import { TaskType } from '../../../types/TaskType';
-import { removeFalseys } from '../../../helpers/strings';
+import { removeFalseys } from '../../../helpers/string-utils';
 
 /**
- *
  * @description a component that renders a list of projects on the main sidebar.
  */
-
 const Projects: FC = () => {
   const [areProjectsOpen, setAreProjectsOpen] = useState(false);
   const { projects } = useSelector((state: IProjectState) => state);

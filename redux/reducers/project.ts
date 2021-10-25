@@ -37,15 +37,29 @@ const reducer = (
       return { ...state, ...newList };
     }
     case types.ADD_TASK: {
-      debugger;
       const newList = state.projects.map(item => {
         if (item.id === payload.projectPayload.id) {
           item.tasks.push(payload.taskPayload);
           return item;
         }
         return item;
-      });      
-      return {  projects: newList };
+      });
+      return { projects: newList };
+    }
+    case types.UPDATE_TASK_STATUS: {
+      const newProjects = state.projects.map(item => {
+        if (item.id === payload.projectId) {
+          const newTasks = item.tasks.map(task => {
+            if (task.id === payload.taskId) {
+              task.status = payload.status;
+              return task;
+            }
+            return newTasks;
+          });
+        }
+        return item;
+      });
+      return { projects: newProjects };
     }
     default:
       return state;

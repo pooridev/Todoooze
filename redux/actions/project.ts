@@ -19,3 +19,14 @@ export const addTask = (
     payload: { taskPayload, projectPayload }
   };
 };
+
+export const updateTaskStatus = (
+  status: string,
+  taskId: string,
+  projectId: string
+): AnyAction => {
+  return {
+    type: types.UPDATE_TASK_STATUS,
+    payload: { taskId, status, projectId }
+  };
+};

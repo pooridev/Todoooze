@@ -13,6 +13,7 @@ import { addTask } from '../../../redux/actions/project';
 import { IProjectState } from './../../../types/IProjectState';
 import { statusItems } from '../../../constants/statusItems';
 import { priorityItems } from '../../../constants/priorityItems';
+import { getStatus } from '../../../helpers/task-utils';
 
 interface IProps {
   projectName: string;
@@ -59,7 +60,7 @@ const NewTaskModal = (props: IProps) => {
       title: taskData.title,
       description: taskData.description,
       id: uuidv4(),
-      status: getTransformedStatus()
+      status: getStatus(taskData.status.title)
     };
 
     const PROJECT_PAYLOAD = {
@@ -72,22 +73,6 @@ const NewTaskModal = (props: IProps) => {
     else alert('Title and Prority are required');
 
     resetForm();
-  };
-
-  // we need to transform the status to the one that the TaskType expects
-  const getTransformedStatus = () => {
-    switch (taskData.status.title) {
-      case 'Todo':
-        return 'todo';
-      case 'In Progress':
-        return 'in_progress';
-      case 'In Review':
-        return 'in_review';
-      case 'Done':
-        return 'done';
-      default:
-        throw Error('Invalid status');
-    }
   };
 
   // To clear text fields and selected menu items in the modal form

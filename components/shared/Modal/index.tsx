@@ -1,8 +1,6 @@
 import { ReactChild } from 'react';
 
 import styles from './Modal.module.css';
-import useOutsideClickHandler from './../../hooks/useOutsideClickHandler';
-import { useModal } from '../../providers/Modal';
 import Header from './Header';
 import Footer from './Footer';
 

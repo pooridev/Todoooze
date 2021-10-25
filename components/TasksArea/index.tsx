@@ -3,6 +3,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd-next';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/dist/client/router';
 
+import { store } from '../../redux/store';
 import { AddIcon } from '../shared/icon';
 import styles from './TasksArea.module.css';
 import { IProjectState } from './../../types/IProjectState';
@@ -11,17 +12,25 @@ import NewTaskModal from './NewTaskModal';
 import { useModal } from '../../providers/Modal';
 import DraggableTask from './DraggableTask';
 import { columnsData } from '../../constants/columnsData';
+import { updateTaskStatus } from '../../redux/actions/project';
+import { getStatus } from '../../helpers/task-utils';
 
-const onDragEnd = (result, columns, setColumns) => {
+const onDragEnd = (result, columns, setColumns, projectId) => {
   if (!result.destination) return;
   const { source, destination } = result;
-
+  debugger;
   if (source.droppableId !== destination.droppableId) {
     const sourceColumn = columns[source.droppableId];
     const destColumn = columns[destination.droppableId];
     const sourceItems = [...sourceColumn.items];
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
+
+    // To update the status of the task
+    const taskId = result.draggableId;
+    const status = getStatus(destColumn.name);
+    store.dispatch(updateTaskStatus(status, taskId, projectId));
+
     destItems.splice(destination.index, 0, removed);
     setColumns({
       ...columns,
@@ -127,8 +136,10 @@ const TasksArea = () => {
     <>
       <section className={styles.TasksArea}>
         <DragDropContext
-          onDragEnd={result => onDragEnd(result, columns, setColumns)}>
-          {Object.entries(columns)?.map(([columnId, column], index) => {
+          onDragEnd={result =>
+            onDragEnd(result, columns, setColumns, project.id)
+          }>
+          {Object.entries(columns)?.map(([columnId, column]) => {
             return (
               <div className={styles.TasksStatus} key={columnId}>
                 <header key={columnId} className={styles.StatusHeader}>
