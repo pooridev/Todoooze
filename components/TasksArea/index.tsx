@@ -4,16 +4,15 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/dist/client/router';
 
 import { store } from '../../redux/store';
-import { AddIcon } from '../shared/icon';
 import styles from './TasksArea.module.css';
 import { IProjectState } from './../../types/IProjectState';
 import { ProjectType } from '../../types/ProjectType';
 import NewTaskModal from './NewTaskModal';
-import { useModal } from '../../providers/Modal';
 import DraggableTask from './DraggableTask';
 import { columnsData } from '../../constants/columnsData';
 import { updateTaskStatus } from '../../redux/actions/project';
 import { getStatus } from '../../helpers/task-utils';
+import ColumnHeader from './ColumnHeader';
 
 const onDragEnd = (result, columns, setColumns, projectId) => {
   if (!result.destination) return;
@@ -65,7 +64,6 @@ interface IProps {
 const TasksArea: FC<IProps> = ({ project }) => {
   const [columns, setColumns] = useState(columnsData);
 
-  const { openModal } = useModal();
   const router = useRouter();
   const [currentStatus, setCurrentStatus] = useState({ title: '', icon: null });
 
@@ -85,12 +83,12 @@ const TasksArea: FC<IProps> = ({ project }) => {
   const DoneTasks = tasks?.filter(task => task.status === 'done');
 
   /**
-   * Updates the columns as soon as URL changed
+   * Updates the columns data when a new task is added or edited.
    */
   useEffect(() => {
     const columnsArray = Object.entries(columns);
     columnsArray.forEach(([columnId, column]) => {
-      // To clear tasks while navigating between projects
+      // To clear tasks while switching between projects
       column.items = [];
 
       if (column.name === 'Todo' && todoTasks?.length) {
@@ -126,47 +124,30 @@ const TasksArea: FC<IProps> = ({ project }) => {
           onDragEnd={result =>
             onDragEnd(result, columns, setColumns, project.id)
           }>
-          {Object.entries(columns)?.map(([columnId, column]) => {
-            return (
-              <div className={styles.TasksStatus} key={columnId}>
-                <header key={columnId} className={styles.StatusHeader}>
-                  <div className={styles.HeaderText}>
-                    {column.icon}
-                    <p>{column.name}</p>
-                    <span>{column?.items?.length}</span>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setCurrentStatus({
-                        title: column.name,
-                        icon: column.icon
-                      });
-                      openModal();
-                    }}
-                    title='Add new task'
-                    className={styles.AddTaskButton}>
-                    <AddIcon />
-                  </button>
-                </header>
-                <div>
-                  <Droppable droppableId={columnId} key={columnId}>
-                    {(provided, snapshot) => (
-                      <div
-                        style={{ minHeight: '100vh' }}
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}>
-                        <DraggableTask column={column} />
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </div>
+          {Object.entries(columns).map(([columnId, column]) => (
+            <div className={styles.TasksStatus} key={columnId}>
+              <ColumnHeader
+                column={column}
+                key={columnId}
+                onChangeCurrentStatus={setCurrentStatus}
+              />
+              <div>
+                <Droppable droppableId={columnId} key={columnId}>
+                  {(provided, snapshot) => (
+                    <div
+                      style={{ minHeight: '100vh' }}
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}>
+                      <DraggableTask column={column} />
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </DragDropContext>
         <NewTaskModal taskStatus={currentStatus} projectName={project?.title} />
-        ;
       </section>
     </>
   );

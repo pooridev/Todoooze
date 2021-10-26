@@ -5,23 +5,3 @@
 .TasksStatus {
   @apply p-3 min-w-96 text-gray-lightest font-semibold;
 }
-
-.TasksStatus span {
-  @apply text-gray-400 font-medium;
-}
-
-.StatusHeader {
-  @apply flex justify-between items-center w-full border-b-2 pb-3 border-gray-dark;
-}
-
-.HeaderText {
-  @apply flex gap-4 items-center;
-}
-
-.AddTaskButton {
-  @apply mr-2 cursor-pointer transition-all p-2 rounded-md hover:bg-gray-light;
-}
-
-.AddTaskButton:hover.AddTaskButton svg {
-  @apply transition-all fill-lightest;
-}
