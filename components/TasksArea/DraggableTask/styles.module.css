@@ -1,7 +1,24 @@
 
 .Task {
-  @apply p-5 bg-gray-dark my-2 relative rounded-md flex justify-between items-start;
+  @apply p-5 bg-gray-dark my-2 relative rounded-md ;
 }
+
+.TaskHeader {
+  @apply flex justify-between items-start text-lg ;
+}
+
+.TaskHeader p {
+  @apply max-w-[250px] overflow-hidden overflow-ellipsis whitespace-nowrap;
+}
+
+.TaskFooter {
+  @apply flex gap-3 pt-4;
+}
+
+.TaskFooter span {
+  @apply  px-1 flex gap-2 items-center justify-start border border-gray-light rounded-md
+}
+
 
 /* To Switch Cursor while dragging the task */
 .Grabbing {

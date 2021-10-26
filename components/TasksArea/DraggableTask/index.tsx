@@ -21,15 +21,24 @@ const DraggableTask: FC<IProps> = ({ column }) => {
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}>
-              <p>{item?.title}</p>
-              <Image
-                alt='Pooria Faramarzian'
-                width='19'
-                height='19'
-                src={userAvatar}
-                className={styles.Avatar}
-              />
-              <div className={styles.AvatarStatus} />
+              <div className={styles.TaskHeader}>
+                <p title={item?.title}>{item?.title}</p>
+                <Image
+                  alt='Pooria Faramarzian'
+                  width='19'
+                  height='19'
+                  src={userAvatar}
+                  className={styles.Avatar}
+                />
+                <div className={styles.AvatarStatus} />
+              </div>
+              <div className={styles.TaskFooter}>
+                <span>{item.priority.icon}</span>
+                <span>
+                  {column.icon}
+                  {column.name}
+                </span>
+              </div>
             </div>
           )}
         </Draggable>

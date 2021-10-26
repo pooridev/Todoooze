@@ -112,7 +112,7 @@ const TasksArea = () => {
 
       if (column.name === 'In Review' && inReviewTasks?.length) {
         column.items = [...inReviewTasks];
-        debugger;
+
         setColumns({ ...columns, [columnId]: column });
       }
 

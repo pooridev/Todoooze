@@ -60,7 +60,8 @@ const NewTaskModal = (props: IProps) => {
       title: taskData.title,
       description: taskData.description,
       id: uuidv4(),
-      status: getStatus(taskData.status.title)
+      status: getStatus(taskData.status.title),
+      priority: taskData.priority
     };
 
     const PROJECT_PAYLOAD = {
