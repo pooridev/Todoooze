@@ -1,10 +1,10 @@
-
 .Task {
-  @apply p-5 bg-gray-dark my-2 relative rounded-md ;
+  cursor: default !important;
+  @apply p-5 bg-gray-dark my-2 relative rounded-md;
 }
 
 .TaskHeader {
-  @apply flex justify-between items-start text-lg ;
+  @apply flex justify-between items-start text-lg;
 }
 
 .TaskHeader p {
@@ -16,9 +16,12 @@
 }
 
 .TaskFooter span {
-  @apply  px-1 flex gap-2 items-center justify-start border border-gray-light rounded-md
+  color: rgb(138, 143, 152);
+  @apply px-1 flex text-sm hover:text-gray-lightest transition-all gap-2 items-center justify-start border border-gray-light rounded-md;
 }
-
+.TaskFooter svg:hover {
+  @apply fill-lightest transition-all;
+}
 
 /* To Switch Cursor while dragging the task */
 .Grabbing {
