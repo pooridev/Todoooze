@@ -33,8 +33,8 @@ const DraggableTask: FC<IProps> = ({ column }) => {
                 <div className={styles.AvatarStatus} />
               </div>
               <div className={styles.TaskFooter}>
-                <span>{item.priority.icon}</span>
-                <span>
+                <span title={item.priority.title + ' Task'}>{item.priority.icon}</span>
+                <span title={column.name}>
                   {column.icon}
                   {column.name}
                 </span>
