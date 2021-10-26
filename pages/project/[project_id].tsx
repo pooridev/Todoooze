@@ -24,7 +24,7 @@ const ProjectPage = () => {
       <Navbar>
         <h2 className={styles.Title}>{project?.title}&apos; tasks </h2>
       </Navbar>
-      <TasksArea />
+      <TasksArea project={project} />
     </>
   );
 };

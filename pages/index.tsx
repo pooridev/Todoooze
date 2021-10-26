@@ -16,7 +16,7 @@ const Home = () => {
       <Navbar>
         <h2 className={styles.Title}>{recentProject?.title}&apos; tasks </h2>
       </Navbar>
-      <TasksArea />
+      <TasksArea project={recentProject} />
     </>
   );
 };

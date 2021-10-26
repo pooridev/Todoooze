@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC, ReactElement } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd-next';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/dist/client/router';
@@ -58,7 +58,11 @@ const onDragEnd = (result, columns, setColumns, projectId) => {
   }
 };
 
-const TasksArea = () => {
+interface IProps {
+  project: ProjectType;
+}
+
+const TasksArea: FC<IProps> = ({ project }) => {
   const [columns, setColumns] = useState(columnsData);
 
   const { openModal } = useModal();
@@ -68,17 +72,8 @@ const TasksArea = () => {
   // The given ID in the path (URL)
   const { project_id } = router.query;
 
-  // All projects that made by user
+  // All projects that made by user, use to re-render component when a new task is added
   const projects = useSelector((state: IProjectState) => state.projects);
-
-  /*
-   * Find that particular project, so we can render its tasks
-   * We will get the most recent one, if we were on Home page
-   * (It means whenever the ID was undefined)
-   */
-  let project = projects.find((p: ProjectType) => p?.id === project_id);
-
-  if (!project_id) project = projects[projects.length - 1]; // get the most recent one
 
   // All tasks that particular project contains
   const tasks = project?.tasks || [];
