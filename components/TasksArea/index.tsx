@@ -18,7 +18,7 @@ import { getStatus } from '../../helpers/task-utils';
 const onDragEnd = (result, columns, setColumns, projectId) => {
   if (!result.destination) return;
   const { source, destination } = result;
-  debugger;
+
   if (source.droppableId !== destination.droppableId) {
     const sourceColumn = columns[source.droppableId];
     const destColumn = columns[destination.droppableId];
@@ -90,47 +90,39 @@ const TasksArea = () => {
   const DoneTasks = tasks?.filter(task => task.status === 'done');
 
   /**
-   * This part updates the columns as soon as URL changed
+   * Updates the columns as soon as URL changed
    */
   useEffect(() => {
-    clearColumnsTasks();
     const columnsArray = Object.entries(columns);
-
     columnsArray.forEach(([columnId, column]) => {
-      if (column.name === 'Todo' && todoTasks?.length !== 0) {
-        const copyOfColumn = { ...column };
-        copyOfColumn.items = [...todoTasks];
+      // To clear tasks while navigating between projects
+      column.items = [];
 
-        setColumns({ ...columns, [columnId]: copyOfColumn });
+      if (column.name === 'Todo' && todoTasks?.length) {
+        column.items = [...todoTasks];
+
+        setColumns({ ...columns, [columnId]: column });
       }
 
-      if (column.name === 'In Progress' && inProgressTasks?.length !== 0) {
-        const copyOfColumn = { ...column };
-        copyOfColumn.items = [...inProgressTasks];
+      if (column.name === 'In Progress' && inProgressTasks?.length) {
+        column.items = [...inProgressTasks];
 
-        setColumns({ ...columns, [columnId]: copyOfColumn });
+        setColumns({ ...columns, [columnId]: column });
       }
 
-      if (column.name === 'In Review' && inReviewTasks?.length !== 0) {
-        const copyOfColumn = { ...column };
-        copyOfColumn.items = [...inReviewTasks];
-
-        setColumns({ ...columns, [columnId]: copyOfColumn });
+      if (column.name === 'In Review' && inReviewTasks?.length) {
+        column.items = [...inReviewTasks];
+        debugger;
+        setColumns({ ...columns, [columnId]: column });
       }
 
-      if (column.name === 'Done' && DoneTasks?.length !== 0) {
-        const copyOfColumn = { ...column };
-        copyOfColumn.items = [...DoneTasks];
+      if (column.name === 'Done' && DoneTasks?.length) {
+        column.items = [...DoneTasks];
 
-        setColumns({ ...columns, [columnId]: copyOfColumn });
+        setColumns({ ...columns, [columnId]: column });
       }
     });
   }, [project_id, projects]);
-
-  // To clear tasks while navigating between projects
-  const clearColumnsTasks = () => {
-    setColumns(columnsData);
-  };
 
   return (
     <>
@@ -178,7 +170,8 @@ const TasksArea = () => {
             );
           })}
         </DragDropContext>
-        <NewTaskModal taskStatus={currentStatus} projectName={project.title} />;
+        <NewTaskModal taskStatus={currentStatus} projectName={project?.title} />
+        ;
       </section>
     </>
   );

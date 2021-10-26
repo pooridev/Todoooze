@@ -1,5 +1,6 @@
 import { types } from '../types';
 import { AnyAction } from 'redux';
+import { v4 as uuidv4 } from 'uuid';
 
 import { IProjectState } from '../../types/IProjectState';
 
@@ -10,14 +11,36 @@ const initialState: IProjectState = {
       id: '1',
       isOpen: false,
       isMenuOpen: false,
-      tasks: []
+      tasks: [
+        {
+          title: 'Bug fix',
+          id: uuidv4(),
+          status: 'in_progress'
+        },
+        {
+          title: 'Typescript course',
+          id: uuidv4(),
+          status: 'in_progress'
+        }
+      ]
     },
     {
       title: 'Junior Coders',
       id: '2',
       isOpen: false,
       isMenuOpen: false,
-      tasks: []
+      tasks: [
+        {
+          title: 'Add Authentication',
+          id: uuidv4(),
+          status: 'in_review'
+        },
+        {
+          title: 'Node.js course',
+          id: uuidv4(),
+          status: 'in_progress'
+        }
+      ]
     }
   ]
 };
