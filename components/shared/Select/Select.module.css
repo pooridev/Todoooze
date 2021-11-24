@@ -11,7 +11,7 @@
   @apply fill-lightest text-gray-lightest;
 }
 
-.Menu {
+.Select {
   @apply opacity-0 hidden;
 }
 

@@ -1,6 +1,6 @@
 import { FC, ReactElement, useState, useRef } from 'react';
 
-import styles from './Menu.module.css';
+import styles from './Select.module.css';
 import useOutsideClickHandler from '../../../hooks/useOutsideClickHandler';
 
 interface IProps {
@@ -22,42 +22,42 @@ interface IProps {
 }
 
 /**
- * @description Menu component that renders a list of selectable items
+ * @description Select component that renders a list of selectable items
  */
 
-const Menu: FC<IProps> = props => {
+const Select: FC<IProps> = props => {
   const { items, onChange, defaultChecked, label } = props;
 
-  const menuRef = useRef<HTMLUListElement>(null);
+  const SelectRef = useRef<HTMLUListElement>(null);
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const openMenu = () => setIsOpen(true);
-  const closeMenu = () => setIsOpen(false);
+  const openSelect = () => setIsOpen(true);
+  const closeSelect = () => setIsOpen(false);
 
-  const menuClasses = [styles.Menu];
+  const SelectClasses = [styles.Select];
 
   // If isOpen was true, add the Open class
-  if (isOpen) menuClasses.push(styles.Open);
+  if (isOpen) SelectClasses.push(styles.Open);
 
   // Close menu if clicked outside
-  useOutsideClickHandler({ ref: menuRef, callback: closeMenu });
+  useOutsideClickHandler({ ref: SelectRef, callback: closeSelect });
 
   return (
     <div className='relative'>
-      <button className={styles.Button} onClick={openMenu}>
+      <button className={styles.Button} onClick={openSelect}>
         <span>{defaultChecked?.icon || label?.icon}</span>
         <span>{defaultChecked?.title || label.title}</span>
       </button>
-      <div className={menuClasses.join(' ')}>
-        <ul ref={menuRef} className={styles.Items}>
+      <div className={SelectClasses.join(' ')}>
+        <ul ref={SelectRef} className={styles.Items}>
           {items.map(item => (
             <li
               key={item.title}
               className={styles.Item}
               onClick={() => {
                 onChange(item);
-                closeMenu();
+                closeSelect();
               }}>
               {item?.icon}
               <span>{item.title}</span>
@@ -69,4 +69,4 @@ const Menu: FC<IProps> = props => {
   );
 };
 
-export default Menu;
+export default Select;

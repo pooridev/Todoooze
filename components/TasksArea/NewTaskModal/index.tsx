@@ -7,7 +7,7 @@ import Modal from '../../shared/Modal';
 import styles from './NewTaskModal.module.css';
 import { PriorityIcon } from '../../shared/Icon';
 import { useModal } from '../../../providers/Modal';
-import Menu from '../../shared/Menu';
+import Select from '../../shared/Select';
 import { TaskType } from '../../../types/TaskType';
 import { addTask } from '../../../redux/actions/project';
 import { IProjectState } from './../../../types/IProjectState';
@@ -115,12 +115,12 @@ const NewTaskModal = (props: IProps) => {
           }
           className={styles.Description}></textarea>
         <div className={styles.Menus}>
-          <Menu
+          <Select
             onChange={item => setTaskData({ ...taskData, priority: item })}
             items={priorityItems}
             label={taskData.priority}
           />
-          <Menu
+          <Select
             onChange={item => setTaskData({ ...taskData, status: item })}
             items={statusItems}
             label={taskData.status}
