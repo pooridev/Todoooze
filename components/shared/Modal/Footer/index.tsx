@@ -9,15 +9,10 @@ type PropsType = {
 
 const Footer: FC<PropsType> = props => {
   const { onSubmit } = props;
-  const { closeModal } = useModal();
+
   return (
     <footer className={styles.Footer}>
-      <button
-        className={styles.SubmitButton}
-        onClick={() => {
-          onSubmit();
-          closeModal();
-        }}>
+      <button className={styles.SubmitButton} onClick={onSubmit}>
         Save
       </button>
     </footer>

@@ -33,7 +33,7 @@ const validateForm = TASK_PAYLOAD => {
 const NewTaskModal = (props: IProps) => {
   const { projectName, taskStatus } = props;
 
-  const { isOpen } = useModal();
+  const { isOpen, closeModal } = useModal();
 
   const dispatch = useDispatch();
 
@@ -70,8 +70,10 @@ const NewTaskModal = (props: IProps) => {
 
     const isValid = validateForm(TASK_PAYLOAD);
 
-    if (isValid) dispatch(addTask(TASK_PAYLOAD, PROJECT_PAYLOAD));
-    else alert('Title and Prority are required');
+    if (isValid) {
+      dispatch(addTask(TASK_PAYLOAD, PROJECT_PAYLOAD));
+      closeModal();
+    } else return alert('Title and Prority are required');
 
     resetForm();
   };
