@@ -2,7 +2,6 @@ import { FC, ReactElement } from 'react';
 import Image from 'next/image';
 import { Draggable } from 'react-beautiful-dnd-next';
 import * as ReactContextMenu from '@radix-ui/react-context-menu';
-import { cx, Kbd } from '@vechaiui/react';
 
 import styles from './styles.module.css';
 import userAvatar from '../../../assets/images/avatar.jpg';
@@ -17,9 +16,9 @@ const DraggableTask: FC<IProps> = ({ column }) => {
   return (
     <>
       {column['items'].map((item, index) => (
-        <ReactContextMenu.Root>
+        <ReactContextMenu.Root key={item.id}>
           <ReactContextMenu.Trigger>
-            <Draggable key={item?.id} draggableId={item?.id} index={index}>
+            <Draggable draggableId={item.id} index={index}>
               {(provided, snapshot) => (
                 <div
                   className={styles.Task}
