@@ -1,5 +1,5 @@
 import { useModal } from '../../../providers/Modal';
-import { AddIcon } from '../../shared/icon';
+import { AddIcon } from '../../shared/Icon';
 import styles from './ColumnHeader.module.css';
 
 const ColumnHeader = ({ column, onChangeCurrentStatus }) => {

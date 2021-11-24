@@ -1,7 +1,7 @@
 import { FC, ReactChild } from 'react';
 
 import { useSidebar } from '../../../providers/Sidebar';
-import { BarsIcon } from '../icon';
+import { BarsIcon } from '../Icon';
 import styles from './Navbar.module.css';
 
 type INavbarProps = {

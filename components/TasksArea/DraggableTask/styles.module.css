@@ -1,5 +1,5 @@
 .Task {
-  cursor: default !important;
+  cursor: pointer !important;
   @apply p-5 bg-gray-dark my-2 relative rounded-md;
 }
 

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { CloseIcon, ProfileIcon } from '../../../shared/icon';
+import { CloseIcon, ProfileIcon } from '../../Icon';
 import { useModal } from '../../../../providers/Modal';
 import styles from './Header.module.css';
 

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { WritingIcon } from '../../shared/icon';
+import { WritingIcon } from '../../shared/Icon';
 import styles from './NewProject.module.css';
 
 const NewProject: FC = () => {

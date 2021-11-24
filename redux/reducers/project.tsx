@@ -3,7 +3,7 @@ import { AnyAction } from 'redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IProjectState } from '../../types/IProjectState';
-import { HighIcon, LowIcon, UrgentIcon } from '../../components/shared/icon';
+import { HighIcon, LowIcon, UrgentIcon } from '../../components/shared/Icon';
 
 const initialState: IProjectState = {
   projects: [

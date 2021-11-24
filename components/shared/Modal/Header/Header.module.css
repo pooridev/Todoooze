@@ -17,5 +17,5 @@
 }
 
 .CloseModalButton {
-  @apply mr-2 transition-all cursor-default p-2 rounded-md hover:bg-gray-light;
+  @apply mr-2 transition-all p-2 rounded-md hover:bg-gray-light;
 }

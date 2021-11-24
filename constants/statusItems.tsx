@@ -3,7 +3,7 @@ import {
   InProgressIcon,
   InReviewIcon,
   TodoIcon
-} from '../components/shared/icon';
+} from '../components/shared/Icon';
 
 export const statusItems = [
   {

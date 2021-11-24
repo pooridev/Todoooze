@@ -3,7 +3,7 @@ import {
   LowIcon,
   MediumIcon,
   UrgentIcon
-} from '../components/shared/icon';
+} from '../components/shared/Icon';
 
 export const priorityItems = [
   {

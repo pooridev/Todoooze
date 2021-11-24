@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import styles from './Projects.module.css';
 import { openList } from '../../../redux/actions/project';
-import { ArrowRight, ThreeDotsIcon } from '../../shared/icon';
+import { ArrowRight, ThreeDotsIcon } from '../../shared/Icon';
 import { IProjectState } from '../../../types/IProjectState';
 import { ProjectType } from '../../../types/ProjectType';
 import { TaskType } from '../../../types/TaskType';

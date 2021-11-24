@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
-import { RecentIcon, SearchIcon } from '../../shared/icon';
+import { RecentIcon, SearchIcon } from '../../shared/Icon';
 import styles from './Action.module.css';
 
 /**
