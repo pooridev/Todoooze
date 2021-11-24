@@ -1,0 +1,14 @@
+.Content {
+  background: linear-gradient(
+    136.61deg,
+    rgb(39, 40, 43) 13.72%,
+    rgb(45, 46, 49) 74.3%
+  );
+
+  @apply z-40 w-40 min-w-max py-1 rounded-md shadow-sm outline-none;
+}
+
+.Item {
+  color: rgb(138, 143, 152);
+  @apply flex items-center hover:bg-gray-light hover:text-gray-lightest w-full gap-1 cursor-pointer px-3 h-8 flex-shrink-0 text-sm text-left;
+}
