@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Modal from '../../shared/Modal';
 import styles from './NewTaskModal.module.css';
-import { PriorityIcon } from '../../shared/icon';
+import { PriorityIcon } from '../../shared/Icon';
 import { useModal } from '../../../providers/Modal';
 import Menu from '../../shared/Menu';
 import { TaskType } from '../../../types/TaskType';
@@ -101,6 +101,7 @@ const NewTaskModal = (props: IProps) => {
             setTaskData({ ...taskData, title: target.value })
           }
           type='text'
+          ref={input => input && input.focus()}
           value={taskData.title}
           className={styles.Title}
           placeholder='Task title'
