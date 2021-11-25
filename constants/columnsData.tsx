@@ -6,8 +6,17 @@ import {
   InReviewIcon,
   DoneIcon
 } from '../components/shared/Icon';
+import { TaskType } from '../types/TaskType';
 
-export const columnsData = {
+export type Columns = {
+  [key: string]: {
+    name: 'Todo' | 'In Progress' | 'In Review' | 'Done';
+    icon: JSX.Element;
+    items: Array<TaskType>;
+  };
+};
+
+export const columnsData: Columns = {
   [uuidv4()]: {
     name: 'Todo',
     icon: <TodoIcon />,

@@ -1,5 +1,6 @@
 import { AnyAction } from 'redux';
 
+import { TaskStatusType } from './../../types/TaskType';
 import { types } from '../types';
 import { TaskType } from '../../types/TaskType';
 
@@ -21,7 +22,7 @@ export const addTask = (
 };
 
 export const updateTaskStatus = (
-  status: string,
+  status: TaskStatusType,
   taskId: string,
   projectId: string
 ): AnyAction => {

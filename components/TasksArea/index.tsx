@@ -1,71 +1,31 @@
-import { useState, useEffect, FC, ReactElement } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd-next';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/dist/client/router';
 
-import { store } from '../../redux/store';
 import styles from './TasksArea.module.css';
 import { IProjectState } from './../../types/IProjectState';
 import { ProjectType } from '../../types/ProjectType';
-import NewTaskModal from './NewTaskModal';
+import NewTaskModal from './TaskModal';
 import DraggableTask from './DraggableTask';
-import { columnsData } from '../../constants/columnsData';
-import { updateTaskStatus } from '../../redux/actions/project';
-import { getStatus } from '../../helpers/task-utils';
+import { Columns, columnsData } from '../../constants/columnsData';
+import { onDragEnd, Result } from '../../helpers/task-utils';
 import ColumnHeader from './ColumnHeader';
-
-const onDragEnd = (result, columns, setColumns, projectId) => {
-  if (!result.destination) return;
-  const { source, destination } = result;
-
-  if (source.droppableId !== destination.droppableId) {
-    const sourceColumn = columns[source.droppableId];
-    const destColumn = columns[destination.droppableId];
-    const sourceItems = [...sourceColumn.items];
-    const destItems = [...destColumn.items];
-    const [removed] = sourceItems.splice(source.index, 1);
-
-    // To update the status of the task
-    const taskId = result.draggableId;
-    const status = getStatus(destColumn.name);
-    store.dispatch(updateTaskStatus(status, taskId, projectId));
-
-    destItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...sourceColumn,
-        items: sourceItems
-      },
-      [destination.droppableId]: {
-        ...destColumn,
-        items: destItems
-      }
-    });
-  } else {
-    const column = columns[source.droppableId];
-    const copiedItems = [...column.items];
-    const [removed] = copiedItems.splice(source.index, 1);
-    copiedItems.splice(destination.index, 0, removed);
-    setColumns({
-      ...columns,
-      [source.droppableId]: {
-        ...column,
-        items: copiedItems
-      }
-    });
-  }
-};
+import { TodoIcon } from '../shared/Icon';
 
 interface IProps {
   project: ProjectType;
 }
 
 const TasksArea: FC<IProps> = ({ project }) => {
-  const [columns, setColumns] = useState(columnsData);
+  const [columns, setColumns] = useState<Columns>(columnsData);
 
   const router = useRouter();
-  const [currentStatus, setCurrentStatus] = useState({ title: '', icon: null });
+
+  const [currentStatus, setCurrentStatus] = useState<{
+    title: 'Todo' | 'In Progress' | 'In Review' | 'Done';
+    icon: JSX.Element;
+  }>({ title: 'Todo', icon: <TodoIcon /> });
 
   // The given ID in the path (URL)
   const { project_id } = router.query;
@@ -121,7 +81,7 @@ const TasksArea: FC<IProps> = ({ project }) => {
     <>
       <section className={styles.TasksArea}>
         <DragDropContext
-          onDragEnd={result =>
+          onDragEnd={(result: Result) =>
             onDragEnd(result, columns, setColumns, project.id)
           }>
           {Object.entries(columns).map(([columnId, column]) => (

@@ -4,20 +4,23 @@ import { useRouter } from 'next/dist/client/router';
 import { v4 as uuidv4 } from 'uuid';
 
 import Modal from '../../shared/Modal';
-import styles from './NewTaskModal.module.css';
+import styles from './TaskModal.module.css';
 import { PriorityIcon } from '../../shared/Icon';
 import { useModal } from '../../../providers/Modal';
 import Select from '../../shared/Select';
-import { TaskType } from '../../../types/TaskType';
+import { TaskStatusType, TaskType } from '../../../types/TaskType';
 import { addTask } from '../../../redux/actions/project';
-import { IProjectState } from './../../../types/IProjectState';
+import { IProjectState } from '../../../types/IProjectState';
 import { statusItems } from '../../../constants/statusItems';
 import { priorityItems } from '../../../constants/priorityItems';
 import { getStatus } from '../../../helpers/task-utils';
 
 interface IProps {
   projectName: string;
-  taskStatus: { title: string; icon: ReactElement };
+  taskStatus: {
+    title: 'Todo' | 'In Progress' | 'In Review' | 'Done';
+    icon: JSX.Element;
+  };
 }
 
 const validateForm = TASK_PAYLOAD => {
