@@ -1,34 +1,50 @@
-import { createContext, useContext, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState
+} from 'react';
 
-type ModalContextType = {
-  isOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
-};
+import { ModalConfigType, ModalContextType } from '.';
 
 const ModalContext = createContext<ModalContextType>({
-  isOpen: false,
-  openModal: () => {},
-  closeModal: () => {}
+  modalConfig: {} as ModalConfigType,
+  changeModaConfig: () => {}
 });
 
-const ModalProvider = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+export function ModalProvider({ children }: { children: React.ReactNode }) {
+  const [modalConfig, setModalConfig] = useState<ModalConfigType>({
+    toggle: false
+  });
 
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const { toggle } = modalConfig;
 
-  const value = {
-    isOpen,
-    openModal,
-    closeModal
-  };
+  const changeModaConfig = useCallback(
+    (newModalConfig: ModalConfigType) => {
+      setModalConfig(newModalConfig);
+    },
+    [toggle]
+  );
+
+  const value = useMemo(
+    () => ({
+      modalConfig,
+      changeModaConfig
+    }),
+    [toggle]
+  );
 
   return (
     <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
   );
+}
+
+export const useModal = () => {
+  const context = useContext(ModalContext);
+
+  if (!context) {
+    throw new Error('useModal must be used under <ModalProvider/>');
+  }
+  return context;
 };
-
-const useModal = () => useContext(ModalContext);
-
-export { useModal, ModalProvider };
