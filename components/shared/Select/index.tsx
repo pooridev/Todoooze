@@ -15,7 +15,7 @@ interface IProps {
     title: string;
     icon?: ReactElement;
   };
-  label: {
+  value: {
     title: string;
     icon?: ReactElement;
   };
@@ -26,7 +26,7 @@ interface IProps {
  */
 
 const Select: FC<IProps> = props => {
-  const { items, onChange, defaultChecked, label } = props;
+  const { items, onChange, defaultChecked, value } = props;
 
   const SelectRef = useRef<HTMLUListElement>(null);
 
@@ -46,8 +46,8 @@ const Select: FC<IProps> = props => {
   return (
     <div className='relative'>
       <button className={styles.Button} onClick={openSelect}>
-        <span>{defaultChecked?.icon || label?.icon}</span>
-        <span>{defaultChecked?.title || label.title}</span>
+        <span>{defaultChecked?.icon || value?.icon}</span>
+        <span>{defaultChecked?.title || value.title}</span>
       </button>
       <div className={SelectClasses.join(' ')}>
         <ul ref={SelectRef} className={styles.Items}>

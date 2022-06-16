@@ -21,6 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-const ContextProvider = combineProviders([ModalProvider, SidebarProvider]);
+const ContextProvider = combineProviders([
+  ModalProvider,
+  SidebarProvider,
+  ModalProvider
+]);
 
 export default MyApp;

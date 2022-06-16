@@ -88,6 +88,7 @@ const reducer = (
     }
     case types.UPDATE_TASK_STATUS: {
       const newProjects = state.projects.map(item => {
+        debugger;
         if (item.id === payload.projectId) {
           const newTasks = item.tasks.map(task => {
             if (task.id === payload.taskId) {

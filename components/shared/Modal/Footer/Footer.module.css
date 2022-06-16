@@ -5,3 +5,7 @@
 .SubmitButton {
   @apply px-4 py-1 bg-indigo text-sm text-gray-lightest font-semibold rounded-md;
 }
+
+.CancelButton {
+  @apply px-4 py-1 bg-gray-light text-sm text-gray-dark font-semibold rounded-md;
+}

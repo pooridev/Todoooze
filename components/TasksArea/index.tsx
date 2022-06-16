@@ -89,6 +89,7 @@ const TasksArea: FC<IProps> = ({ project }) => {
               <ColumnHeader
                 column={column}
                 key={columnId}
+                project={project}
                 onChangeCurrentStatus={setCurrentStatus}
               />
               <div>
@@ -107,7 +108,7 @@ const TasksArea: FC<IProps> = ({ project }) => {
             </div>
           ))}
         </DragDropContext>
-        <NewTaskModal taskStatus={currentStatus} projectName={project?.title} />
+        {/* <NewTaskModal taskStatus={currentStatus} projectName={project?.title} /> */}
       </section>
     </>
   );

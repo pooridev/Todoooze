@@ -1,15 +1,24 @@
+import { MouseEventHandler } from 'react';
+import { FormEventHandler } from 'react';
 import { FormEvent } from 'react';
 
 interface ModalConfigType {
-  toggle: boolean;
-  title?: string;
-  footer?: ReactNode;
+  isOpen: boolean;
+  breadcrumb?: {
+    label: string;
+    href: string;
+    isMain: boolean;
+  }[];
   submitText?: string;
-  modalContent?: ReactNode;
+  renderModalContent?: ReactNode;
   maskStyle?: CSSProperties;
   cancelText?: string;
   onCancel?: () => void;
-  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
+  onSubmit?: (
+    e:
+      | FormEvent<HTMLFormElement>
+      | MouseEventHandler<HTMLButtonElement, MouseEvent>
+  ) => void;
   contentStyle?: CSSProperties;
   width?: number | string;
 }

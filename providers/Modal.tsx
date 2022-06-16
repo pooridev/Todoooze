@@ -1,3 +1,4 @@
+import { debounce } from 'lodash';
 import {
   createContext,
   useCallback,
@@ -15,25 +16,22 @@ const ModalContext = createContext<ModalContextType>({
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [modalConfig, setModalConfig] = useState<ModalConfigType>({
-    toggle: false
+    isOpen: false
   });
 
-  const { toggle } = modalConfig;
+  const { isOpen, onSubmit } = modalConfig;
 
   const changeModaConfig = useCallback(
-    (newModalConfig: ModalConfigType) => {
-      setModalConfig(newModalConfig);
-    },
-    [toggle]
+    debounce((newModalConfig: ModalConfigType) => {
+      setModalConfig(prevConfig => ({ ...prevConfig, ...newModalConfig }));
+    }, 200),
+    [isOpen, onSubmit]
   );
 
-  const value = useMemo(
-    () => ({
-      modalConfig,
-      changeModaConfig
-    }),
-    [toggle]
-  );
+  const value = {
+    modalConfig,
+    changeModaConfig
+  };
 
   return (
     <ModalContext.Provider value={value}>{children}</ModalContext.Provider>

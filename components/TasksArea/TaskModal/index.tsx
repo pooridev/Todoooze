@@ -1,42 +1,41 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, ReactElement, useState } from 'react';
+import { useEffect, useState, FormEvent, memo } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { v4 as uuidv4 } from 'uuid';
 
-import Modal from '../../shared/Modal';
 import styles from './TaskModal.module.css';
 import { PriorityIcon } from '../../shared/Icon';
-import { useModal } from '../../../providers/Modal';
 import Select from '../../shared/Select';
-import { TaskStatusType, TaskType } from '../../../types/TaskType';
+import { TaskType } from '../../../types/TaskType';
 import { addTask } from '../../../redux/actions/project';
 import { IProjectState } from '../../../types/IProjectState';
 import { statusItems } from '../../../constants/statusItems';
 import { priorityItems } from '../../../constants/priorityItems';
 import { getStatus } from '../../../helpers/task-utils';
+import { useModal } from '../../../providers/Modal';
 
 interface IProps {
-  projectName: string;
   taskStatus: {
     title: 'Todo' | 'In Progress' | 'In Review' | 'Done';
     icon: JSX.Element;
   };
 }
 
-const validateForm = TASK_PAYLOAD => {
+const validateForm = (TASK_PAYLOAD: TaskType) => {
   const { title, priority } = TASK_PAYLOAD;
   if (!title) {
     return false;
   }
-  if (priority === 'Priority') {
+  if (priority.title === 'Priority') {
     return false;
   }
   return true;
 };
 const NewTaskModal = (props: IProps) => {
-  const { projectName, taskStatus } = props;
+  const { taskStatus } = props;
+  const { title: taskStatusTitle } = taskStatus;
 
-  const { isOpen, closeModal } = useModal();
+  const { changeModaConfig, modalConfig } = useModal();
 
   const dispatch = useDispatch();
 
@@ -58,7 +57,8 @@ const NewTaskModal = (props: IProps) => {
   // We would get the most recent project
   const recentProject = projects[projects.length - 1];
 
-  const addTaskHandler = () => {
+  const addTaskHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const TASK_PAYLOAD: TaskType = {
       title: taskData.title,
       description: taskData.description,
@@ -75,10 +75,12 @@ const NewTaskModal = (props: IProps) => {
 
     if (isValid) {
       dispatch(addTask(TASK_PAYLOAD, PROJECT_PAYLOAD));
-      closeModal();
-    } else return alert('Title and Prority are required');
+      resetForm();
+      changeModaConfig({ isOpen: false });
+      return;
+    }
 
-    resetForm();
+    alert('Title and Prority are required');
   };
 
   // To clear text fields and selected menu items in the modal form
@@ -91,47 +93,53 @@ const NewTaskModal = (props: IProps) => {
     });
   };
 
-  useEffect(
-    () => setTaskData({ ...taskData, status: taskStatus }),
-    [taskStatus]
-  );
+  useEffect(() => {
+    setTaskData({ ...taskData, status: taskStatus });
+  }, [taskStatusTitle]);
+
+  useEffect(() => {
+    changeModaConfig({
+      ...modalConfig,
+      onSubmit: addTaskHandler
+    });
+  }, [taskData, projects]);
 
   return (
-    <Modal onSubmit={addTaskHandler} projectName={projectName} isOpen={isOpen}>
-      <form className={styles.Form} onSubmit={e => e.preventDefault()}>
-        <input
-          onChange={({ target }) =>
-            setTaskData({ ...taskData, title: target.value })
-          }
-          type='text'
-          ref={input => input && input.focus()}
-          value={taskData.title}
-          className={styles.Title}
-          placeholder='Task title'
-          title='Task title'
+    <div className={styles.Content} onSubmit={e => e.preventDefault()}>
+      <input
+        onChange={({ target }) =>
+          setTaskData({ ...taskData, title: target.value })
+        }
+        type='text'
+        autoFocus
+        value={taskData.title}
+        className={styles.Title}
+        placeholder='Task title'
+        title='Task title'
+      />
+      <textarea
+        value={taskData.description}
+        placeholder='Add description...'
+        onChange={({ target }) =>
+          setTaskData({ ...taskData, description: target.value })
+        }
+        className={styles.Description}></textarea>
+      <div className={styles.Menus}>
+        <Select
+          onChange={item => {
+            setTaskData({ ...taskData, priority: item });
+          }}
+          items={priorityItems}
+          value={taskData.priority}
         />
-        <textarea
-          value={taskData.description}
-          placeholder='Add description...'
-          onChange={({ target }) =>
-            setTaskData({ ...taskData, description: target.value })
-          }
-          className={styles.Description}></textarea>
-        <div className={styles.Menus}>
-          <Select
-            onChange={item => setTaskData({ ...taskData, priority: item })}
-            items={priorityItems}
-            label={taskData.priority}
-          />
-          <Select
-            onChange={item => setTaskData({ ...taskData, status: item })}
-            items={statusItems}
-            label={taskData.status}
-          />
-        </div>
-      </form>
-    </Modal>
+        <Select
+          onChange={item => setTaskData({ ...taskData, status: item })}
+          items={statusItems}
+          value={taskData.status}
+        />
+      </div>
+    </div>
   );
 };
 
-export default NewTaskModal;
+export default memo(NewTaskModal);

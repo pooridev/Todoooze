@@ -3,37 +3,30 @@ import { ReactChild } from 'react';
 import styles from './Modal.module.css';
 import Header from './Header';
 import Footer from './Footer';
+import { useModal } from '../../../providers/Modal';
 
 /**
  *
- * A modal component that renders the children
- * between the opening and closing tags.
+ * A component that renders the configured modal
  *
  * Hooks:
- * - useModal: use to open and close the modal.
+ * - useModal: use to open/close and config the modal.
  */
-
-interface IProps {
-  children: ReactChild | ReactChild[];
-  onSubmit: () => void;
-  projectName: string;
-  isOpen: boolean;
-}
-
-const Modal = (props: IProps) => {
-  const { isOpen, children, projectName, onSubmit } = props;
+const Modal = () => {
+  const { modalConfig } = useModal();
+  const { isOpen, renderModalContent, onSubmit } = modalConfig;
 
   const cssClasses = [styles.Modal];
 
   if (isOpen) cssClasses.push(styles.Open);
 
   return (
-    <div className={cssClasses.join(' ')}>
-      <Header projectName={projectName} />
+    <form className={cssClasses.join(' ')} onSubmit={e => e.preventDefault()}>
+      <Header />
       {/* the content of the modal */}
-      {children}
-      <Footer onSubmit={onSubmit} />
-    </div>
+      {renderModalContent}
+      <Footer />
+    </form>
   );
 };
 

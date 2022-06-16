@@ -11,8 +11,10 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.15.0",
     "@radix-ui/react-context-menu": "^0.1.1",
+    "@types/lodash": "^4.14.182",
     "@vechaiui/core": "^0.6.0",
     "@vechaiui/react": "^0.2.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "next": "11.1.2",
     "react": "17.0.2",
