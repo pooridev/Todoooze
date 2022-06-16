@@ -99,7 +99,7 @@ const TasksArea: FC<IProps> = ({ project }) => {
                       style={{ minHeight: '100vh' }}
                       {...provided.droppableProps}
                       ref={provided.innerRef}>
-                      <DraggableTask column={column} />
+                      <DraggableTask project={project} column={column} />
                       {provided.placeholder}
                     </div>
                   )}

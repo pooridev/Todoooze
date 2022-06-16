@@ -102,6 +102,21 @@ const reducer = (
       });
       return { projects: newProjects };
     }
+    case types.UPDATE_TASK_PRIORITY: {
+      const newProjects = state.projects.map(item => {
+        if (item.id === payload.projectId) {
+          const newTasks = item.tasks.map(task => {
+            if (task.id === payload.taskId) {
+              task.priority = payload.priority;
+              return task;
+            }
+            return newTasks;
+          });
+        }
+        return item;
+      });
+      return { projects: newProjects };
+    }
     default:
       return state;
   }

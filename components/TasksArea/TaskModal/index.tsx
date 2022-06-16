@@ -133,7 +133,12 @@ const NewTaskModal = (props: IProps) => {
           value={taskData.priority}
         />
         <Select
-          onChange={item => setTaskData({ ...taskData, status: item })}
+          onChange={item =>
+            setTaskData({
+              ...taskData,
+              status: item
+            })
+          }
           items={statusItems}
           value={taskData.status}
         />

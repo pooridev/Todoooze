@@ -5,21 +5,52 @@ import * as ReactContextMenu from '@radix-ui/react-context-menu';
 
 import styles from './styles.module.css';
 import userAvatar from '../../../assets/images/avatar.jpg';
-import { TaskType } from '../../../types/TaskType';
+import { TaskStatusType, TaskType } from '../../../types/TaskType';
 import ContextMenu from './ContextMenu';
+import Select from '../../shared/Select';
+import { statusItems } from '../../../constants/statusItems';
+import { priorityItems } from '../../../constants/priorityItems';
+import { ProjectType } from '../../../types/ProjectType';
+import { useDispatch } from 'react-redux';
+import {
+  updateTaskPriority,
+  updateTaskStatus
+} from '../../../redux/actions/project';
+import { getStatus } from '../../../helpers/task-utils';
 
 interface IProps {
   column: { name: string; icon: ReactElement; items: Array<TaskType> };
+  project: ProjectType;
 }
 
-const DraggableTask: FC<IProps> = ({ column }) => {
+const DraggableTask: FC<IProps> = ({ column, project }) => {
+  const dispatch = useDispatch();
+
+  const updateTaskStatusHandler = (
+    taskId: string,
+    newStatus: {
+      title: 'Todo' | 'In Progress' | 'In Review' | 'Done';
+      icon: ReactElement;
+    }
+  ) => {
+    const status = getStatus(newStatus.title);
+    debugger;
+    dispatch(updateTaskStatus(status, taskId, project.id));
+  };
+
+  const updateTaskPriorityHandler = (
+    taskId: string,
+    newPriority: TaskType['priority']
+  ) => {
+    dispatch(updateTaskPriority(newPriority, taskId, project.id));
+  };
   return (
     <>
       {column['items'].map((item, index) => (
         <ReactContextMenu.Root key={item.id}>
           <ReactContextMenu.Trigger>
             <Draggable draggableId={item.id} index={index}>
-              {(provided, snapshot) => (
+              {provided => (
                 <div
                   className={styles.Task}
                   ref={provided.innerRef}
@@ -37,13 +68,23 @@ const DraggableTask: FC<IProps> = ({ column }) => {
                     <div className={styles.AvatarStatus} />
                   </div>
                   <div className={styles.TaskFooter}>
-                    <span title={item.priority.title + ' Task'}>
-                      {item.priority.icon}
-                    </span>
-                    <span title={column.name}>
-                      {column.icon}
-                      {column.name}
-                    </span>
+                    <Select
+                      items={priorityItems}
+                      value={item?.priority}
+                      variant='outline'
+                      onChange={selectedPriority => {
+                        updateTaskPriorityHandler(item.id, selectedPriority);
+                      }}
+                      iconOnly
+                    />
+                    <Select
+                      items={statusItems}
+                      value={{ title: column.name, icon: column.icon }}
+                      variant='outline'
+                      onChange={selectedStatus => {
+                        updateTaskStatusHandler(item.id, selectedStatus);
+                      }}
+                    />
                   </div>
                 </div>
               )}

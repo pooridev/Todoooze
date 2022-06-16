@@ -8,16 +8,19 @@ interface IProps {
     title: string;
     icon?: ReactElement;
   }>;
-
-  onChange: (selectedItem) => void;
+  /** @default  contained */
+  variant?: 'outline' | 'contained';
+  onChange?: <T>(selectedItem: T) => void;
+  readonly?: boolean;
+  iconOnly?: boolean;
 
   defaultChecked?: {
     title: string;
-    icon?: ReactElement;
+    icon?: ReactElement | JSX.Element;
   };
   value: {
     title: string;
-    icon?: ReactElement;
+    icon?: ReactElement | JSX.Element;
   };
 }
 
@@ -26,7 +29,15 @@ interface IProps {
  */
 
 const Select: FC<IProps> = props => {
-  const { items, onChange, defaultChecked, value } = props;
+  const {
+    items,
+    onChange,
+    defaultChecked,
+    value,
+    readonly,
+    variant = 'contained',
+    iconOnly = false
+  } = props;
 
   const SelectRef = useRef<HTMLUListElement>(null);
 
@@ -35,36 +46,44 @@ const Select: FC<IProps> = props => {
   const openSelect = () => setIsOpen(true);
   const closeSelect = () => setIsOpen(false);
 
-  const SelectClasses = [styles.Select];
+  const selectClasses = [styles.Select];
+  const buttonClasses = [styles.Button];
 
   // If isOpen was true, add the Open class
-  if (isOpen) SelectClasses.push(styles.Open);
+  if (isOpen) selectClasses.push(styles.Open);
+
+  if (variant === 'outline') {
+    buttonClasses.push(styles.Outline);
+  }
 
   // Close menu if clicked outside
   useOutsideClickHandler({ ref: SelectRef, callback: closeSelect });
 
   return (
     <div className='relative'>
-      <button className={styles.Button} onClick={openSelect}>
+      <button className={buttonClasses.join(' ')} onClick={openSelect}>
         <span>{defaultChecked?.icon || value?.icon}</span>
-        <span>{defaultChecked?.title || value.title}</span>
+        {(!iconOnly && defaultChecked?.title) ||
+          (!iconOnly && <span>{value.title}</span>)}
       </button>
-      <div className={SelectClasses.join(' ')}>
-        <ul ref={SelectRef} className={styles.Items}>
-          {items.map(item => (
-            <li
-              key={item.title}
-              className={styles.Item}
-              onClick={() => {
-                onChange(item);
-                closeSelect();
-              }}>
-              {item?.icon}
-              <span>{item.title}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {!readonly && (
+        <div className={selectClasses.join(' ')}>
+          <ul ref={SelectRef} className={styles.Items}>
+            {items.map(item => (
+              <li
+                key={item.title}
+                className={styles.Item}
+                onClick={() => {
+                  onChange?.(item);
+                  closeSelect();
+                }}>
+                {item?.icon}
+                <span>{item.title}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

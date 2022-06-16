@@ -1,7 +1,7 @@
 .Button {
   color: rgb(138, 143, 152);
   transition: all 0.1s ease-in;
-  @apply flex gap-2 items-center shadow bg-gray-light py-1 px-2 text-sm rounded-md;
+  @apply flex gap-2 items-center shadow  py-1 px-2 text-sm rounded-md;
 }
 
 .Button:hover.Button svg,
@@ -11,6 +11,10 @@
   @apply fill-lightest text-gray-lightest;
 }
 
+.Outline {
+  color: rgb(138, 143, 152);
+  @apply px-1 flex text-sm bg-transparent shadow-none hover:text-gray-lightest transition-all gap-2 items-center justify-start border border-gray-light rounded-md;
+}
 .Select {
   @apply opacity-0 hidden;
 }

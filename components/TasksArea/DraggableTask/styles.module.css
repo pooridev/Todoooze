@@ -12,13 +12,14 @@
 }
 
 .TaskFooter {
-  @apply flex gap-3 pt-4;
+  @apply flex gap-3 pt-4 items-center;
 }
 
-.TaskFooter span {
+.TaskFooter > span {
   color: rgb(138, 143, 152);
-  @apply px-1 flex text-sm hover:text-gray-lightest transition-all gap-2 items-center justify-start border border-gray-light rounded-md;
+  @apply px-1 flex text-sm py-1 bg-transparent hover:text-gray-lightest transition-all gap-2 items-center justify-start border border-gray-light rounded-md;
 }
+
 .TaskFooter svg:hover {
   @apply fill-lightest transition-all;
 }

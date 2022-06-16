@@ -31,3 +31,13 @@ export const updateTaskStatus = (
     payload: { taskId, status, projectId }
   };
 };
+export const updateTaskPriority = (
+  priority: TaskType['priority'],
+  taskId: string,
+  projectId: string
+): AnyAction => {
+  return {
+    type: types.UPDATE_TASK_PRIORITY,
+    payload: { taskId, priority, projectId }
+  };
+};
