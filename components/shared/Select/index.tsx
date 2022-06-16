@@ -10,7 +10,7 @@ interface IProps {
   }>;
   /** @default  contained */
   variant?: 'outline' | 'contained';
-  onChange?: <T>(selectedItem: T) => void;
+  onChange?: (selectedItem) => void;
   readonly?: boolean;
   iconOnly?: boolean;
 
