@@ -22,9 +22,9 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   const { isOpen, onSubmit } = modalConfig;
 
   const changeModaConfig = useCallback(
-    debounce((newModalConfig: ModalConfigType) => {
+    (newModalConfig: ModalConfigType) => {
       setModalConfig(prevConfig => ({ ...prevConfig, ...newModalConfig }));
-    }, 200),
+    },
     [isOpen, onSubmit]
   );
 
