@@ -5,7 +5,10 @@ import {
   TodoIcon
 } from '../components/shared/Icon';
 
-export const statusItems = [
+export const statusItems: {
+  title: 'Todo' | 'In Progress' | 'In Review' | 'Done';
+  icon: JSX.Element;
+}[] = [
   {
     title: 'Todo',
     icon: <TodoIcon />

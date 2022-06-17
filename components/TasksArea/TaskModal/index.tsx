@@ -39,7 +39,7 @@ const NewTaskModal = (props: IProps) => {
 
   const dispatch = useDispatch();
 
-  const [taskData, setTaskData] = useState({
+  const [taskPayload, setTaskPayload] = useState({
     title: '',
     description: '',
     status: taskStatus,
@@ -60,11 +60,11 @@ const NewTaskModal = (props: IProps) => {
   const addTaskHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const TASK_PAYLOAD: TaskType = {
-      title: taskData.title,
-      description: taskData.description,
+      title: taskPayload.title,
+      description: taskPayload.description,
       id: uuidv4(),
-      status: getStatus(taskData.status.title),
-      priority: taskData.priority
+      status: getStatus(taskPayload.status.title),
+      priority: taskPayload.priority
     };
 
     const PROJECT_PAYLOAD = {
@@ -85,7 +85,7 @@ const NewTaskModal = (props: IProps) => {
 
   // To clear text fields and selected menu items in the modal form
   const resetForm = () => {
-    setTaskData({
+    setTaskPayload({
       title: '',
       description: '',
       status: taskStatus,
@@ -94,7 +94,7 @@ const NewTaskModal = (props: IProps) => {
   };
 
   useEffect(() => {
-    setTaskData({ ...taskData, status: taskStatus });
+    setTaskPayload({ ...taskPayload, status: taskStatus });
   }, [taskStatusTitle]);
 
   useEffect(() => {
@@ -102,45 +102,45 @@ const NewTaskModal = (props: IProps) => {
       ...modalConfig,
       onSubmit: addTaskHandler
     });
-  }, [taskData, projects]);
+  }, [taskPayload, projects]);
 
   return (
     <div className={styles.Content} onSubmit={e => e.preventDefault()}>
       <input
         onChange={({ target }) =>
-          setTaskData({ ...taskData, title: target.value })
+          setTaskPayload({ ...taskPayload, title: target.value })
         }
         type='text'
         autoFocus
-        value={taskData.title}
+        value={taskPayload.title}
         className={styles.Title}
         placeholder='Task title'
         title='Task title'
       />
       <textarea
-        value={taskData.description}
+        value={taskPayload.description}
         placeholder='Add description...'
         onChange={({ target }) =>
-          setTaskData({ ...taskData, description: target.value })
+          setTaskPayload({ ...taskPayload, description: target.value })
         }
         className={styles.Description}></textarea>
       <div className={styles.Menus}>
-        <Select
+        <Select<typeof taskPayload['priority']>
           onChange={item => {
-            setTaskData({ ...taskData, priority: item });
+            setTaskPayload({ ...taskPayload, priority: item });
           }}
           items={priorityItems}
-          value={taskData.priority}
+          value={taskPayload.priority}
         />
-        <Select
+        <Select<typeof taskPayload['status']>
           onChange={item =>
-            setTaskData({
-              ...taskData,
+            setTaskPayload({
+              ...taskPayload,
               status: item
             })
           }
           items={statusItems}
-          value={taskData.status}
+          value={taskPayload.status}
         />
       </div>
     </div>
