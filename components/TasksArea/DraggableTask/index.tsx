@@ -19,7 +19,11 @@ import {
 import { getStatus } from '../../../helpers/task-utils';
 
 interface IProps {
-  column: { name: string; icon: ReactElement; items: Array<TaskType> };
+  column: {
+    name: 'Todo' | 'In Progress' | 'In Review' | 'Done';
+    icon: ReactElement;
+    items: Array<TaskType>;
+  };
   project: ProjectType;
 }
 
@@ -46,7 +50,7 @@ const DraggableTask: FC<IProps> = ({ column, project }) => {
   };
   return (
     <>
-      {column['items'].map((item, index) => (
+      {column?.items.map((item, index) => (
         <ReactContextMenu.Root key={item.id}>
           <ReactContextMenu.Trigger>
             <Draggable draggableId={item.id} index={index}>
@@ -68,7 +72,7 @@ const DraggableTask: FC<IProps> = ({ column, project }) => {
                     <div className={styles.AvatarStatus} />
                   </div>
                   <div className={styles.TaskFooter}>
-                    <Select
+                    <Select<TaskType['priority']>
                       items={priorityItems}
                       value={item?.priority}
                       variant='outline'
@@ -77,7 +81,7 @@ const DraggableTask: FC<IProps> = ({ column, project }) => {
                       }}
                       iconOnly
                     />
-                    <Select
+                    <Select<typeof statusItems[0]>
                       items={statusItems}
                       value={{ title: column.name, icon: column.icon }}
                       variant='outline'
