@@ -4,15 +4,10 @@ import { AddIcon } from '../../shared/Icon';
 import NewTaskModal from '../TaskModal';
 import styles from './ColumnHeader.module.css';
 
-const ColumnHeader = ({ column, onChangeCurrentStatus, project }) => {
+const ColumnHeader = ({ column, project }) => {
   const { changeModaConfig } = useModal();
-  const router = useRouter();
 
   const openNewTaskModal = () => {
-    onChangeCurrentStatus({
-      title: column.name,
-      icon: column.icon
-    });
     changeModaConfig({
       isOpen: true,
       breadcrumb: [

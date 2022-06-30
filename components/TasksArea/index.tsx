@@ -22,11 +22,6 @@ const TasksArea: FC<IProps> = ({ project }) => {
 
   const router = useRouter();
 
-  const [currentStatus, setCurrentStatus] = useState<{
-    title: 'Todo' | 'In Progress' | 'In Review' | 'Done';
-    icon: JSX.Element;
-  }>({ title: 'Todo', icon: <TodoIcon /> });
-
   // The given ID in the path (URL)
   const { project_id } = router.query;
 
@@ -86,12 +81,7 @@ const TasksArea: FC<IProps> = ({ project }) => {
           }>
           {Object.entries(columns).map(([columnId, column]) => (
             <div className={styles.TasksStatus} key={columnId}>
-              <ColumnHeader
-                column={column}
-                key={columnId}
-                project={project}
-                onChangeCurrentStatus={setCurrentStatus}
-              />
+              <ColumnHeader column={column} key={columnId} project={project} />
               <div>
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided, snapshot) => (
