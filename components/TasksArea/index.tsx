@@ -32,14 +32,14 @@ const TasksArea: FC<IProps> = ({ project }) => {
   const tasks = project?.tasks || [];
 
   // Each status that we want to render on each column
-  const todoTasks = tasks?.filter(task => task.status.title === 'Todo');
+  const todoTasks = tasks?.filter(task => task.status?.title === 'Todo');
   const inProgressTasks = tasks?.filter(
-    task => task.status.title === 'In Progress'
+    task => task.status?.title === 'In Progress'
   );
   const inReviewTasks = tasks?.filter(
-    task => task.status.title === 'In Review'
+    task => task.status?.title === 'In Review'
   );
-  const DoneTasks = tasks?.filter(task => task.status.title === 'Done');
+  const DoneTasks = tasks?.filter(task => task.status?.title === 'Done');
 
   /**
    * Updates the columns data when a new task is added or edited.
@@ -88,7 +88,7 @@ const TasksArea: FC<IProps> = ({ project }) => {
               <ColumnHeader column={column} key={columnId} project={project} />
               <div>
                 <Droppable droppableId={columnId} key={columnId}>
-                  {(provided, snapshot) => (
+                  {(provided: typeof Droppable) => (
                     <div
                       style={{ minHeight: '100vh' }}
                       {...provided.droppableProps}
@@ -102,7 +102,6 @@ const TasksArea: FC<IProps> = ({ project }) => {
             </div>
           ))}
         </DragDropContext>
-        {/* <NewTaskModal taskStatus={currentStatus} projectName={project?.title} /> */}
       </section>
     </>
   );

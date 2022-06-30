@@ -11,6 +11,7 @@ import {
   TodoIcon,
   UrgentIcon
 } from '../../components/shared/Icon';
+import { TaskType } from '../../types/TaskType';
 
 const initialState: IProjectState = {
   projects: [
@@ -106,7 +107,7 @@ const reducer = (
       const newProjects = state.projects.map(item => {
         debugger;
         if (item.id === payload.projectId) {
-          const newTasks = item.tasks.map(task => {
+          const newTasks: any = item.tasks.map(task => {
             if (task.id === payload.taskId) {
               task.status = payload.status;
               return task;
@@ -121,7 +122,7 @@ const reducer = (
     case types.UPDATE_TASK_PRIORITY: {
       const newProjects = state.projects.map(item => {
         if (item.id === payload.projectId) {
-          const newTasks = item.tasks.map(task => {
+          const newTasks: any = item.tasks.map(task => {
             if (task.id === payload.taskId) {
               task.priority = payload.priority;
               return task;

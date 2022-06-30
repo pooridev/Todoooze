@@ -60,7 +60,7 @@ const Projects: FC = () => {
                 project.isOpen && styles.OpenTasks
               )}>
               {project.tasks
-                .filter(task => task.status.title === 'Todo')
+                .filter(task => task.status?.title === 'Todo')
                 .slice(0, 3)
                 .map((task: TaskType) => (
                   <li className={styles.Task} key={task.id}>

@@ -1,10 +1,22 @@
 import { useRouter } from 'next/dist/client/router';
+import { FC } from 'react';
 import { useModal } from '../../../providers/Modal';
+import { ProjectType } from '../../../types/ProjectType';
+import { TaskStatusType, TaskType } from '../../../types/TaskType';
 import { AddIcon } from '../../shared/Icon';
 import NewTaskModal from '../TaskModal';
 import styles from './ColumnHeader.module.css';
 
-const ColumnHeader = ({ column, project }) => {
+type ColumnHeaderProps = {
+  column: {
+    name: TaskStatusType['title'];
+    icon: TaskStatusType['icon'];
+    items: TaskType[];
+  };
+  project: ProjectType;
+};
+
+const ColumnHeader: FC<ColumnHeaderProps> = ({ column, project }) => {
   const { changeModaConfig } = useModal();
 
   const openNewTaskModal = () => {
@@ -21,7 +33,7 @@ const ColumnHeader = ({ column, project }) => {
   };
 
   return (
-    <header key={column.columnId} className={styles.StatusHeader}>
+    <header key={column.name} className={styles.StatusHeader}>
       <div className={styles.HeaderText}>
         {column.icon}
         <p>{column.name}</p>

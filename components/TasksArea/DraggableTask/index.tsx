@@ -16,7 +16,6 @@ import {
   updateTaskPriority,
   updateTaskStatus
 } from '../../../redux/actions/project';
-import { getStatus } from '../../../helpers/task-utils';
 
 interface IProps {
   column: {
@@ -50,7 +49,7 @@ const DraggableTask: FC<IProps> = ({ column, project }) => {
         <ReactContextMenu.Root key={item.id}>
           <ReactContextMenu.Trigger>
             <Draggable draggableId={item.id} index={index}>
-              {provided => (
+              {(provided: typeof Draggable) => (
                 <div
                   className={styles.Task}
                   ref={provided.innerRef}

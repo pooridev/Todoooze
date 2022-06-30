@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from './TaskModal.module.css';
 import { PriorityIcon } from '../../shared/Icon';
 import Select from '../../shared/Select';
-import { TaskType } from '../../../types/TaskType';
+import { TaskStatusType, TaskType } from '../../../types/TaskType';
 import { addTask } from '../../../redux/actions/project';
 import { IProjectState } from '../../../types/IProjectState';
 import { statusItems } from '../../../constants/statusItems';
@@ -15,10 +15,7 @@ import { getStatus } from '../../../helpers/task-utils';
 import { useModal } from '../../../providers/Modal';
 
 interface IProps {
-  taskStatus: {
-    title: 'Todo' | 'In Progress' | 'In Review' | 'Done';
-    icon: JSX.Element;
-  };
+  taskStatus: TaskStatusType;
 }
 
 const validateForm = (TASK_PAYLOAD: TaskType) => {

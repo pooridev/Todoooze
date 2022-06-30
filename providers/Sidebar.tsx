@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { createContext, useContext, useState } from 'react';
 
 type SidebarContextType = {
@@ -12,7 +13,7 @@ const SidebarContext = createContext<SidebarContextType>({
   openSidebar: () => {}
 });
 
-const SidebarProvider = ({ children }) => {
+const SidebarProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openSidebar = () => setIsOpen(true);
