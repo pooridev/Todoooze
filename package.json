@@ -11,6 +11,10 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.15.0",
     "@radix-ui/react-context-menu": "^0.1.1",
+    "@trpc/client": "^9.25.3",
+    "@trpc/next": "^9.25.3",
+    "@trpc/react": "^9.25.3",
+    "@trpc/server": "^9.25.3",
     "@vechaiui/core": "^0.6.0",
     "@vechaiui/react": "^0.2.1",
     "framer-motion": "^6.3.11",
@@ -20,15 +24,17 @@
     "react": "17.0.2",
     "react-beautiful-dnd-next": "^11.0.5",
     "react-dom": "17.0.2",
+    "react-query": "^3.39.1",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",
-    "uuidv4": "^6.2.12"
+    "uuidv4": "^6.2.12",
+    "zod": "^3.17.3"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.182",
     "@types/node": "^16.10.1",
     "@types/react": "^17.0.24",
     "@types/react-redux": "^7.1.18",
-    "@types/lodash": "^4.14.182",
     "autoprefixer": "^10.3.6",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
