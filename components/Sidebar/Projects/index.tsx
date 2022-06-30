@@ -42,7 +42,7 @@ const Projects: FC = () => {
               key={project.id}
               className={styles.Title}
               onClick={() => dispatch(openList(project.id))}>
-              <span className='flex items-center gap-2 w-full'>
+              <span className='flex items-center w-full gap-2'>
                 <ArrowRight
                   className={removeFalseys(
                     project.isOpen && styles.RotateArrow
@@ -60,7 +60,7 @@ const Projects: FC = () => {
                 project.isOpen && styles.OpenTasks
               )}>
               {project.tasks
-                .filter(task => task.status === 'todo')
+                .filter(task => task.status.title === 'Todo')
                 .slice(0, 3)
                 .map((task: TaskType) => (
                   <li className={styles.Task} key={task.id}>

@@ -32,10 +32,14 @@ const TasksArea: FC<IProps> = ({ project }) => {
   const tasks = project?.tasks || [];
 
   // Each status that we want to render on each column
-  const todoTasks = tasks?.filter(task => task.status === 'todo');
-  const inProgressTasks = tasks?.filter(task => task.status === 'in_progress');
-  const inReviewTasks = tasks?.filter(task => task.status === 'in_review');
-  const DoneTasks = tasks?.filter(task => task.status === 'done');
+  const todoTasks = tasks?.filter(task => task.status.title === 'Todo');
+  const inProgressTasks = tasks?.filter(
+    task => task.status.title === 'In Progress'
+  );
+  const inReviewTasks = tasks?.filter(
+    task => task.status.title === 'In Review'
+  );
+  const DoneTasks = tasks?.filter(task => task.status.title === 'Done');
 
   /**
    * Updates the columns data when a new task is added or edited.

@@ -32,14 +32,10 @@ const DraggableTask: FC<IProps> = ({ column, project }) => {
 
   const updateTaskStatusHandler = (
     taskId: string,
-    newStatus: {
-      title: 'Todo' | 'In Progress' | 'In Review' | 'Done';
-      icon: ReactElement;
-    }
+    newStatus: TaskStatusType
   ) => {
-    const status = getStatus(newStatus.title);
     debugger;
-    dispatch(updateTaskStatus(status, taskId, project.id));
+    dispatch(updateTaskStatus(newStatus, taskId, project.id));
   };
 
   const updateTaskPriorityHandler = (

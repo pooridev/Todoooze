@@ -3,7 +3,14 @@ import { AnyAction } from 'redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IProjectState } from '../../types/IProjectState';
-import { HighIcon, LowIcon, UrgentIcon } from '../../components/shared/Icon';
+import {
+  HighIcon,
+  InProgressIcon,
+  InReviewIcon,
+  LowIcon,
+  TodoIcon,
+  UrgentIcon
+} from '../../components/shared/Icon';
 
 const initialState: IProjectState = {
   projects: [
@@ -16,7 +23,10 @@ const initialState: IProjectState = {
         {
           title: 'Bug fix',
           id: uuidv4(),
-          status: 'in_progress',
+          status: {
+            title: 'Todo',
+            icon: <TodoIcon />
+          },
           priority: {
             title: 'Urgent',
             icon: <UrgentIcon />
@@ -25,7 +35,10 @@ const initialState: IProjectState = {
         {
           title: 'Typescript course',
           id: uuidv4(),
-          status: 'in_progress',
+          status: {
+            title: 'In Progress',
+            icon: <InProgressIcon />
+          },
           priority: {
             title: 'High',
             icon: <HighIcon />
@@ -42,7 +55,7 @@ const initialState: IProjectState = {
         {
           title: 'Add Authentication',
           id: uuidv4(),
-          status: 'in_review',
+          status: { title: 'In Review', icon: <InReviewIcon /> },
           priority: {
             title: 'Low',
             icon: <LowIcon />
@@ -51,7 +64,10 @@ const initialState: IProjectState = {
         {
           title: 'Node.js course',
           id: uuidv4(),
-          status: 'in_progress',
+          status: {
+            title: 'In Review',
+            icon: <InReviewIcon />
+          },
           priority: {
             title: 'High',
             icon: <HighIcon />

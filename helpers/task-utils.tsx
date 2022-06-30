@@ -3,23 +3,37 @@ import { store } from '../redux/store';
 import { updateTaskStatus } from '../redux/actions/project';
 import { TaskStatusType } from '../types/TaskType';
 import { Columns } from '../constants/columnsData';
+import { TodoIcon } from '../components/shared/Icon';
 
 /**
- * @description get the exptected status title.
- *
- * @param status Todo | In Progress | In Review | Done
- * @returns {string}
+ * @description get the status information for the given title.
  */
-export const getStatus = (
-  status: 'Todo' | 'In Progress' | 'In Review' | 'Done'
-): TaskStatusType => {
-  const STATUS_MAP = {
-    Todo: 'todo',
-    'In Progress': 'in_progress',
-    'In Review': 'in_review',
-    Done: 'done'
+export const getStatus = (status: TaskStatusType['title']): TaskStatusType => {
+  type StatusMapType = {
+    [key in TaskStatusType['title']]: TaskStatusType;
   };
-  return STATUS_MAP[status] as TaskStatusType;
+
+  const STATUS_MAP: StatusMapType = {
+    Todo: {
+      title: 'Todo',
+      icon: <TodoIcon />
+    },
+    'In Progress': {
+      title: 'In Progress',
+      icon: <TodoIcon />
+    },
+    'In Review': {
+      title: 'In Review',
+      icon: <TodoIcon />
+    },
+
+    Done: {
+      title: 'Done',
+      icon: <TodoIcon />
+    }
+  };
+
+  return STATUS_MAP[status];
 };
 
 export type Result = {
