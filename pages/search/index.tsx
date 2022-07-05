@@ -1,4 +1,4 @@
-import Navbar from '../../components/shared/Navbar';
+import Navbar from '../../components/shared/Navbar/Navbar';
 
 import Link from 'next/link';
 

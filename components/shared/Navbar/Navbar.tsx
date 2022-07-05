@@ -1,11 +1,11 @@
-import { FC, ReactChild } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { useSidebar } from '../../../providers/Sidebar';
 import { BarsIcon } from '../Icon';
 import styles from './Navbar.module.css';
 
 type INavbarProps = {
-  children: ReactChild | ReactChild[];
+  children: ReactNode[] | ReactNode;
 };
 
 /**

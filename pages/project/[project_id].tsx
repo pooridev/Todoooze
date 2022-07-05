@@ -2,7 +2,7 @@ import { useRouter } from 'next/dist/client/router';
 import { useSelector } from 'react-redux';
 
 import TasksArea from '../../components/TasksArea';
-import Navbar from '../../components/shared/Navbar';
+import Navbar from '../../components/shared/Navbar/Navbar';
 import { ProjectType } from '../../types/ProjectType';
 import { IProjectState } from './../../types/IProjectState';
 import styles from './project.module.css';
@@ -18,13 +18,13 @@ const ProjectPage = () => {
 
   // Find that particular project, so we can render its tasks
   const project = projects.find((p: ProjectType) => p?.id === project_id);
-  
+
   return (
     <>
       <Navbar>
         <h2 className={styles.Title}>{project?.title}&apos; tasks </h2>
       </Navbar>
-      <TasksArea project={project} />
+      <TasksArea project={project!} />
     </>
   );
 };
