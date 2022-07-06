@@ -1,0 +1,64 @@
+.Project {
+  @apply mt-2 relative;
+}
+
+.Title {
+  @apply rounded-md font-medium flex px-3 py-1 justify-between text-gray-lightest;
+}
+
+.Title svg {
+  transition: transform 0.2s ease;
+}
+
+.OpenMenuButton {
+}
+
+.Title:hover {
+  background: rgb(45, 47, 54);
+}
+
+.OpenMenuButton:hover.Title {
+  background: transparent !important;
+}
+
+.Title:hover .OpenMenuButton svg {
+  @apply opacity-100;
+}
+
+.OpenMenuButton svg {
+  transition: all 0.1s ease;
+  @apply opacity-0;
+}
+
+.OpenMenuButton:hover svg {
+  fill: rgb(209, 213, 219);
+}
+
+.Tasks {
+  transition: all 0.2s ease;
+  @apply h-0 overflow-hidden;
+}
+
+.Tasks.OpenTasks {
+  @apply h-auto;
+}
+
+.Task {
+  @apply flex items-center gap-2 my-1 rounded-md pl-8 py-1 text-gray-lightest;
+}
+
+.Task:hover {
+  background: rgb(45, 47, 54);
+}
+
+.TaskCheckbox {
+  @apply appearance-none border-2 transition-all border-gray-lightest p-[4.5px] rounded-full;
+}
+
+.TaskCheckbox:checked {
+  @apply bg-gray-lightest;
+}
+
+.RotateArrow {
+  transform: rotate(90deg);
+}

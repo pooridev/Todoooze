@@ -4,7 +4,7 @@ import styles from './Sidebar.module.css';
 import Avatar from './Avatar';
 import NewTask from './NewProject';
 import Actions from './Actions';
-import Projects from './Projects';
+import ProjectsList from './ProjectsList';
 import { useSidebar } from '../../providers/Sidebar';
 import useOutsideClickHandler from './../../hooks/useOutsideClickHandler';
 
@@ -32,7 +32,7 @@ const Sidebar = () => {
       <Avatar />
       <NewTask />
       <Actions />
-      <Projects />
+      <ProjectsList />
     </aside>
   );
 };

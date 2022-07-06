@@ -2,7 +2,7 @@ import { types } from '../types';
 import { AnyAction } from 'redux';
 import { v4 as uuidv4 } from 'uuid';
 
-import { IProjectState } from '../../types/IProjectState';
+import { IProjectState } from '../../types/RootState';
 import {
   HighIcon,
   InProgressIcon,
@@ -18,8 +18,6 @@ const initialState: IProjectState = {
     {
       title: 'Calistu',
       id: '1',
-      isOpen: false,
-      isMenuOpen: false,
       tasks: [
         {
           title: 'Bug fix',
@@ -50,8 +48,6 @@ const initialState: IProjectState = {
     {
       title: 'Junior Coders',
       id: '2',
-      isOpen: false,
-      isMenuOpen: false,
       tasks: [
         {
           title: 'Add Authentication',
@@ -84,15 +80,6 @@ const reducer = (
   { type, payload }: AnyAction
 ): IProjectState => {
   switch (type) {
-    case types.TOGGLE_PROJECT: {
-      const newList = state.projects.map(item => {
-        if (item.id === payload) {
-          item.isOpen = !item.isOpen;
-          return item;
-        }
-      });
-      return { ...state, ...newList };
-    }
     case types.ADD_TASK: {
       const newList = state.projects.map(item => {
         if (item.id === payload.projectPayload.id) {

@@ -8,23 +8,22 @@ import { SidebarProvider } from '../providers/Sidebar';
 import { ModalProvider } from '../providers/Modal';
 import { store } from '../redux/store';
 import { combineProviders } from '../helpers/combineProviders';
+import { RecoilRoot } from 'recoil';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
-      <ContextProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ContextProvider>
-    </Provider>
+    <RecoilRoot>
+      <Provider store={store}>
+        <ContextProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ContextProvider>
+      </Provider>
+    </RecoilRoot>
   );
 }
 
-const ContextProvider = combineProviders([
-  ModalProvider,
-  SidebarProvider,
-  ModalProvider
-]);
+const ContextProvider = combineProviders([ModalProvider, SidebarProvider]);
 
 export default MyApp;
