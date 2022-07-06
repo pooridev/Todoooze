@@ -15,14 +15,21 @@ const ProjectListItem: FC<ProjectType> = ({ tasks, title, id }) => {
     <li key={id} className={styles.Project}>
       <div className={styles.Title} onClick={toggleProject}>
         <span className='flex items-center w-full gap-2'>
-          <ArrowRight className={removeFalseys(isOpen && styles.RotateArrow)} />
+          <ArrowRight
+            className={removeFalseys(
+              isOpen && styles.RotateArrow,
+              'arrow-icon'
+            )}
+          />
           <span>{title}</span>
         </span>
         <button className={styles.OpenMenuButton}>
           <ThreeDotsIcon />
         </button>
       </div>
-      <ul className={removeFalseys(styles.Tasks, isOpen && styles.OpenTasks)}>
+      <ul
+        role='list'
+        className={removeFalseys(styles.Tasks, isOpen && styles.OpenTasks)}>
         {tasks
           .filter(task => task.status?.title === 'Todo')
           .slice(0, 3)

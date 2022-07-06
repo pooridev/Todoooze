@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 
-import styles from './Projects.module.css';
+import styles from './ProjectsList.module.css';
 import { openList } from '../../../redux/actions/project';
 import { ArrowRight, ThreeDotsIcon } from '../../shared/Icon';
 import { IProjectState } from '../../../types/RootState';
