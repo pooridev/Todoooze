@@ -8,7 +8,7 @@ import { PriorityIcon } from '../../shared/Icon';
 import Select from '../../shared/Select';
 import { TaskStatusType, TaskType } from '../../../types/TaskType';
 import { addTask } from '../../../redux/actions/project';
-import { IProjectState } from '../../../types/IProjectState';
+import { IProjectState } from '../../../types/RootState';
 import { statusItems } from '../../../constants/statusItems';
 import { priorityItems } from '../../../constants/priorityItems';
 import { getStatus } from '../../../helpers/task-utils';

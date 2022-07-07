@@ -18,7 +18,7 @@ const useOutsideClickHandler = (props: IProps): void => {
       // In case if we want to pass the optional second ref
       if (secondRef) {
         if (
-          ref.current &&
+          ref?.current &&
           !ref?.current?.contains(event.target as Node) &&
           !secondRef.current?.contains(event.target as Node)
         ) {
@@ -29,7 +29,7 @@ const useOutsideClickHandler = (props: IProps): void => {
       }
 
       // In case if we do not want to pass the optional second ref
-      if (ref.current && !ref.current.contains(event.target as Node)) {
+      if (ref?.current && !ref.current.contains(event.target as Node)) {
         event.stopPropagation();
         callback();
         return;

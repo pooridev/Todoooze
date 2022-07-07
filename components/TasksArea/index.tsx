@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/dist/client/router';
 
 import styles from './TasksArea.module.css';
-import { IProjectState } from './../../types/IProjectState';
+import { IProjectState } from '../../types/RootState';
 import { ProjectType } from '../../types/ProjectType';
 import NewTaskModal from './TaskModal';
 import DraggableTask from './DraggableTask';

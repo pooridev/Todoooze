@@ -1,6 +1,8 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
-export const combineProviders = (providers: FC[]) =>
+type FCWithChildren = FC<{ children: ReactNode }>;
+
+export const combineProviders = (providers: FCWithChildren[]) =>
   providers.reduce((Combined, Provider) => ({ children }) => (
     <Combined>
       <Provider>{children}</Provider>

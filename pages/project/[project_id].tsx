@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import TasksArea from '../../components/TasksArea';
 import Navbar from '../../components/shared/Navbar/Navbar';
 import { ProjectType } from '../../types/ProjectType';
-import { IProjectState } from './../../types/IProjectState';
+import { IProjectState } from './../../types/RootState';
 import styles from './project.module.css';
 
 const ProjectPage = () => {
