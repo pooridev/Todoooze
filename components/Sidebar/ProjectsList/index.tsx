@@ -34,7 +34,7 @@ const ProjectsList: FC = () => {
       </header>
       <ul className={removeFalseys(styles.Projects, isListOpen && styles.Open)}>
         {projects.map(project => (
-          <ProjectListItem {...project} />
+          <ProjectListItem key={project.id} {...project} />
         ))}
       </ul>
     </div>
