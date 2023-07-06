@@ -29,7 +29,9 @@
     rgb(39, 40, 43) 13.72%,
     rgb(45, 46, 49) 74.3%
   );
-  @apply flex flex-col  bg-gray-light shadow-sm rounded-md;
+  z-index: 10;
+  position: relative;
+  @apply flex flex-col bg-gray-light shadow-sm rounded-md;
 }
 
 .Item {
