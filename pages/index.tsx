@@ -1,16 +1,17 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
-import TasksArea from '../components/TasksArea';
-import Navbar from '../components/shared/Navbar/Navbar';
-import { IProjectState } from './../types/IProjectState';
-import styles from './Home.module.css';
+import TasksArea from "../components/TasksArea";
+import Navbar from "../components/shared/Navbar/Navbar";
+import { IProjectState } from "./../types/IProjectState";
+import styles from "./Home.module.css";
+import { useProjects } from "../providers/Projects";
 
 const Home = () => {
   // All projects that made by user
-  const projects = useSelector((state: IProjectState) => state.projects);
+  const { projects } = useProjects();
 
   // We would render the most recent project on the home page
-  const recentProject = projects[projects.length - 1];
+  const recentProject = Object.values(projects)[0];
   return (
     <>
       <Navbar>

@@ -1,16 +1,16 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 import {
   TodoIcon,
   InProgressIcon,
   InReviewIcon,
-  DoneIcon
-} from '../components/shared/Icon';
-import { TaskType } from '../types/TaskType';
+  DoneIcon,
+} from "../components/shared/Icon";
+import { TaskType } from "../types/Task";
 
 export type Columns = {
   [key: string]: {
-    name: 'Todo' | 'In Progress' | 'In Review' | 'Done';
+    name: "Todo" | "In Progress" | "In Review" | "Done";
     icon: JSX.Element;
     items: Array<TaskType>;
   };
@@ -18,23 +18,23 @@ export type Columns = {
 
 export const columnsData: Columns = {
   [uuidv4()]: {
-    name: 'Todo',
+    name: "Todo",
     icon: <TodoIcon />,
-    items: []
+    items: [],
   },
   [uuidv4()]: {
-    name: 'In Progress',
+    name: "In Progress",
     icon: <InProgressIcon />,
-    items: []
+    items: [],
   },
   [uuidv4()]: {
-    name: 'In Review',
+    name: "In Review",
     icon: <InReviewIcon />,
-    items: []
+    items: [],
   },
   [uuidv4()]: {
-    name: 'Done',
+    name: "Done",
     icon: <DoneIcon />,
-    items: []
-  }
+    items: [],
+  },
 };

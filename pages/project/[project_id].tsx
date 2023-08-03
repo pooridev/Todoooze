@@ -1,11 +1,12 @@
-import { useRouter } from 'next/dist/client/router';
-import { useSelector } from 'react-redux';
+import { useRouter } from "next/dist/client/router";
+import { useSelector } from "react-redux";
 
-import TasksArea from '../../components/TasksArea';
-import Navbar from '../../components/shared/Navbar/Navbar';
-import { ProjectType } from '../../types/ProjectType';
-import { IProjectState } from './../../types/IProjectState';
-import styles from './project.module.css';
+import TasksArea from "../../components/TasksArea";
+import Navbar from "../../components/shared/Navbar/Navbar";
+import { ProjectType } from "../../types/ProjectType";
+import { IProjectState } from "./../../types/IProjectState";
+import styles from "./project.module.css";
+import { useProjects } from "../../providers/Projects";
 
 const ProjectPage = () => {
   const router = useRouter();
@@ -14,10 +15,14 @@ const ProjectPage = () => {
   const { project_id } = router.query;
 
   // All projects that made by user
-  const projects = useSelector((state: IProjectState) => state.projects);
+  // const projects = useSelector((state: IProjectState) => state.projects);
 
   // Find that particular project, so we can render its tasks
-  const project = projects.find((p: ProjectType) => p?.id === project_id);
+  // const project = projects.find((p: ProjectType) => p?.id === project_id);
+
+  const projects = useProjects();
+
+  const project = projects[String(project_id)];
 
   return (
     <>

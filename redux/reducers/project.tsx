@@ -1,82 +1,82 @@
-import { types } from '../types';
-import { AnyAction } from 'redux';
-import { v4 as uuidv4 } from 'uuid';
+import { types } from "../types";
+import { AnyAction } from "redux";
+import { v4 as uuidv4 } from "uuid";
 
-import { IProjectState } from '../../types/IProjectState';
+import { IProjectState } from "../../types/IProjectState";
 import {
   HighIcon,
   InProgressIcon,
   InReviewIcon,
   LowIcon,
   TodoIcon,
-  UrgentIcon
-} from '../../components/shared/Icon';
-import { TaskType } from '../../types/TaskType';
+  UrgentIcon,
+} from "../../components/shared/Icon";
+import { TaskType } from "../../types/Task";
 
 const initialState: IProjectState = {
   projects: [
     {
-      title: 'Calistu',
-      id: '1',
+      title: "Calistu",
+      id: "1",
       isOpen: false,
       isMenuOpen: false,
       tasks: [
         {
-          title: 'Bug fix',
+          title: "Bug fix",
           id: uuidv4(),
           status: {
-            title: 'Todo',
-            icon: <TodoIcon />
+            title: "Todo",
+            icon: <TodoIcon />,
           },
           priority: {
-            title: 'Urgent',
-            icon: <UrgentIcon />
-          }
+            title: "Urgent",
+            icon: <UrgentIcon />,
+          },
         },
         {
-          title: 'Typescript course',
+          title: "Typescript course",
           id: uuidv4(),
           status: {
-            title: 'In Progress',
-            icon: <InProgressIcon />
+            title: "In Progress",
+            icon: <InProgressIcon />,
           },
           priority: {
-            title: 'High',
-            icon: <HighIcon />
-          }
-        }
-      ]
+            title: "High",
+            icon: <HighIcon />,
+          },
+        },
+      ],
     },
     {
-      title: 'Junior Coders',
-      id: '2',
+      title: "Junior Coders",
+      id: "2",
       isOpen: false,
       isMenuOpen: false,
       tasks: [
         {
-          title: 'Add Authentication',
+          title: "Add Authentication",
           id: uuidv4(),
-          status: { title: 'In Review', icon: <InReviewIcon /> },
+          status: { title: "In Review", icon: <InReviewIcon /> },
           priority: {
-            title: 'Low',
-            icon: <LowIcon />
-          }
+            title: "Low",
+            icon: <LowIcon />,
+          },
         },
         {
-          title: 'Node.js course',
+          title: "Node.js course",
           id: uuidv4(),
           status: {
-            title: 'In Review',
-            icon: <InReviewIcon />
+            title: "In Review",
+            icon: <InReviewIcon />,
           },
           priority: {
-            title: 'High',
-            icon: <HighIcon />
-          }
-        }
-      ]
-    }
-  ]
+            title: "High",
+            icon: <HighIcon />,
+          },
+        },
+      ],
+    },
+  ],
 };
 
 const reducer = (
@@ -85,7 +85,7 @@ const reducer = (
 ): IProjectState => {
   switch (type) {
     case types.TOGGLE_PROJECT: {
-      const newList = state.projects.map(item => {
+      const newList = state.projects.map((item) => {
         if (item.id === payload) {
           item.isOpen = !item.isOpen;
           return item;
@@ -94,7 +94,7 @@ const reducer = (
       return { ...state, ...newList };
     }
     case types.ADD_TASK: {
-      const newList = state.projects.map(item => {
+      const newList = state.projects.map((item) => {
         if (item.id === payload.projectPayload.id) {
           item.tasks.push(payload.taskPayload);
           return item;
@@ -104,10 +104,10 @@ const reducer = (
       return { projects: newList };
     }
     case types.UPDATE_TASK_STATUS: {
-      const newProjects = state.projects.map(item => {
+      const newProjects = state.projects.map((item) => {
         debugger;
         if (item.id === payload.projectId) {
-          const newTasks: any = item.tasks.map(task => {
+          const newTasks: any = item.tasks.map((task) => {
             if (task.id === payload.taskId) {
               task.status = payload.status;
               return task;
@@ -120,9 +120,9 @@ const reducer = (
       return { projects: newProjects };
     }
     case types.UPDATE_TASK_PRIORITY: {
-      const newProjects = state.projects.map(item => {
+      const newProjects = state.projects.map((item) => {
         if (item.id === payload.projectId) {
-          const newTasks: any = item.tasks.map(task => {
+          const newTasks: any = item.tasks.map((task) => {
             if (task.id === payload.taskId) {
               task.priority = payload.priority;
               return task;

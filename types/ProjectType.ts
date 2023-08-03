@@ -1,9 +1,7 @@
-import { TaskType } from './TaskType';
+import { TaskType } from "./Task";
 
 export type ProjectType = {
   id: string;
-  isOpen: boolean;
-  isMenuOpen: boolean;
   title: string;
   tasks: Array<TaskType>;
 };

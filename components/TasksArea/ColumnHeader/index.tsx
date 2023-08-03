@@ -1,16 +1,16 @@
-import { useRouter } from 'next/dist/client/router';
-import { FC } from 'react';
-import { useModal } from '../../../providers/Modal';
-import { ProjectType } from '../../../types/ProjectType';
-import { TaskStatusType, TaskType } from '../../../types/TaskType';
-import { AddIcon } from '../../shared/Icon';
-import NewTaskModal from '../TaskModal';
-import styles from './ColumnHeader.module.css';
+import { useRouter } from "next/dist/client/router";
+import { FC } from "react";
+import { useModal } from "../../../providers/Modal";
+import { ProjectType } from "../../../types/ProjectType";
+import { TaskStatusType, TaskType } from "../../../types/Task";
+import { AddIcon } from "../../shared/Icon";
+import NewTaskModal from "../TaskModal";
+import styles from "./ColumnHeader.module.css";
 
 type ColumnHeaderProps = {
   column: {
-    name: TaskStatusType['title'];
-    icon: TaskStatusType['icon'];
+    name: TaskStatusType["title"];
+    icon: TaskStatusType["icon"];
     items: TaskType[];
   };
   project: ProjectType;
@@ -23,12 +23,10 @@ const ColumnHeader: FC<ColumnHeaderProps> = ({ column, project }) => {
     changeModaConfig({
       isOpen: true,
       breadcrumb: [
-        { isMain: true, label: project.title, href: '/project/' + project.id },
-        { label: 'New Task', isMain: false, href: '/project/' + project.id }
+        { isMain: true, label: project.title, href: "/project/" + project.id },
+        { label: "New Task", isMain: false, href: "/project/" + project.id },
       ],
-      renderModalContent: (
-        <NewTaskModal taskStatus={{ title: column.name, icon: column.icon }} />
-      )
+      renderModalContent: <NewTaskModal taskStatus={column.name} />,
     });
   };
 
@@ -41,8 +39,9 @@ const ColumnHeader: FC<ColumnHeaderProps> = ({ column, project }) => {
       </div>
       <button
         onClick={openNewTaskModal}
-        title='Add new task'
-        className={styles.AddTaskButton}>
+        title="Add new task"
+        className={styles.AddTaskButton}
+      >
         <AddIcon />
       </button>
     </header>

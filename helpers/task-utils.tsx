@@ -1,36 +1,37 @@
-import { Dispatch, SetStateAction } from 'react';
-import { store } from '../redux/store';
-import { updateTaskStatus } from '../redux/actions/project';
-import { TaskStatusType } from '../types/TaskType';
-import { Columns } from '../constants/columnsData';
-import { TodoIcon } from '../components/shared/Icon';
+import { Dispatch, SetStateAction } from "react";
+import { store } from "../redux/store";
+import { updateTaskStatus } from "../redux/actions/project";
+import { TaskStatusType } from "../types/Task";
+import { Columns } from "../constants/columnsData";
+import { TodoIcon } from "../components/shared/Icon";
+import { ProjectAction } from "../providers/Projects";
 
 /**
  * @description get the status information for the given title.
  */
-export const getStatus = (status: TaskStatusType['title']): TaskStatusType => {
+export const getStatus = (status: TaskStatusType["title"]): TaskStatusType => {
   type StatusMapType = {
-    [key in TaskStatusType['title']]: TaskStatusType;
+    [key in TaskStatusType["title"]]: TaskStatusType;
   };
 
   const STATUS_MAP: StatusMapType = {
     Todo: {
-      title: 'Todo',
-      icon: <TodoIcon />
+      title: "Todo",
+      icon: <TodoIcon />,
     },
-    'In Progress': {
-      title: 'In Progress',
-      icon: <TodoIcon />
+    "In Progress": {
+      title: "In Progress",
+      icon: <TodoIcon />,
     },
-    'In Review': {
-      title: 'In Review',
-      icon: <TodoIcon />
+    "In Review": {
+      title: "In Review",
+      icon: <TodoIcon />,
     },
 
     Done: {
-      title: 'Done',
-      icon: <TodoIcon />
-    }
+      title: "Done",
+      icon: <TodoIcon />,
+    },
   };
 
   return STATUS_MAP[status];
@@ -52,7 +53,8 @@ export const onDragEnd = (
   result: Result,
   columns: Columns,
   setColumns: Dispatch<SetStateAction<Columns>>,
-  projectId: string
+  projectId: string,
+  dispatch: Dispatch<ProjectAction>
 ) => {
   if (!result.destination) return;
   const { source, destination } = result;
@@ -64,22 +66,30 @@ export const onDragEnd = (
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
 
-    // To update the status of the task
+    // update the status of the task
     const taskId = result.draggableId;
-    const status = getStatus(destColumn.name);
-    store.dispatch(updateTaskStatus(status, taskId, projectId));
+    const status = destColumn.name;
+
+    dispatch({
+      type: "UPDATE_TASK_STATUS",
+      payload: {
+        projectId: projectId,
+        taskId,
+        newStatus: status,
+      },
+    });
 
     destItems.splice(destination.index, 0, removed);
     setColumns({
       ...columns,
       [source.droppableId]: {
         ...sourceColumn,
-        items: sourceItems
+        items: sourceItems,
       },
       [destination.droppableId]: {
         ...destColumn,
-        items: destItems
-      }
+        items: destItems,
+      },
     });
   } else {
     const column = columns[source.droppableId];
@@ -90,8 +100,8 @@ export const onDragEnd = (
       ...columns,
       [source.droppableId]: {
         ...column,
-        items: copiedItems
-      }
+        items: copiedItems,
+      },
     });
   }
 };

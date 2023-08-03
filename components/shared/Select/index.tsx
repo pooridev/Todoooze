@@ -1,39 +1,35 @@
-import { FC, ReactElement, useState, useRef } from 'react';
+import { FC, ReactElement, useState, useRef } from "react";
 
-import styles from './Select.module.css';
-import useOutsideClickHandler from '../../../hooks/useOutsideClickHandler';
+import styles from "./Select.module.css";
+import useOutsideClickHandler from "../../../hooks/useOutsideClickHandler";
 
-interface BaseItem {
-  title: string;
+interface Value<T> {
+  title: T;
   icon?: ReactElement | JSX.Element;
 }
 
 interface IProps<T> {
-  items: Array<T>;
+  items: Array<Value<T>>;
   /** @default  contained */
-  variant?: 'outline' | 'contained';
+  variant?: "outline" | "contained";
   onChange?: (selectedItem: T) => void;
   /** @default readonly = false */
   readonly?: boolean;
   /** @default iconOnly = false */
   iconOnly?: boolean;
-  defaultChecked?: T;
-  value: T;
+  defaultValue?: Value<T>;
+  value: Value<T>["title"];
 }
 
-/**
- * @description Select component that renders a list of selectable items
- */
-
-const Select = <T extends BaseItem>(props: IProps<T>) => {
+const Select = <T extends string>(props: IProps<T>) => {
   const {
     items,
     onChange,
-    defaultChecked,
+    defaultValue,
     value,
     readonly = false,
-    variant = 'contained',
-    iconOnly = false
+    variant = "contained",
+    iconOnly = false,
   } = props;
 
   const selectRef = useRef<HTMLUListElement>(null);
@@ -49,29 +45,32 @@ const Select = <T extends BaseItem>(props: IProps<T>) => {
   // If isOpen was true, add the Open class
   if (isOpen) selectClasses.push(styles.Open);
 
-  if (variant === 'outline') buttonClasses.push(styles.Outline);
+  if (variant === "outline") buttonClasses.push(styles.Outline);
 
   // Close menu if clicked outside
   useOutsideClickHandler({ ref: selectRef, callback: closeSelect });
 
+  const valueWithIcon = items.find((i) => i.title == value) || null;
+
   return (
-    <div className='relative'>
-      <button className={buttonClasses.join(' ')} onClick={openSelect}>
-        <span>{defaultChecked?.icon || value?.icon}</span>
-        {(!iconOnly && defaultChecked?.title) ||
-          (!iconOnly && <span>{value.title}</span>)}
+    <div className="relative">
+      <button className={buttonClasses.join(" ")} onClick={openSelect}>
+        <span>{valueWithIcon?.icon || defaultValue?.icon}</span>
+        {(!iconOnly && <span>{valueWithIcon?.title}</span>) ||
+          (!iconOnly && defaultValue?.title)}
       </button>
       {!readonly && (
-        <div className={selectClasses.join(' ')}>
+        <div className={selectClasses.join(" ")}>
           <ul ref={selectRef} className={styles.Items}>
-            {items.map(item => (
+            {items.map((item) => (
               <li
                 key={item.title}
                 className={styles.Item}
                 onClick={() => {
-                  onChange?.(item);
+                  onChange?.(item.title);
                   closeSelect();
-                }}>
+                }}
+              >
                 {item?.icon}
                 <span>{item.title}</span>
               </li>

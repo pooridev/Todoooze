@@ -1,17 +1,14 @@
-import { useState, useEffect, FC } from 'react';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd-next';
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/dist/client/router';
+import { useState, useEffect, FC } from "react";
+import { DragDropContext, Droppable } from "react-beautiful-dnd-next";
+import { useRouter } from "next/dist/client/router";
 
-import styles from './TasksArea.module.css';
-import { IProjectState } from './../../types/IProjectState';
-import { ProjectType } from '../../types/ProjectType';
-import NewTaskModal from './TaskModal';
-import DraggableTask from './DraggableTask';
-import { Columns, columnsData } from '../../constants/columnsData';
-import { onDragEnd, Result } from '../../helpers/task-utils';
-import ColumnHeader from './ColumnHeader';
-import { TodoIcon } from '../shared/Icon';
+import styles from "./TasksArea.module.css";
+import { ProjectType } from "../../types/ProjectType";
+import DraggableTask from "./DraggableTask";
+import { Columns, columnsData } from "../../constants/columnsData";
+import { onDragEnd, Result } from "../../helpers/task-utils";
+import ColumnHeader from "./ColumnHeader";
+import { useProjects } from "../../providers/Projects";
 
 interface IProps {
   project: ProjectType;
@@ -25,21 +22,19 @@ const TasksArea: FC<IProps> = ({ project }) => {
   // The given ID in the path (URL)
   const { project_id } = router.query;
 
+  const { dispatch } = useProjects();
+
   // All projects that made by user, use to re-render component when a new task is added
-  const projects = useSelector((state: IProjectState) => state.projects);
+  // const projects = useSelector((state: IProjectState) => state.projects);
 
   // All tasks that particular project contains
   const tasks = project?.tasks || [];
 
   // Each status that we want to render on each column
-  const todoTasks = tasks?.filter(task => task.status?.title === 'Todo');
-  const inProgressTasks = tasks?.filter(
-    task => task.status?.title === 'In Progress'
-  );
-  const inReviewTasks = tasks?.filter(
-    task => task.status?.title === 'In Review'
-  );
-  const DoneTasks = tasks?.filter(task => task.status?.title === 'Done');
+  const todoTasks = tasks.filter((task) => task.status === "Todo");
+  const inProgressTasks = tasks.filter((task) => task.status === "In Progress");
+  const inReviewTasks = tasks.filter((task) => task.status === "In Review");
+  const DoneTasks = tasks.filter((task) => task.status === "Done");
 
   /**
    * Updates the columns data when a new task is added or edited.
@@ -50,39 +45,40 @@ const TasksArea: FC<IProps> = ({ project }) => {
       // To clear tasks while switching between projects
       column.items = [];
 
-      if (column.name === 'Todo' && todoTasks?.length) {
+      if (column.name === "Todo" && todoTasks?.length) {
         column.items = [...todoTasks];
 
         setColumns({ ...columns, [columnId]: column });
       }
 
-      if (column.name === 'In Progress' && inProgressTasks?.length) {
+      if (column.name === "In Progress" && inProgressTasks?.length) {
         column.items = [...inProgressTasks];
 
         setColumns({ ...columns, [columnId]: column });
       }
 
-      if (column.name === 'In Review' && inReviewTasks?.length) {
+      if (column.name === "In Review" && inReviewTasks?.length) {
         column.items = [...inReviewTasks];
 
         setColumns({ ...columns, [columnId]: column });
       }
 
-      if (column.name === 'Done' && DoneTasks?.length) {
+      if (column.name === "Done" && DoneTasks?.length) {
         column.items = [...DoneTasks];
 
         setColumns({ ...columns, [columnId]: column });
       }
     });
-  }, [project_id, projects]);
+  }, [project_id, project]);
 
   return (
     <>
       <section className={styles.TasksArea}>
         <DragDropContext
           onDragEnd={(result: Result) =>
-            onDragEnd(result, columns, setColumns, project.id)
-          }>
+            onDragEnd(result, columns, setColumns, project.id, dispatch)
+          }
+        >
           {Object.entries(columns).map(([columnId, column]) => (
             <div className={styles.TasksStatus} key={columnId}>
               <ColumnHeader column={column} key={columnId} project={project} />
@@ -90,9 +86,10 @@ const TasksArea: FC<IProps> = ({ project }) => {
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided: typeof Droppable) => (
                     <div
-                      style={{ minHeight: '100vh' }}
+                      style={{ minHeight: "100vh" }}
                       {...provided.droppableProps}
-                      ref={provided.innerRef}>
+                      ref={provided.innerRef}
+                    >
                       <DraggableTask project={project} column={column} />
                       {provided.placeholder}
                     </div>

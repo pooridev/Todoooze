@@ -1,13 +1,13 @@
-import { AnyAction } from 'redux';
+import { AnyAction } from "redux";
 
-import { TaskStatusType } from './../../types/TaskType';
-import { types } from '../types';
-import { TaskType } from '../../types/TaskType';
+import { TaskStatusType } from "../../types/Task";
+import { types } from "../types";
+import { TaskType } from "../../types/Task";
 
 export const openList = (payload: number | string): AnyAction => {
   return {
     type: types.TOGGLE_PROJECT,
-    payload
+    payload,
   };
 };
 
@@ -17,7 +17,7 @@ export const addTask = (
 ): AnyAction => {
   return {
     type: types.ADD_TASK,
-    payload: { taskPayload, projectPayload }
+    payload: { taskPayload, projectPayload },
   };
 };
 
@@ -28,16 +28,16 @@ export const updateTaskStatus = (
 ): AnyAction => {
   return {
     type: types.UPDATE_TASK_STATUS,
-    payload: { taskId, status, projectId }
+    payload: { taskId, status, projectId },
   };
 };
 export const updateTaskPriority = (
-  priority: TaskType['priority'],
+  priority: TaskType["priority"],
   taskId: string,
   projectId: string
 ): AnyAction => {
   return {
     type: types.UPDATE_TASK_PRIORITY,
-    payload: { taskId, priority, projectId }
+    payload: { taskId, priority, projectId },
   };
 };
