@@ -51,11 +51,10 @@ const NewTaskModal = (props: IProps) => {
   // The given ID in the path (URL)
   const { project_id } = router.query;
 
-  // All projects that made by user
-  const projects = useSelector((state: IProjectState) => state.projects);
+  const { projects } = useProjects();
 
   // We would get the most recent project
-  const recentProject = projects[projects.length - 1];
+  const recentProject = Object.values(projects)[0];
 
   const addTaskHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
