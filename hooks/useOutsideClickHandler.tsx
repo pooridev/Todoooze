@@ -1,4 +1,4 @@
-import { useEffect, MouseEvent, RefObject } from 'react';
+import { useEffect, MouseEvent, RefObject } from "react";
 
 interface IProps {
   ref: RefObject<HTMLElement> | null;
@@ -18,7 +18,7 @@ const useOutsideClickHandler = (props: IProps): void => {
       // In case if we want to pass the optional second ref
       if (secondRef) {
         if (
-          ref.current &&
+          ref?.current &&
           !ref?.current?.contains(event.target as Node) &&
           !secondRef.current?.contains(event.target as Node)
         ) {
@@ -36,14 +36,10 @@ const useOutsideClickHandler = (props: IProps): void => {
       }
     };
 
-    document.addEventListener('mousedown', event =>
-      handleClickOutside(event as any)
-    );
+    document.addEventListener("mousedown", (event) => handleClickOutside(event as any));
 
     return () => {
-      document.removeEventListener('mousedown', event =>
-        handleClickOutside(event as any)
-      );
+      document.removeEventListener("mousedown", (event) => handleClickOutside(event as any));
     };
   }, [ref]);
 };

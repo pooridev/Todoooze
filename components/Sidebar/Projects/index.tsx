@@ -4,8 +4,10 @@ import Link from "next/link";
 import styles from "./Projects.module.css";
 import { ArrowRight, ThreeDotsIcon } from "../../shared/Icon";
 import { ProjectType } from "../../../types/ProjectType";
-import { removeFalseys } from "../../../helpers/string-utils";
+
 import { useProjects } from "../../../providers/Projects";
+import classNames from "classnames";
+import { useRouter } from "next/router";
 
 const Projects: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,13 +19,16 @@ const Projects: FC = () => {
 
   return (
     <div className={styles.Lists}>
-      <header className={styles.Header} onClick={toggleListsDropdown}>
-        <h3>
+      <header
+        className={classNames(styles.Header, { [styles.ListDropDownOpen]: isOpen })}
+        onClick={toggleListsDropdown}
+      >
+        <h3 className="flex justify-between">
           Your projects
-          <ArrowRight className={removeFalseys(isOpen && styles.RotateArrow)} />
+          <ArrowRight className={classNames(isOpen && styles.RotateArrow)} />
         </h3>
       </header>
-      <ul className={removeFalseys(styles.Projects, isOpen && styles.Open)}>
+      <ul className={classNames(styles.Projects, isOpen && styles.Open)}>
         {projectsArr.map(([projectId, project]) => (
           <ProjectListItem project={project} key={projectId} />
         ))}
@@ -33,33 +38,20 @@ const Projects: FC = () => {
 };
 
 const ProjectListItem = ({ project }: { project: ProjectType }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  const isLinkActive = (pathname: string) => router.asPath == pathname;
 
   return (
-    <li onClick={setIsOpen.bind(this, !isOpen)} key={project.id} className={styles.Project}>
-      <div className={styles.Title}>
-        <span className="flex items-center w-full gap-2">
-          <ArrowRight className={removeFalseys(isOpen && styles.RotateArrow)} />
-          <span>{project.title}</span>
-        </span>
+    <li key={project.id} className={styles.Project}>
+      <span className={classNames(styles.Title, { [styles.ActiveLink]: isLinkActive(`/project/${project.id}`) })}>
+        <Link href={`/project/${project.id}`} passHref>
+          <a className="flex-grow">{project.title}</a>
+        </Link>
         <button className={styles.OpenOptionsButton}>
           <ThreeDotsIcon />
         </button>
-      </div>
-      <ul className={removeFalseys(styles.Tasks, isOpen && styles.OpenTasks)}>
-        {project.tasks
-          .filter((task) => task.status === "Todo")
-          .slice(0, 3)
-          .map((task) => (
-            <li className={styles.Task} key={task.id}>
-              <input type="checkbox" id={task.title} className={styles.TaskCheckbox} />
-              <label htmlFor={task.title}>{task.title}</label>
-            </li>
-          ))}
-        <li className={styles.Task}>
-          <Link href={`/project/${project.id}`}>Go To Project</Link>
-        </li>
-      </ul>
+      </span>
     </li>
   );
 };

@@ -3,13 +3,17 @@
 }
 
 .Project {
-  @apply mt-2 relative;
+  @apply mt-1 relative;
 }
 
 .Header {
-  color: rgb(138, 143, 152);
   padding: 0.2rem 0;
-  @apply px-3 rounded-md;
+  cursor: pointer;
+  @apply px-3 rounded-md text-gray-lightest;
+}
+
+.Header.ListDropDownOpen {
+  background-color: rgb(45, 47, 54);
 }
 
 .Header:hover {
@@ -21,7 +25,7 @@
 }
 
 .Header svg {
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease;
   fill: transparent;
 }
 
@@ -35,7 +39,7 @@
 
 .Projects {
   transition: all ease 0.2s;
-  @apply h-0 overflow-hidden mt-2;
+  @apply h-0 overflow-hidden mt-1;
 }
 
 .Projects.Open {
@@ -54,17 +58,8 @@
   }
 }
 
-.Tasks {
-  transition: all 0.2s ease;
-  @apply h-0 overflow-hidden;
-}
-
-.Tasks.OpenTasks {
-  @apply h-auto;
-}
-
 .Title {
-  @apply rounded-md font-medium flex px-3 py-1 justify-between text-gray-lightest;
+  @apply rounded-md font-medium text-sm flex px-3 py-1 justify-between text-gray-300;
 }
 
 .Title svg {
@@ -72,6 +67,10 @@
 }
 
 .Title:hover {
+  background: rgb(45, 47, 54);
+}
+
+.ActiveLink {
   background: rgb(45, 47, 54);
 }
 
@@ -84,26 +83,10 @@
 }
 
 .OpenOptionsButton svg {
-  transition: all 0.1s ease;
+  transition: all 0.2s ease;
   @apply opacity-0;
 }
 
 .OpenOptionsButton:hover svg {
   fill: rgb(209, 213, 219);
-}
-
-.Task {
-  @apply flex items-center gap-2 my-1 rounded-md pl-8 py-1 text-gray-lightest;
-}
-
-.Task:hover {
-  background: rgb(45, 47, 54);
-}
-
-.TaskCheckbox {
-  @apply appearance-none border-2 transition-all border-gray-lightest p-[4.5px] rounded-full;
-}
-
-.TaskCheckbox:checked {
-  @apply bg-gray-lightest;
 }
