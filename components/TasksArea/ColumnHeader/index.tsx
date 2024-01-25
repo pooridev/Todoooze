@@ -37,11 +37,7 @@ const ColumnHeader: FC<ColumnHeaderProps> = ({ column, project }) => {
         <p>{column.name}</p>
         <span>{column?.items?.length}</span>
       </div>
-      <button
-        onClick={openNewTaskModal}
-        title="Add new task"
-        className={styles.AddTaskButton}
-      >
+      <button onClick={openNewTaskModal} title="Add new task" className={styles.AddTaskButton}>
         <AddIcon />
       </button>
     </header>

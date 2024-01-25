@@ -4,7 +4,7 @@ import { updateTaskStatus } from "../redux/actions/project";
 import { TaskStatusType } from "../types/Task";
 import { Columns } from "../constants/columnsData";
 import { TodoIcon } from "../components/shared/Icon";
-import { ProjectAction } from "../providers/Projects";
+import { ProjectAction, UpdateTaskStatusPayload } from "../providers/Projects";
 
 /**
  * @description get the status information for the given title.
@@ -54,9 +54,10 @@ export const onDragEnd = (
   columns: Columns,
   setColumns: Dispatch<SetStateAction<Columns>>,
   projectId: string,
-  dispatch: Dispatch<ProjectAction>
+  onUpdateTaskStatus: (payload: UpdateTaskStatusPayload) => void
 ) => {
   if (!result.destination) return;
+
   const { source, destination } = result;
 
   if (source.droppableId !== destination.droppableId) {
@@ -70,13 +71,10 @@ export const onDragEnd = (
     const taskId = result.draggableId;
     const status = destColumn.name;
 
-    dispatch({
-      type: "UPDATE_TASK_STATUS",
-      payload: {
-        projectId: projectId,
-        taskId,
-        newStatus: status,
-      },
+    onUpdateTaskStatus({
+      projectId: projectId,
+      taskId,
+      newStatus: status,
     });
 
     destItems.splice(destination.index, 0, removed);

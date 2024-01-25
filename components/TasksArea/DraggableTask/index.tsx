@@ -12,7 +12,7 @@ import { statusItems } from "../../../constants/statusItems";
 import { priorityItems } from "../../../constants/priorityItems";
 import { ProjectType } from "../../../types/ProjectType";
 
-import { useProjects } from "../../../providers/Projects";
+import { useProjects, useSetProjects } from "../../../providers/Projects";
 
 interface IProps {
   column: {
@@ -24,30 +24,21 @@ interface IProps {
 }
 
 const DraggableTask: FC<IProps> = ({ column, project }) => {
-  const { dispatch } = useProjects();
+  const { updateTaskPriority, updateTaskStatus } = useSetProjects();
 
   const updateTaskStatusHandler = (taskId: string, newStatus: TaskStatus) => {
-    dispatch({
-      type: "UPDATE_TASK_STATUS",
-      payload: {
-        newStatus,
-        taskId: taskId,
-        projectId: project.id,
-      },
+    updateTaskStatus({
+      newStatus,
+      taskId: taskId,
+      projectId: project.id,
     });
   };
 
-  const updateTaskPriorityHandler = (
-    taskId: string,
-    newPriority: TaskPriority
-  ) => {
-    dispatch({
-      type: "UPDATE_TASK_PRIORITY",
-      payload: {
-        newPriority,
-        taskId,
-        projectId: project.id,
-      },
+  const updateTaskPriorityHandler = (taskId: string, newPriority: TaskPriority) => {
+    updateTaskPriority({
+      newPriority,
+      taskId,
+      projectId: project.id,
     });
   };
 
@@ -66,13 +57,7 @@ const DraggableTask: FC<IProps> = ({ column, project }) => {
                 >
                   <div className={styles.TaskHeader}>
                     <p title={item?.title}>{item?.title}</p>
-                    <Image
-                      alt="Pooria Faramarzian"
-                      width="19"
-                      height="19"
-                      src={userAvatar}
-                      className={styles.Avatar}
-                    />
+                    <Image alt="Pooria Faramarzian" width="19" height="19" src={userAvatar} className={styles.Avatar} />
                     <div className={styles.AvatarStatus} />
                   </div>
                   <div className={styles.TaskFooter}>

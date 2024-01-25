@@ -8,7 +8,7 @@ import DraggableTask from "./DraggableTask";
 import { Columns, columnsData } from "../../constants/columnsData";
 import { onDragEnd, Result } from "../../helpers/task-utils";
 import ColumnHeader from "./ColumnHeader";
-import { useProjects } from "../../providers/Projects";
+import { useSetProjects } from "../../providers/Projects";
 
 interface IProps {
   project: ProjectType;
@@ -18,27 +18,17 @@ const TasksArea: FC<IProps> = ({ project }) => {
   const [columns, setColumns] = useState<Columns>(columnsData);
 
   const router = useRouter();
-
-  // The given ID in the path (URL)
   const { project_id } = router.query;
 
-  const { dispatch } = useProjects();
+  const { updateTaskStatus } = useSetProjects();
 
-  // All projects that made by user, use to re-render component when a new task is added
-  // const projects = useSelector((state: IProjectState) => state.projects);
-
-  // All tasks that particular project contains
   const tasks = project?.tasks || [];
 
-  // Each status that we want to render on each column
   const todoTasks = tasks.filter((task) => task.status === "Todo");
   const inProgressTasks = tasks.filter((task) => task.status === "In Progress");
   const inReviewTasks = tasks.filter((task) => task.status === "In Review");
   const DoneTasks = tasks.filter((task) => task.status === "Done");
 
-  /**
-   * Updates the columns data when a new task is added or edited.
-   */
   useEffect(() => {
     const columnsArray = Object.entries(columns);
     columnsArray.forEach(([columnId, column]) => {
@@ -75,9 +65,7 @@ const TasksArea: FC<IProps> = ({ project }) => {
     <>
       <section className={styles.TasksArea}>
         <DragDropContext
-          onDragEnd={(result: Result) =>
-            onDragEnd(result, columns, setColumns, project.id, dispatch)
-          }
+          onDragEnd={(result: Result) => onDragEnd(result, columns, setColumns, project.id, updateTaskStatus)}
         >
           {Object.entries(columns).map(([columnId, column]) => (
             <div className={styles.TasksStatus} key={columnId}>
@@ -85,11 +73,7 @@ const TasksArea: FC<IProps> = ({ project }) => {
               <div>
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided: typeof Droppable) => (
-                    <div
-                      style={{ minHeight: "100vh" }}
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                    >
+                    <div style={{ minHeight: "100vh" }} {...provided.droppableProps} ref={provided.innerRef}>
                       <DraggableTask project={project} column={column} />
                       {provided.placeholder}
                     </div>

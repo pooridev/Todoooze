@@ -1,16 +1,14 @@
-import {
-  Dispatch,
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useMemo,
-  useReducer,
-} from "react";
+import { Dispatch, PropsWithChildren, createContext, useContext, useMemo, useReducer } from "react";
 import { TaskPriority, TaskStatus, TaskType } from "../types/Task";
 
-interface ProjectsContext {
+interface ProjectsContextType {
   projects: Projects;
-  dispatch: Dispatch<ProjectAction>;
+  actions: {
+    addNewTask: (payload: AddNewTaskPayload) => void;
+    deleteTask: (payload: DeleteTaskPayload) => void;
+    updateTaskStatus: (payload: UpdateTaskStatusPayload) => void;
+    updateTaskPriority: (payload: UpdateTaskPriority) => void;
+  };
 }
 
 interface Projects {
@@ -52,40 +50,48 @@ const initialProjects: Projects = {
   },
 };
 
+export interface AddNewTaskPayload {
+  projectId: string;
+  title: string;
+  description: string;
+  id: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+}
+
+export interface DeleteTaskPayload {
+  projectId: string;
+  taskId: string;
+}
+
+export interface UpdateTaskStatusPayload {
+  projectId: string;
+  taskId: string;
+  newStatus: TaskStatus;
+}
+
+export interface UpdateTaskPriority {
+  projectId: string;
+  taskId: string;
+  newPriority: TaskPriority;
+}
+
 export type ProjectAction =
   | {
       type: "ADD_NEW_TASK";
-      payload: {
-        projectId: string;
-        title: string;
-        description: string;
-        id: string;
-        status: TaskStatus;
-        priority: TaskPriority;
-      };
+      payload: AddNewTaskPayload;
     }
   | {
-      type: "REMOVE_TASK";
-      payload: {
-        projectId: string;
-        taskId: string;
-      };
+      type: "DELETE_TASK";
+      payload: DeleteTaskPayload;
     }
   | {
       type: "UPDATE_TASK_STATUS";
-      payload: {
-        projectId: string;
-        taskId: string;
-        newStatus: TaskStatus;
-      };
+      payload: UpdateTaskStatusPayload;
     }
   | {
       type: "UPDATE_TASK_PRIORITY";
-      payload: {
-        projectId: string;
-        taskId: string;
-        newPriority: TaskPriority;
-      };
+      payload: UpdateTaskPriority;
     };
 
 const projectsReducer = (state: Projects, action: ProjectAction): Projects => {
@@ -94,7 +100,7 @@ const projectsReducer = (state: Projects, action: ProjectAction): Projects => {
       const { projectId, ...taskPayload } = action.payload;
 
       const newProjects = structuredClone(state);
-      debugger;
+
       newProjects[projectId] = {
         ...newProjects[projectId],
         tasks: [...(newProjects[projectId]?.tasks || []), taskPayload],
@@ -162,37 +168,71 @@ const projectsReducer = (state: Projects, action: ProjectAction): Projects => {
   }
 };
 
-const ProjectsContext = createContext<ProjectsContext>({
-  projects: {},
-  dispatch: (state) => state,
-});
+const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
 
 export const ProjectsProvider = ({ children }: PropsWithChildren) => {
   const [projects, dispatch] = useReducer(projectsReducer, initialProjects);
 
+  const addNewTask = (payload: AddNewTaskPayload) => {
+    dispatch({
+      type: "ADD_NEW_TASK",
+      payload,
+    });
+  };
+
+  const deleteTask = (payload: DeleteTaskPayload) => {
+    dispatch({
+      type: "DELETE_TASK",
+      payload,
+    });
+  };
+
+  const updateTaskStatus = (payload: UpdateTaskStatusPayload) => {
+    dispatch({
+      type: "UPDATE_TASK_STATUS",
+      payload,
+    });
+  };
+
+  const updateTaskPriority = (payload: UpdateTaskPriority) => {
+    dispatch({
+      type: "UPDATE_TASK_PRIORITY",
+      payload,
+    });
+  };
+
   const contextValue = useMemo(
     () => ({
       projects,
-      dispatch,
+      actions: {
+        addNewTask,
+        deleteTask,
+        updateTaskPriority,
+        updateTaskStatus,
+      },
     }),
-    [dispatch, projects]
+    [projects]
   );
 
-  return (
-    <ProjectsContext.Provider value={contextValue}>
-      {children}
-    </ProjectsContext.Provider>
-  );
+  return <ProjectsContext.Provider value={contextValue}>{children}</ProjectsContext.Provider>;
 };
 
 export const useProjects = () => {
-  const projects = useContext(ProjectsContext);
+  const state = useContext(ProjectsContext);
 
-  if (!projects) {
-    throw new Error(
-      "You must wrap your consumers around <ProjectsContext.Provider /> "
-    );
+  if (!state) {
+    throw new Error("You must wrap your consumers around <ProjectsContext.Provider /> ");
   }
 
-  return projects;
+  return state.projects;
+};
+
+export const useSetProjects = () => {
+  const state = useContext(ProjectsContext);
+
+  if (!state) {
+    throw new Error("You must wrap your consumers around <ProjectsContext.Provider /> ");
+  }
+
+  return state.actions;
 };

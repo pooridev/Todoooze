@@ -10,18 +10,9 @@ import { useProjects } from "../../providers/Projects";
 
 const ProjectPage = () => {
   const router = useRouter();
-
-  // The given ID in the path
   const { project_id } = router.query;
 
-  // All projects that made by user
-  // const projects = useSelector((state: IProjectState) => state.projects);
-
-  // Find that particular project, so we can render its tasks
-  // const project = projects.find((p: ProjectType) => p?.id === project_id);
-
   const projects = useProjects();
-
   const project = projects[String(project_id)];
 
   return (
