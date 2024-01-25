@@ -6,7 +6,7 @@ import styles from "./Header.module.css";
 import Link from "next/link";
 
 interface Props {
-  breadcrumb: {
+  breadcrumb?: {
     label: string;
     href: string;
     isMain: boolean;

@@ -1,5 +1,5 @@
 .Content {
-  @apply flex flex-col m-4 pt-2 px-1;
+  @apply flex flex-col mx-4 mb-4 px-1;
 }
 
 .Description,

@@ -1,5 +1,5 @@
 .Header {
-  @apply select-none m-4 flex justify-between items-center text-gray-lightest text-base;
+  @apply select-none flex justify-between items-center text-gray-lightest text-base;
 }
 
 .Info {
@@ -17,5 +17,5 @@
 }
 
 .CloseModalButton {
-  @apply mr-2 transition-all p-2 rounded-md hover:bg-gray-light;
+  @apply mt-4 mr-4 transition-all p-2 rounded-md hover:bg-gray-light;
 }

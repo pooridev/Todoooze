@@ -87,13 +87,7 @@ const NewTaskModal = ({ taskStatus, isOpen, toggle, projectId, projectTitle }: I
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
-      <Modal.Header
-        toggle={toggle}
-        breadcrumb={[
-          { isMain: true, label: projectTitle, href: "/project/" + projectId },
-          { label: "New Task", isMain: false, href: "/project/" + projectId },
-        ]}
-      />
+      <Modal.Header toggle={toggle} />
       <Modal.Body>
         <div className={styles.Content}>
           <input
