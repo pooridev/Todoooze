@@ -1,10 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import { store } from "../redux/store";
-import { updateTaskStatus } from "../redux/actions/project";
 import { TaskStatusType } from "../types/Task";
 import { Columns } from "../constants/columnsData";
 import { TodoIcon } from "../components/shared/Icon";
-import { ProjectAction, UpdateTaskStatusPayload } from "../providers/Projects";
+import { UpdateTaskStatusPayload } from "../providers/Projects";
 
 /**
  * @description get the status information for the given title.
