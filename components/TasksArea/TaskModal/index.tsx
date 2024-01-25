@@ -95,7 +95,7 @@ const NewTaskModal = ({ taskStatus, isOpen, toggle, projectId, projectTitle }: I
         ]}
       />
       <Modal.Body>
-        <div className={styles.Content} onSubmit={(e) => e.preventDefault()}>
+        <div className={styles.Content}>
           <input
             onChange={({ target }) => setTaskPayload({ ...taskPayload, title: target.value })}
             type="text"
