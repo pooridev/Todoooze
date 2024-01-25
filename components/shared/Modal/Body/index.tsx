@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
 
-const Body = ({ children }: PropsWithChildren) => children;
+const Body = ({ children }: PropsWithChildren) => <>{children}</>;
 
 export default Body;
