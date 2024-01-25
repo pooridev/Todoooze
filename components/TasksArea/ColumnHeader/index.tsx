@@ -1,6 +1,5 @@
 import { useRouter } from "next/dist/client/router";
-import { FC } from "react";
-import { useModal } from "../../../providers/Modal";
+import { FC, useState } from "react";
 import { ProjectType } from "../../../types/ProjectType";
 import { TaskStatusType, TaskType } from "../../../types/Task";
 import { AddIcon } from "../../shared/Icon";
@@ -17,30 +16,32 @@ type ColumnHeaderProps = {
 };
 
 const ColumnHeader: FC<ColumnHeaderProps> = ({ column, project }) => {
-  const { changeModaConfig } = useModal();
+  const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
 
   const openNewTaskModal = () => {
-    changeModaConfig({
-      isOpen: true,
-      breadcrumb: [
-        { isMain: true, label: project.title, href: "/project/" + project.id },
-        { label: "New Task", isMain: false, href: "/project/" + project.id },
-      ],
-      renderModalContent: <NewTaskModal taskStatus={column.name} />,
-    });
+    setIsNewTaskModalOpen(true);
   };
 
   return (
-    <header key={column.name} className={styles.StatusHeader}>
-      <div className={styles.HeaderText}>
-        {column.icon}
-        <p>{column.name}</p>
-        <span>{column?.items?.length}</span>
-      </div>
-      <button onClick={openNewTaskModal} title="Add new task" className={styles.AddTaskButton}>
-        <AddIcon />
-      </button>
-    </header>
+    <>
+      <header key={column.name} className={styles.StatusHeader}>
+        <div className={styles.HeaderText}>
+          {column.icon}
+          <p>{column.name}</p>
+          <span>{column?.items?.length}</span>
+        </div>
+        <button onClick={openNewTaskModal} title="Add new task" className={styles.AddTaskButton}>
+          <AddIcon />
+        </button>
+      </header>
+      <NewTaskModal
+        projectId={project?.id || ""}
+        taskStatus={column.name}
+        projectTitle={project?.title || ""}
+        toggle={setIsNewTaskModalOpen}
+        isOpen={isNewTaskModalOpen}
+      />
+    </>
   );
 };
 

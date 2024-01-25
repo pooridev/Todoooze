@@ -1,4 +1,4 @@
-import { useEffect, useState, FormEvent, memo } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { v4 as uuidv4 } from "uuid";
 
@@ -8,12 +8,16 @@ import { TaskPriority, TaskStatus, TaskType } from "../../../types/Task";
 
 import { statusItems } from "../../../constants/statusItems";
 import { priorityItems } from "../../../constants/priorityItems";
-import { useModal } from "../../../providers/Modal";
 import { PriorityIcon } from "../../shared/Icon";
 import { useProjects, useSetProjects } from "../../../providers/Projects";
+import Modal from "../../shared/Modal";
 
 interface IProps {
   taskStatus: TaskStatus;
+  toggle: (state: boolean) => void;
+  isOpen: boolean;
+  projectTitle: string;
+  projectId: string;
 }
 
 const validateForm = (TASK_PAYLOAD: TaskType) => {
@@ -30,11 +34,7 @@ const validateForm = (TASK_PAYLOAD: TaskType) => {
   return true;
 };
 
-const NewTaskModal = (props: IProps) => {
-  const { taskStatus } = props;
-
-  const { changeModaConfig, modalConfig } = useModal();
-
+const NewTaskModal = ({ taskStatus, isOpen, toggle, projectId, projectTitle }: IProps) => {
   const { addNewTask } = useSetProjects();
 
   const [taskPayload, setTaskPayload] = useState({
@@ -51,9 +51,7 @@ const NewTaskModal = (props: IProps) => {
 
   const recentProject = Object.values(projects)[0];
 
-  const addTaskHandler = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const addTaskHandler = () => {
     const TASK_PAYLOAD = {
       title: taskPayload.title,
       description: taskPayload.description,
@@ -68,14 +66,12 @@ const NewTaskModal = (props: IProps) => {
     if (isValid) {
       addNewTask(TASK_PAYLOAD);
       resetForm();
-      changeModaConfig({ isOpen: false });
       return;
     }
 
     alert("Title and Prority are required");
   };
 
-  // To clear text fields and selected menu items in the modal form
   const resetForm = () => {
     setTaskPayload({
       title: "",
@@ -89,54 +85,57 @@ const NewTaskModal = (props: IProps) => {
     setTaskPayload({ ...taskPayload, status: taskStatus });
   }, [taskStatus]);
 
-  useEffect(() => {
-    changeModaConfig({
-      ...modalConfig,
-      onSubmit: addTaskHandler,
-    });
-  }, [taskPayload, projects]);
-
   return (
-    <div className={styles.Content} onSubmit={(e) => e.preventDefault()}>
-      <input
-        onChange={({ target }) => setTaskPayload({ ...taskPayload, title: target.value })}
-        type="text"
-        autoFocus
-        value={taskPayload.title}
-        className={styles.Title}
-        placeholder="Task title"
-        title="Task title"
+    <Modal isOpen={isOpen} toggle={toggle}>
+      <Modal.Header
+        toggle={toggle}
+        breadcrumb={[
+          { isMain: true, label: projectTitle, href: "/project/" + projectId },
+          { label: "New Task", isMain: false, href: "/project/" + projectId },
+        ]}
       />
-      <textarea
-        value={taskPayload.description}
-        placeholder="Add description..."
-        onChange={({ target }) => setTaskPayload({ ...taskPayload, description: target.value })}
-        className={styles.Description}
-      ></textarea>
-      <div className={styles.Menus}>
-        <Select
-          onChange={(item) => {
-            console.log({ item });
-
-            setTaskPayload({ ...taskPayload, priority: item });
-          }}
-          defaultValue={{ title: "Priority", icon: <PriorityIcon /> }}
-          items={priorityItems}
-          value={taskPayload.priority}
-        />
-        <Select
-          onChange={(item) =>
-            setTaskPayload({
-              ...taskPayload,
-              status: item,
-            })
-          }
-          items={statusItems}
-          value={taskPayload.status}
-        />
-      </div>
-    </div>
+      <Modal.Body>
+        <div className={styles.Content} onSubmit={(e) => e.preventDefault()}>
+          <input
+            onChange={({ target }) => setTaskPayload({ ...taskPayload, title: target.value })}
+            type="text"
+            autoFocus
+            value={taskPayload.title}
+            className={styles.Title}
+            placeholder="Task title"
+            title="Task title"
+          />
+          <textarea
+            value={taskPayload.description}
+            placeholder="Add description..."
+            onChange={({ target }) => setTaskPayload({ ...taskPayload, description: target.value })}
+            className={styles.Description}
+          />
+          <div className={styles.Menus}>
+            <Select
+              onChange={(item) => {
+                setTaskPayload({ ...taskPayload, priority: item });
+              }}
+              defaultValue={{ title: "Priority", icon: <PriorityIcon /> }}
+              items={priorityItems}
+              value={taskPayload.priority}
+            />
+            <Select
+              onChange={(item) =>
+                setTaskPayload({
+                  ...taskPayload,
+                  status: item,
+                })
+              }
+              items={statusItems}
+              value={taskPayload.status}
+            />
+          </div>
+        </div>
+      </Modal.Body>
+      <Modal.Footer toggle={toggle} onSubmit={addTaskHandler} />
+    </Modal>
   );
 };
 
-export default memo(NewTaskModal);
+export default NewTaskModal;

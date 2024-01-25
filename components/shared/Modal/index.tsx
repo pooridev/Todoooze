@@ -1,33 +1,29 @@
-import { ReactChild } from 'react';
+import { PropsWithChildren, ReactChild } from "react";
 
-import styles from './Modal.module.css';
-import Header from './Header';
-import Footer from './Footer';
-import { useModal } from '../../../providers/Modal';
+import styles from "./Modal.module.css";
+import Header from "./Header";
+import Footer from "./Footer";
+import Body from "./Body";
+import classNames from "classnames";
+import { createPortal } from "react-dom";
 
-/**
- *
- * A component that renders the configured modal
- *
- * Hooks:
- * - useModal: use to open/close and config the modal.
- */
-const Modal = () => {
-  const { modalConfig } = useModal();
-  const { isOpen, renderModalContent, onSubmit } = modalConfig;
+const modalRoot = typeof window != "undefined" && document.querySelector("body");
 
-  const cssClasses = [styles.Modal];
+interface Props {
+  isOpen: boolean;
+  toggle: (state: boolean) => void;
+}
 
-  if (isOpen) cssClasses.push(styles.Open);
-
-  return (
-    <form className={cssClasses.join(' ')} onSubmit={e => e.preventDefault()}>
-      <Header />
-      {/* the content of the modal */}
-      {renderModalContent}
-      <Footer />
-    </form>
+const Modal = ({ isOpen, children }: PropsWithChildren<Props>) => {
+  return modalRoot ? (
+    createPortal(<div className={classNames(styles.Modal, { [styles.Open]: isOpen })}>{children}</div>, modalRoot)
+  ) : (
+    <div className={classNames(styles.Modal, { [styles.Open]: isOpen })}>{children}</div>
   );
 };
+
+Modal.Header = Header;
+Modal.Body = Body;
+Modal.Footer = Footer;
 
 export default Modal;

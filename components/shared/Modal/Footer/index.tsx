@@ -1,22 +1,22 @@
-import { useModal } from '../../../../providers/Modal';
+import styles from "./Footer.module.css";
 
-import styles from './Footer.module.css';
+interface Props {
+  onSubmit: () => void;
+  dismissLabel?: string;
+  submitLabel?: string;
+  toggle: (state: boolean) => void;
+}
 
-const Footer = () => {
-  const { modalConfig, changeModaConfig } = useModal();
-  const { onSubmit, cancelText, submitText } = modalConfig;
-  const onClose = () => {
-    changeModaConfig({
-      isOpen: false
-    });
-  };
+const Footer = ({ toggle, onSubmit, dismissLabel, submitLabel }: Props) => {
+  const onClose = () => toggle(false);
+
   return (
     <footer className={styles.Footer}>
       <button onClick={onClose} className={styles.CancelButton}>
-        {cancelText || 'Cancel'}
+        {dismissLabel || "Cancel"}
       </button>
-      <button type='submit' onClick={onSubmit} className={styles.SubmitButton}>
-        {submitText || 'Save'}
+      <button type="submit" onClick={onSubmit} className={styles.SubmitButton}>
+        {submitLabel || "Save"}
       </button>
     </footer>
   );

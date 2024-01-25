@@ -1,12 +1,12 @@
-import { useRef } from 'react';
+import { useRef } from "react";
 
-import styles from './Sidebar.module.css';
-import Avatar from './Avatar';
-import NewTask from './NewProject';
-import Actions from './Actions';
-import Projects from './Projects';
-import { useSidebar } from '../../providers/Sidebar';
-import useOutsideClickHandler from './../../hooks/useOutsideClickHandler';
+import styles from "./Sidebar.module.css";
+import Avatar from "./Avatar";
+import NewTask from "./NewProject";
+import Actions from "./Actions";
+import Projects from "./Projects";
+import { useSidebar } from "../../providers/Sidebar";
+import useOutsideClickHandler from "./../../hooks/useOutsideClickHandler";
 
 /**
  * @description main sidebar of the app
@@ -28,7 +28,7 @@ const Sidebar = () => {
   useOutsideClickHandler({ callback: closeSidebar, ref: sidebarRef });
 
   return (
-    <aside className={sidebarClasses.join(' ')} ref={sidebarRef}>
+    <aside className={sidebarClasses.join(" ")} ref={sidebarRef}>
       <Avatar />
       <NewTask />
       <Actions />

@@ -1,5 +1,5 @@
 .Footer {
-  @apply flex py-3 px-4 justify-end border-t border-gray-light;
+  @apply flex py-3 px-4 gap-2 justify-end border-t border-gray-light;
 }
 
 .SubmitButton {
@@ -7,5 +7,5 @@
 }
 
 .CancelButton {
-  @apply px-4 py-1 bg-gray-light text-sm text-gray-dark font-semibold rounded-md;
+  @apply px-4 py-1 bg-gray-lighter text-sm text-gray-400 font-semibold rounded-md;
 }

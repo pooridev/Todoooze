@@ -4,7 +4,7 @@ import "tailwindcss/tailwind.css";
 import "../styles/globals.css";
 import Layout from "../layout/Layout";
 import { SidebarProvider } from "../providers/Sidebar";
-import { ModalProvider } from "../providers/Modal";
+
 import { combineProviders } from "../helpers/combineProviders";
 import { ProjectsProvider } from "../providers/Projects";
 
@@ -17,7 +17,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     </RootProvider>
   );
 }
-
-const RootProvider = combineProviders([ProjectsProvider, ModalProvider, SidebarProvider, ModalProvider]);
+const RootProvider = combineProviders([ProjectsProvider, SidebarProvider]);
 
 export default MyApp;
