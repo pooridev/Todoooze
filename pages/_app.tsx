@@ -17,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     </RootProvider>
   );
 }
+
 const RootProvider = combineProviders([ProjectsProvider, SidebarProvider]);
 
 export default MyApp;

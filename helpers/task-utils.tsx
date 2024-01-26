@@ -1,39 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import { TaskStatusType } from "../types/Task";
 import { Columns } from "../constants/columnsData";
-import { TodoIcon } from "../components/shared/Icon";
 import { UpdateTaskStatusPayload } from "../providers/Projects";
-
-/**
- * @description get the status information for the given title.
- */
-export const getStatus = (status: TaskStatusType["title"]): TaskStatusType => {
-  type StatusMapType = {
-    [key in TaskStatusType["title"]]: TaskStatusType;
-  };
-
-  const STATUS_MAP: StatusMapType = {
-    Todo: {
-      title: "Todo",
-      icon: <TodoIcon />,
-    },
-    "In Progress": {
-      title: "In Progress",
-      icon: <TodoIcon />,
-    },
-    "In Review": {
-      title: "In Review",
-      icon: <TodoIcon />,
-    },
-
-    Done: {
-      title: "Done",
-      icon: <TodoIcon />,
-    },
-  };
-
-  return STATUS_MAP[status];
-};
 
 export type Result = {
   draggableId: string;
