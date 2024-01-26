@@ -7,13 +7,18 @@ import { ProjectType } from "../../types/ProjectType";
 import { IProjectState } from "./../../types/IProjectState";
 import styles from "./project.module.css";
 import { useProjects } from "../../providers/Projects";
+import { useEffect } from "react";
 
 const ProjectPage = () => {
   const router = useRouter();
   const { project_id } = router.query;
 
   const projects = useProjects();
-  const project = projects[String(project_id)];
+  const project = projects[String(project_id)] ?? {};
+
+  useEffect(() => {
+    if (project.title) document.title = project.title;
+  }, [project_id]);
 
   return (
     <>

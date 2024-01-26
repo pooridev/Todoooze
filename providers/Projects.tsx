@@ -139,7 +139,7 @@ const projectsReducer = (state: Projects, action: ProjectAction): Projects => {
 
       const updatedTasks = newProjects[projectId].tasks.map((task) => {
         // Did match?
-        // updated its priority
+        // updated its status
         if (task.id === taskId) {
           task.status = newStatus;
         }
