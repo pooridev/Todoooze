@@ -10,10 +10,6 @@
   },
   "dependencies": {
     "@radix-ui/react-context-menu": "^0.1.1",
-    "@trpc/client": "^9.25.3",
-    "@trpc/next": "^9.25.3",
-    "@trpc/react": "^9.25.3",
-    "@trpc/server": "^9.25.3",
     "@vechaiui/core": "^0.6.0",
     "@vechaiui/react": "^0.2.1",
     "classnames": "^2.5.1",
@@ -23,8 +19,7 @@
     "react-beautiful-dnd-next": "^11.0.5",
     "react-dom": "^18.2.0",
     "react-query": "^3.39.1",
-    "uuidv4": "^6.2.12",
-    "zod": "^3.17.3"
+    "uuidv4": "^6.2.12"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.15.0",
