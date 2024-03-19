@@ -8,19 +8,21 @@ import { useEffect } from "react";
 
 const ProjectPage = () => {
   const router = useRouter();
-  const { project_id } = router.query;
+  const projectId = String(router.query.project_id);
 
   const projects = useProjects();
-  const project = projects[String(project_id)] ?? {};
+  const project = projects[projectId] ?? {};
+
+  const projectTitle = project.title;
 
   useEffect(() => {
-    if (project.title) document.title = project.title;
-  }, [project_id]);
+    if (projectTitle) document.title = projectTitle;
+  }, [projectId]);
 
   return (
     <>
       <Navbar>
-        <h2 className={styles.Title}>{project?.title}&apos; tasks </h2>
+        <h2 className={styles.Title}>{projectTitle}&apos; tasks </h2>
       </Navbar>
       <TasksArea project={project!} />
     </>

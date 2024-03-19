@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactChild } from "react";
+import { PropsWithChildren } from "react";
 
 import styles from "./Modal.module.css";
 import Header from "./Header";

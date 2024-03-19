@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { createContext, useContext, useState } from 'react';
+import { PropsWithChildren, ReactNode } from "react";
+import { createContext, useContext, useState } from "react";
 
 type SidebarContextType = {
   isOpen: boolean;
@@ -10,10 +10,10 @@ type SidebarContextType = {
 const SidebarContext = createContext<SidebarContextType>({
   isOpen: false,
   closeSidebar: () => {},
-  openSidebar: () => {}
+  openSidebar: () => {},
 });
 
-const SidebarProvider = ({ children }: { children: ReactNode }) => {
+const SidebarProvider = ({ children }: PropsWithChildren) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openSidebar = () => setIsOpen(true);
@@ -22,12 +22,10 @@ const SidebarProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     isOpen,
     openSidebar,
-    closeSidebar
+    closeSidebar,
   };
 
-  return (
-    <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
-  );
+  return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>;
 };
 
 const useSidebar = () => useContext(SidebarContext);
