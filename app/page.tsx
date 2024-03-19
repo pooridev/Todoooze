@@ -1,3 +1,4 @@
+"use client";
 import TasksArea from "../components/TasksArea";
 import Navbar from "../components/shared/Navbar/Navbar";
 import styles from "./Home.module.css";
