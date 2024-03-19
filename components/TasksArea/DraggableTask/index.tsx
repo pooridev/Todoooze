@@ -57,7 +57,7 @@ const DraggableTask: FC<IProps> = ({ column, list }) => {
                 >
                   <div className={styles.TaskHeader}>
                     <p title={item?.title}>{item?.title}</p>
-                    <Image alt="Pooria Faramarzian" width="19" height="19" src={userAvatar} className={styles.Avatar} />
+                    <Image alt="Pooria Faramarzian" width={19} height={19} src={userAvatar} className={styles.Avatar} />
                     <div className={styles.AvatarStatus} />
                   </div>
                   <div className={styles.TaskFooter}>

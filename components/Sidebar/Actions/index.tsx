@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import Link from 'next/link';
+import { FC } from "react";
+import Link from "next/link";
 
-import { RecentIcon, SearchIcon } from '../../shared/Icon';
-import styles from './Action.module.css';
+import { RecentIcon, SearchIcon } from "../../shared/Icon";
+import styles from "./Action.module.css";
 
 /**
  *
@@ -11,21 +11,17 @@ import styles from './Action.module.css';
 
 const Actions: FC = () => {
   return (
-    <ul className={styles['Actions']}>
-      <li className={styles['Action']}>
-        <Link href='/search'>
-          <a>
-            <SearchIcon className={styles['Icon']} />
-            Search
-          </a>
+    <ul className={styles["Actions"]}>
+      <li className={styles["Action"]}>
+        <Link href="/search">
+          <SearchIcon className={styles["Icon"]} />
+          Search
         </Link>
       </li>
-      <li className={styles['Action']}>
-        <Link href='/recent'>
-          <a>
-            <RecentIcon className={styles['Icon']} />
-            Recent
-          </a>
+      <li className={styles["Action"]}>
+        <Link href="/recent">
+          <RecentIcon className={styles["Icon"]} />
+          Recent
         </Link>
       </li>
     </ul>

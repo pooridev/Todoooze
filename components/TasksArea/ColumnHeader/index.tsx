@@ -1,4 +1,4 @@
-import { useRouter } from "next/dist/client/router";
+"use client";
 import { FC, useState } from "react";
 import { ProjectType } from "../../../types/ProjectType";
 import { TaskStatusType, TaskType } from "../../../types/Task";

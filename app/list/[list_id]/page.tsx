@@ -1,14 +1,15 @@
-import { useRouter } from "next/dist/client/router";
+"use client";
+import { useParams } from "next/navigation";
 
-import TasksArea from "../../components/TasksArea";
-import Navbar from "../../components/shared/Navbar/Navbar";
+import TasksArea from "../../../components/TasksArea";
+import Navbar from "../../../components/shared/Navbar/Navbar";
 import styles from "./List.module.css";
-import { useLists } from "../../providers/Lists";
+import { useLists } from "../../../providers/Lists";
 import { useEffect } from "react";
 
 const ProjectPage = () => {
-  const router = useRouter();
-  const listId = String(router.query.list_id);
+  const query = useParams();
+  const listId = String(query.list_id);
 
   const lists = useLists();
   const list = lists[listId] ?? {};

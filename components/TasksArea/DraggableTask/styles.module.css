@@ -34,7 +34,7 @@
 }
 
 .Avatar {
-  @apply flex-1 rounded-full object-contain;
+  @apply rounded-full object-contain;
 }
 
 .AvatarStatus {

@@ -30,9 +30,7 @@ const Header = ({ breadcrumb, toggle }: Props) => {
               </h5>
             ) : (
               <p>
-                <Link href={item.href}>
-                  <a>› {item.label}</a>
-                </Link>
+                <Link href={item.href}>{item.label}</Link>
               </p>
             )}
           </Fragment>

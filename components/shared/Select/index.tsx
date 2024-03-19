@@ -1,3 +1,4 @@
+"use client";
 import { FC, ReactElement, useState, useRef } from "react";
 
 import styles from "./Select.module.css";
@@ -22,15 +23,7 @@ interface IProps<T> {
 }
 
 const Select = <T extends string>(props: IProps<T>) => {
-  const {
-    items,
-    onChange,
-    defaultValue,
-    value,
-    readonly = false,
-    variant = "contained",
-    iconOnly = false,
-  } = props;
+  const { items, onChange, defaultValue, value, readonly = false, variant = "contained", iconOnly = false } = props;
 
   const selectRef = useRef<HTMLUListElement>(null);
 
@@ -56,8 +49,7 @@ const Select = <T extends string>(props: IProps<T>) => {
     <div className="relative">
       <button className={buttonClasses.join(" ")} onClick={openSelect}>
         <span>{valueWithIcon?.icon || defaultValue?.icon}</span>
-        {(!iconOnly && <span>{valueWithIcon?.title}</span>) ||
-          (!iconOnly && defaultValue?.title)}
+        {(!iconOnly && <span>{valueWithIcon?.title}</span>) || (!iconOnly && defaultValue?.title)}
       </button>
       {!readonly && (
         <div className={selectClasses.join(" ")}>

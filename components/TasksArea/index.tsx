@@ -1,6 +1,7 @@
+"use client";
 import { useState, useEffect, FC } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd-next";
-import { useRouter } from "next/dist/client/router";
+import { useParams } from "next/navigation";
 
 import styles from "./TasksArea.module.css";
 import { ProjectType } from "../../types/ProjectType";
@@ -17,8 +18,8 @@ interface IProps {
 const TasksArea: FC<IProps> = ({ list }) => {
   const [columns, setColumns] = useState<Columns>(columnsData);
 
-  const router = useRouter();
-  const { list_id } = router.query;
+  const query = useParams();
+  const { list_id } = query;
 
   const { updateTaskStatus } = useSetLists();
 

@@ -1,3 +1,4 @@
+"use client";
 import { Dispatch, PropsWithChildren, createContext, useContext, useMemo, useReducer } from "react";
 import { TaskPriority, TaskStatus, TaskType } from "../types/Task";
 

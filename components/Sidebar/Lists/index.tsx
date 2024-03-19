@@ -1,3 +1,4 @@
+"use client";
 import { FC, useState } from "react";
 import Link from "next/link";
 
@@ -7,7 +8,7 @@ import { ProjectType } from "../../../types/ProjectType";
 
 import { useLists } from "../../../providers/Lists";
 import classNames from "classnames";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 const Lists: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,15 +39,15 @@ const Lists: FC = () => {
 };
 
 const ProjectListItem = ({ list }: { list: ProjectType }) => {
-  const router = useRouter();
+  const pathname = usePathname();
 
-  const isLinkActive = (pathname: string) => router.asPath == pathname;
+  const isLinkActive = (_pathname: string) => pathname == _pathname;
 
   return (
     <li key={list.id} className={styles.List}>
       <span className={classNames(styles.Title, { [styles.ActiveLink]: isLinkActive(`/list/${list.id}`) })}>
         <Link href={`/list/${list.id}`} passHref>
-          <a className="flex-grow">{list.title}</a>
+          <span className="flex-grow">{list.title}</span>
         </Link>
         <button className={styles.OpenOptionsButton}>
           <ThreeDotsIcon />

@@ -1,5 +1,6 @@
+"use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/dist/client/router";
+import { useParams } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 
 import styles from "./TaskModal.module.css";
@@ -42,8 +43,8 @@ const NewTaskModal = ({ taskStatus, isOpen, toggle }: IProps) => {
     priority: "Priority" as TaskPriority,
   });
 
-  const router = useRouter();
-  const { list_id } = router.query;
+  const query = useParams();
+  const { list_id } = query;
 
   const lists = useLists();
 
