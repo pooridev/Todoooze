@@ -1,3 +1,4 @@
+"use client";
 import Navbar from "../../components/shared/Navbar/Navbar";
 
 import Link from "next/link";
