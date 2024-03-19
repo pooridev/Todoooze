@@ -6,7 +6,7 @@ import Layout from "../layout/Layout";
 import { SidebarProvider } from "../providers/Sidebar";
 
 import { combineProviders } from "../helpers/combineProviders";
-import { ProjectsProvider } from "../providers/Projects";
+import { ListsProvider } from "../providers/Lists";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -18,6 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-const RootProvider = combineProviders([ProjectsProvider, SidebarProvider]);
+const RootProvider = combineProviders([ListsProvider, SidebarProvider]);
 
 export default MyApp;

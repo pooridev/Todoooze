@@ -12,10 +12,10 @@ type ColumnHeaderProps = {
     icon: TaskStatusType["icon"];
     items: TaskType[];
   };
-  project: ProjectType;
+  list: ProjectType;
 };
 
-const ColumnHeader: FC<ColumnHeaderProps> = ({ column, project }) => {
+const ColumnHeader: FC<ColumnHeaderProps> = ({ column, list }) => {
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
 
   const openNewTaskModal = () => {
@@ -34,13 +34,7 @@ const ColumnHeader: FC<ColumnHeaderProps> = ({ column, project }) => {
           <AddIcon />
         </button>
       </header>
-      <NewTaskModal
-        projectId={project?.id || ""}
-        taskStatus={column.name}
-        projectTitle={project?.title || ""}
-        toggle={setIsNewTaskModalOpen}
-        isOpen={isNewTaskModalOpen}
-      />
+      <NewTaskModal taskStatus={column.name} toggle={setIsNewTaskModalOpen} isOpen={isNewTaskModalOpen} />
     </>
   );
 };

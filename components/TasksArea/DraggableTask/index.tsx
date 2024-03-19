@@ -12,7 +12,7 @@ import { statusItems } from "../../../constants/statusItems";
 import { priorityItems } from "../../../constants/priorityItems";
 import { ProjectType } from "../../../types/ProjectType";
 
-import { useProjects, useSetProjects } from "../../../providers/Projects";
+import { useLists, useSetLists } from "../../../providers/Lists";
 
 interface IProps {
   column: {
@@ -20,17 +20,17 @@ interface IProps {
     icon: ReactElement | JSX.Element;
     items: Array<TaskType>;
   };
-  project: ProjectType;
+  list: ProjectType;
 }
 
-const DraggableTask: FC<IProps> = ({ column, project }) => {
-  const { updateTaskPriority, updateTaskStatus } = useSetProjects();
+const DraggableTask: FC<IProps> = ({ column, list }) => {
+  const { updateTaskPriority, updateTaskStatus } = useSetLists();
 
   const updateTaskStatusHandler = (taskId: string, newStatus: TaskStatus) => {
     updateTaskStatus({
       newStatus,
       taskId: taskId,
-      projectId: project.id,
+      listId: list.id,
     });
   };
 
@@ -38,7 +38,7 @@ const DraggableTask: FC<IProps> = ({ column, project }) => {
     updateTaskPriority({
       newPriority,
       taskId,
-      projectId: project.id,
+      listId: list.id,
     });
   };
 

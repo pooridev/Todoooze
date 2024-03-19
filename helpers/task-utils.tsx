@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Columns } from "../constants/columnsData";
-import { UpdateTaskStatusPayload } from "../providers/Projects";
+import { UpdateTaskStatusPayload } from "../providers/Lists";
 
 export type Result = {
   draggableId: string;
@@ -37,7 +37,7 @@ export const onDragEnd = (
     const status = destColumn.name;
 
     onUpdateTaskStatus({
-      projectId: projectId,
+      listId: projectId,
       taskId,
       newStatus: status,
     });

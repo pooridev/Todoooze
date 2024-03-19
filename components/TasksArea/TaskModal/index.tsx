@@ -9,15 +9,13 @@ import { TaskPriority, TaskStatus, TaskType } from "../../../types/Task";
 import { statusItems } from "../../../constants/statusItems";
 import { priorityItems } from "../../../constants/priorityItems";
 import { PriorityIcon } from "../../shared/Icon";
-import { useProjects, useSetProjects } from "../../../providers/Projects";
+import { useLists, useSetLists } from "../../../providers/Lists";
 import Modal from "../../shared/Modal";
 
 interface IProps {
   taskStatus: TaskStatus;
   toggle: (state: boolean) => void;
   isOpen: boolean;
-  projectTitle: string;
-  projectId: string;
 }
 
 const validateForm = (TASK_PAYLOAD: TaskType) => {
@@ -34,8 +32,8 @@ const validateForm = (TASK_PAYLOAD: TaskType) => {
   return true;
 };
 
-const NewTaskModal = ({ taskStatus, isOpen, toggle, projectId, projectTitle }: IProps) => {
-  const { addNewTask } = useSetProjects();
+const NewTaskModal = ({ taskStatus, isOpen, toggle }: IProps) => {
+  const { addNewTask } = useSetLists();
 
   const [taskPayload, setTaskPayload] = useState({
     title: "",
@@ -45,11 +43,11 @@ const NewTaskModal = ({ taskStatus, isOpen, toggle, projectId, projectTitle }: I
   });
 
   const router = useRouter();
-  const { project_id } = router.query;
+  const { list_id } = router.query;
 
-  const projects = useProjects();
+  const lists = useLists();
 
-  const recentProject = Object.values(projects)[0];
+  const recentList = Object.values(lists)[0];
 
   const addTaskHandler = () => {
     const TASK_PAYLOAD = {
@@ -58,7 +56,7 @@ const NewTaskModal = ({ taskStatus, isOpen, toggle, projectId, projectTitle }: I
       id: uuidv4(),
       status: taskPayload.status,
       priority: taskPayload.priority,
-      projectId: String(project_id || recentProject.id),
+      listId: String(list_id || recentList.id),
     };
 
     const isValid = validateForm(TASK_PAYLOAD);

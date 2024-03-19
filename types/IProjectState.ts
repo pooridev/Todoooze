@@ -1,5 +1,5 @@
-import { ProjectType } from './ProjectType';
+import { ProjectType } from "./ProjectType";
 
 export interface IProjectState {
-  projects: Array<ProjectType>;
+  Lists: Array<ProjectType>;
 }

@@ -1,8 +1,8 @@
 import { Dispatch, PropsWithChildren, createContext, useContext, useMemo, useReducer } from "react";
 import { TaskPriority, TaskStatus, TaskType } from "../types/Task";
 
-interface ProjectsContextType {
-  projects: Projects;
+interface ListsContextType {
+  Lists: Lists;
   actions: {
     addNewTask: (payload: AddNewTaskPayload) => void;
     deleteTask: (payload: DeleteTaskPayload) => void;
@@ -11,8 +11,8 @@ interface ProjectsContextType {
   };
 }
 
-interface Projects {
-  [projectId: string]: {
+interface Lists {
+  [listId: string]: {
     id: string;
     title: string;
     description: string;
@@ -20,8 +20,8 @@ interface Projects {
   };
 }
 
-const initialProjects: Projects = {
-  //👇🏼 Proejct id
+const initialLists: Lists = {
+  //👇🏼 List id
   "1": {
     id: "1",
     title: "Snappfood",
@@ -51,7 +51,7 @@ const initialProjects: Projects = {
 };
 
 export interface AddNewTaskPayload {
-  projectId: string;
+  listId: string;
   title: string;
   description: string;
   id: string;
@@ -60,23 +60,23 @@ export interface AddNewTaskPayload {
 }
 
 export interface DeleteTaskPayload {
-  projectId: string;
+  listId: string;
   taskId: string;
 }
 
 export interface UpdateTaskStatusPayload {
-  projectId: string;
+  listId: string;
   taskId: string;
   newStatus: TaskStatus;
 }
 
 export interface UpdateTaskPriority {
-  projectId: string;
+  listId: string;
   taskId: string;
   newPriority: TaskPriority;
 }
 
-export type ProjectAction =
+export type ListAction =
   | {
       type: "ADD_NEW_TASK";
       payload: AddNewTaskPayload;
@@ -94,27 +94,27 @@ export type ProjectAction =
       payload: UpdateTaskPriority;
     };
 
-const projectsReducer = (state: Projects, action: ProjectAction): Projects => {
+const listsReducer = (state: Lists, action: ListAction): Lists => {
   switch (action.type) {
     case "ADD_NEW_TASK": {
-      const { projectId, ...taskPayload } = action.payload;
+      const { listId, ...taskPayload } = action.payload;
 
-      const newProjects = structuredClone(state);
+      const newLists = structuredClone(state);
 
-      newProjects[projectId] = {
-        ...newProjects[projectId],
-        tasks: [...(newProjects[projectId]?.tasks || []), taskPayload],
+      newLists[listId] = {
+        ...newLists[listId],
+        tasks: [...(newLists[listId]?.tasks || []), taskPayload],
       };
 
-      return newProjects;
+      return newLists;
     }
 
     case "UPDATE_TASK_PRIORITY": {
-      const { projectId, newPriority, taskId } = action.payload;
+      const { listId, newPriority, taskId } = action.payload;
 
-      const newProjects = structuredClone(state);
+      const newLists = structuredClone(state);
 
-      const updatedTasks = newProjects[projectId].tasks.map((task) => {
+      const updatedTasks = newLists[listId].tasks.map((task) => {
         // Did match?
         // updated its priority
         if (task.id === taskId) {
@@ -124,20 +124,20 @@ const projectsReducer = (state: Projects, action: ProjectAction): Projects => {
         return task;
       });
 
-      newProjects[projectId] = {
-        ...newProjects[projectId],
+      newLists[listId] = {
+        ...newLists[listId],
         tasks: updatedTasks,
       };
 
-      return newProjects;
+      return newLists;
     }
 
     case "UPDATE_TASK_STATUS": {
-      const { taskId, projectId, newStatus } = action.payload;
+      const { taskId, listId, newStatus } = action.payload;
 
-      const newProjects = structuredClone(state);
+      const newLists = structuredClone(state);
 
-      const updatedTasks = newProjects[projectId].tasks.map((task) => {
+      const updatedTasks = newLists[listId].tasks.map((task) => {
         // Did match?
         // updated its status
         if (task.id === taskId) {
@@ -147,12 +147,12 @@ const projectsReducer = (state: Projects, action: ProjectAction): Projects => {
         return task;
       });
 
-      newProjects[projectId] = {
-        ...newProjects[projectId],
+      newLists[listId] = {
+        ...newLists[listId],
         tasks: updatedTasks,
       };
 
-      return newProjects;
+      return newLists;
     }
 
     default: {
@@ -168,10 +168,10 @@ const projectsReducer = (state: Projects, action: ProjectAction): Projects => {
   }
 };
 
-const ProjectsContext = createContext<ProjectsContextType | undefined>(undefined);
+const ListsContext = createContext<ListsContextType | undefined>(undefined);
 
-export const ProjectsProvider = ({ children }: PropsWithChildren) => {
-  const [projects, dispatch] = useReducer(projectsReducer, initialProjects);
+export const ListsProvider = ({ children }: PropsWithChildren) => {
+  const [Lists, dispatch] = useReducer(listsReducer, initialLists);
 
   const addNewTask = (payload: AddNewTaskPayload) => {
     dispatch({
@@ -203,7 +203,7 @@ export const ProjectsProvider = ({ children }: PropsWithChildren) => {
 
   const contextValue = useMemo(
     () => ({
-      projects,
+      Lists,
       actions: {
         addNewTask,
         deleteTask,
@@ -211,27 +211,27 @@ export const ProjectsProvider = ({ children }: PropsWithChildren) => {
         updateTaskStatus,
       },
     }),
-    [projects]
+    [Lists]
   );
 
-  return <ProjectsContext.Provider value={contextValue}>{children}</ProjectsContext.Provider>;
+  return <ListsContext.Provider value={contextValue}>{children}</ListsContext.Provider>;
 };
 
-export const useProjects = () => {
-  const state = useContext(ProjectsContext);
+export const useLists = () => {
+  const state = useContext(ListsContext);
 
   if (!state) {
-    throw new Error("You must wrap your consumers around <ProjectsContext.Provider /> ");
+    throw new Error("You must wrap your consumers around <ListsContext.Provider /> ");
   }
 
-  return state.projects;
+  return state.Lists;
 };
 
-export const useSetProjects = () => {
-  const state = useContext(ProjectsContext);
+export const useSetLists = () => {
+  const state = useContext(ListsContext);
 
   if (!state) {
-    throw new Error("You must wrap your consumers around <ProjectsContext.Provider /> ");
+    throw new Error("You must wrap your consumers around <ListsContext.Provider /> ");
   }
 
   return state.actions;

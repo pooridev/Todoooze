@@ -3,7 +3,7 @@ import { useRef } from "react";
 import styles from "./Sidebar.module.css";
 import Avatar from "./Avatar";
 import Actions from "./Actions";
-import Projects from "./Projects";
+import Lists from "./Lists";
 import { useSidebar } from "../../providers/Sidebar";
 import useOutsideClickHandler from "./../../hooks/useOutsideClickHandler";
 import classNames from "classnames";
@@ -21,7 +21,7 @@ const Sidebar = () => {
       <Avatar />
       <NewProject />
       <Actions />
-      <Projects />
+      <Lists />
     </aside>
   );
 };

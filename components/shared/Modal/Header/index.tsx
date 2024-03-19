@@ -24,7 +24,7 @@ const Header = ({ breadcrumb, toggle }: Props) => {
         {breadcrumb?.map((item) => (
           <Fragment key={item.href}>
             {item.isMain ? (
-              <h5 className={styles.Label} title="Project name">
+              <h5 className={styles.Label} title="List name">
                 <ProfileIcon />
                 <Link href={item.href}>{item.label}</Link>
               </h5>

@@ -9,7 +9,7 @@ const NewProject: FC = () => {
       <div className={styles["NewTaskButtonWrapper"]}>
         <button className={styles["NewTaskButton"]}>
           <WritingIcon className={`${styles["newTaskIcon"]} group-hover:fill-lightest`} />
-          New Project
+          New List
         </button>
       </div>
     </div>

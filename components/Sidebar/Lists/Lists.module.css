@@ -1,8 +1,8 @@
-.Lists {
+.ListsWrapper {
   @apply mt-5;
 }
 
-.Project {
+.List {
   @apply mt-1 relative;
 }
 
@@ -37,16 +37,16 @@
   transform: rotate(90deg);
 }
 
-.Projects {
+.Lists {
   transition: all ease 0.2s;
   @apply h-0 overflow-hidden mt-1;
 }
 
-.Projects.Open {
-  animation: Projects 0.2s forwards !important;
+.Lists.Open {
+  animation: Lists 0.2s forwards !important;
 }
 
-@keyframes Projects {
+@keyframes Lists {
   0% {
     height: 0;
   }

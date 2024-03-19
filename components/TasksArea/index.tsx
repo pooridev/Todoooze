@@ -8,21 +8,21 @@ import DraggableTask from "./DraggableTask";
 import { Columns, columnsData } from "../../constants/columnsData";
 import { onDragEnd, Result } from "../../helpers/task-utils";
 import ColumnHeader from "./ColumnHeader";
-import { useSetProjects } from "../../providers/Projects";
+import { useSetLists } from "../../providers/Lists";
 
 interface IProps {
-  project: ProjectType;
+  list: ProjectType;
 }
 
-const TasksArea: FC<IProps> = ({ project }) => {
+const TasksArea: FC<IProps> = ({ list }) => {
   const [columns, setColumns] = useState<Columns>(columnsData);
 
   const router = useRouter();
-  const { project_id } = router.query;
+  const { list_id } = router.query;
 
-  const { updateTaskStatus } = useSetProjects();
+  const { updateTaskStatus } = useSetLists();
 
-  const tasks = project?.tasks || [];
+  const tasks = list?.tasks || [];
 
   const todoTasks = tasks.filter((task) => task.status === "Todo");
   const inProgressTasks = tasks.filter((task) => task.status === "In Progress");
@@ -32,7 +32,7 @@ const TasksArea: FC<IProps> = ({ project }) => {
   useEffect(() => {
     const columnsArray = Object.entries(columns);
     columnsArray.forEach(([columnId, column]) => {
-      // To clear tasks while switching between projects
+      // To clear tasks while switching between lists
       column.items = [];
 
       if (column.name === "Todo" && todoTasks?.length) {
@@ -59,22 +59,22 @@ const TasksArea: FC<IProps> = ({ project }) => {
         setColumns({ ...columns, [columnId]: column });
       }
     });
-  }, [project_id, project]);
+  }, [list_id, list]);
 
   return (
     <>
       <section className={styles.TasksArea}>
         <DragDropContext
-          onDragEnd={(result: Result) => onDragEnd(result, columns, setColumns, project.id, updateTaskStatus)}
+          onDragEnd={(result: Result) => onDragEnd(result, columns, setColumns, list.id, updateTaskStatus)}
         >
           {Object.entries(columns).map(([columnId, column]) => (
             <div className={styles.TasksStatus} key={columnId}>
-              <ColumnHeader column={column} key={columnId} project={project} />
+              <ColumnHeader column={column} key={columnId} list={list} />
               <div>
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided: typeof Droppable) => (
                     <div style={{ minHeight: "100vh" }} {...provided.droppableProps} ref={provided.innerRef}>
-                      <DraggableTask project={project} column={column} />
+                      <DraggableTask list={list} column={column} />
                       {provided.placeholder}
                     </div>
                   )}
