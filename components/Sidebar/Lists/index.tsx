@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import styles from "./Lists.module.css";
 import { ArrowRight, ThreeDotsIcon } from "../../shared/Icon";
-import { ProjectType } from "../../../types/ProjectType";
+import { ListType } from "../../../types/ListType";
 
 import { useLists } from "../../../providers/Lists";
 import classNames from "classnames";
@@ -38,7 +38,7 @@ const Lists: FC = () => {
   );
 };
 
-const ProjectListItem = ({ list }: { list: ProjectType }) => {
+const ProjectListItem = ({ list }: { list: ListType }) => {
   const pathname = usePathname();
 
   const isLinkActive = (_pathname: string) => pathname == _pathname;

@@ -1,6 +1,6 @@
 import { TaskType } from "./Task";
 
-export type ProjectType = {
+export type ListType = {
   id: string;
   title: string;
   tasks: Array<TaskType>;

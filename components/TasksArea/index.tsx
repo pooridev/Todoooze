@@ -4,7 +4,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd-next";
 import { useParams } from "next/navigation";
 
 import styles from "./TasksArea.module.css";
-import { ProjectType } from "../../types/ProjectType";
+import { ListType } from "../../types/ListType";
 import DraggableTask from "./DraggableTask";
 import { Columns, columnsData } from "../../constants/columnsData";
 import { onDragEnd, Result } from "../../helpers/task-utils";
@@ -12,7 +12,7 @@ import ColumnHeader from "./ColumnHeader";
 import { useSetLists } from "../../providers/Lists";
 
 interface IProps {
-  list: ProjectType;
+  list: ListType;
 }
 
 const TasksArea: FC<IProps> = ({ list }) => {
@@ -70,7 +70,7 @@ const TasksArea: FC<IProps> = ({ list }) => {
         >
           {Object.entries(columns).map(([columnId, column]) => (
             <div className={styles.TasksStatus} key={columnId}>
-              <ColumnHeader column={column} key={columnId} list={list} />
+              <ColumnHeader column={column} key={columnId} />
               <div>
                 <Droppable droppableId={columnId} key={columnId}>
                   {(provided: typeof Droppable) => (

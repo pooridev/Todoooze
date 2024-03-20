@@ -1,6 +1,6 @@
 "use client";
 import { FC, useState } from "react";
-import { ProjectType } from "../../../types/ProjectType";
+import { ListType } from "../../../types/ListType";
 import { TaskStatusType, TaskType } from "../../../types/Task";
 import { AddIcon } from "../../shared/Icon";
 import NewTaskModal from "../TaskModal";
@@ -12,10 +12,9 @@ type ColumnHeaderProps = {
     icon: TaskStatusType["icon"];
     items: TaskType[];
   };
-  list: ProjectType;
 };
 
-const ColumnHeader: FC<ColumnHeaderProps> = ({ column, list }) => {
+const ColumnHeader: FC<ColumnHeaderProps> = ({ column }) => {
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
 
   const openNewTaskModal = () => {

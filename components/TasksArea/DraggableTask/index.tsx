@@ -10,7 +10,7 @@ import ContextMenu from "./ContextMenu";
 import Select from "../../shared/Select";
 import { statusItems } from "../../../constants/statusItems";
 import { priorityItems } from "../../../constants/priorityItems";
-import { ProjectType } from "../../../types/ProjectType";
+import { ListType } from "../../../types/ListType";
 
 import { useLists, useSetLists } from "../../../providers/Lists";
 
@@ -20,7 +20,7 @@ interface IProps {
     icon: ReactElement | JSX.Element;
     items: Array<TaskType>;
   };
-  list: ProjectType;
+  list: ListType;
 }
 
 const DraggableTask: FC<IProps> = ({ column, list }) => {
