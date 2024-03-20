@@ -7,7 +7,7 @@
 }
 
 .NewTaskButton {
-  @apply bg-transparent  w-full text-lg border-none text-gray-lightest flex gap-2 p-1 items-center cursor-default;
+  @apply bg-transparent  w-full text-lg border-none text-gray-lightest flex gap-2 p-1 items-center;
 }
 
 .newTaskIcon {

@@ -46,8 +46,8 @@ const ProjectListItem = ({ list }: { list: ProjectType }) => {
   return (
     <li key={list.id} className={styles.List}>
       <span className={classNames(styles.Title, { [styles.ActiveLink]: isLinkActive(`/list/${list.id}`) })}>
-        <Link href={`/list/${list.id}`} passHref>
-          <span className="flex-grow">{list.title}</span>
+        <Link href={`/list/${list.id}`} className="flex-grow" passHref>
+          {list.title}
         </Link>
         <button className={styles.OpenOptionsButton}>
           <ThreeDotsIcon />
