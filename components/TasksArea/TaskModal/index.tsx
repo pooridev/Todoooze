@@ -85,7 +85,7 @@ const NewTaskModal = ({ taskStatus, isOpen, toggle }: IProps) => {
   }, [taskStatus]);
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle}>
+    <Modal isOpen={isOpen}>
       <Modal.Header toggle={toggle} />
       <Modal.Body>
         <div className={styles.Content}>

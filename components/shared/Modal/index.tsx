@@ -11,7 +11,6 @@ const modalRoot = typeof window != "undefined" && document.querySelector("body")
 
 interface Props {
   isOpen: boolean;
-  toggle: (state: boolean) => void;
 }
 
 const Modal = ({ isOpen, children }: PropsWithChildren<Props>) => {
