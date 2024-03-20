@@ -30,8 +30,8 @@ const Lists: FC = () => {
         </h3>
       </header>
       <ul className={classNames(styles.Lists, isOpen && styles.Open)}>
-        {listsArr.map(([projectId, list]) => (
-          <ProjectListItem list={list} key={projectId} />
+        {listsArr.map(([listId, list]) => (
+          <ProjectListItem list={list} key={listId} />
         ))}
       </ul>
     </div>

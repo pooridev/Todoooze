@@ -18,7 +18,7 @@ export const onDragEnd = (
   result: Result,
   columns: Columns,
   setColumns: Dispatch<SetStateAction<Columns>>,
-  projectId: string,
+  listId: string,
   onUpdateTaskStatus: (payload: UpdateTaskStatusPayload) => void
 ) => {
   if (!result.destination) return;
@@ -37,7 +37,7 @@ export const onDragEnd = (
     const status = destColumn.name;
 
     onUpdateTaskStatus({
-      listId: projectId,
+      listId,
       taskId,
       newStatus: status,
     });
