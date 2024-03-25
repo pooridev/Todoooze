@@ -6,7 +6,7 @@ import Avatar from "./Avatar";
 import Actions from "./Actions";
 import Lists from "./Lists";
 import { useSidebar } from "../../providers/Sidebar";
-import useOutsideClickHandler from "./../../hooks/useOutsideClickHandler";
+import useOutsideClickHandler from "../../hooks/useOutsideClickHandler";
 import classNames from "classnames";
 import NewProject from "./NewProject";
 

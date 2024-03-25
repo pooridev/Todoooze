@@ -5,6 +5,7 @@ import styles from "./Home.module.css";
 import { useLists } from "../providers/Lists";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Layout from "../layout/Layout";
 
 const Home = () => {
   const router = useRouter();
@@ -17,12 +18,12 @@ const Home = () => {
   }, [latestList.id]);
 
   return (
-    <>
+    <Layout>
       <Navbar>
         <h2 className={styles.Title}>{latestList?.title}&apos; tasks </h2>
       </Navbar>
       <TasksArea list={latestList} />
-    </>
+    </Layout>
   );
 };
 

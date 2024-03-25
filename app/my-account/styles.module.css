@@ -1,0 +1,29 @@
+.layout {
+  @apply h-96 flex justify-center items-center;
+}
+
+.myAccount {
+  @apply w-72;
+
+  .form {
+    @apply flex flex-col gap-4 w-full;
+
+    .fields {
+      @apply flex flex-col gap-1;
+
+      .field {
+        outline: 0;
+
+        @apply bg-transparent w-full text-gray-lightest py-1 caret-white placeholder-gray-placeholder;
+      }
+    }
+
+    .haveAccountButton {
+      @apply bg-gray-500 px-1 rounded-sm w-full;
+    }
+
+    .submitButton {
+      @apply bg-[#f2c94c] mb-2 rounded-sm w-full;
+    }
+  }
+}

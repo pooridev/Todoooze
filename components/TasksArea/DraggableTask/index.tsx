@@ -4,7 +4,6 @@ import { Draggable } from "react-beautiful-dnd-next";
 import * as ReactContextMenu from "@radix-ui/react-context-menu";
 
 import styles from "./styles.module.css";
-import userAvatar from "../../../assets/images/avatar.jpg";
 import { TaskPriority, TaskStatus, TaskType } from "../../../types/Task";
 import ContextMenu from "./ContextMenu";
 import Select from "../../shared/Select";
@@ -57,7 +56,13 @@ const DraggableTask: FC<IProps> = ({ column, list }) => {
                 >
                   <div className={styles.TaskHeader}>
                     <p title={item?.title}>{item?.title}</p>
-                    <Image alt="Pooria Faramarzian" width={19} height={19} src={userAvatar} className={styles.Avatar} />
+                    <Image
+                      alt="Pooria Faramarzian"
+                      width={19}
+                      height={19}
+                      src="/assets/images/avatar.jpg"
+                      className={styles.Avatar}
+                    />
                     <div className={styles.AvatarStatus} />
                   </div>
                   <div className={styles.TaskFooter}>

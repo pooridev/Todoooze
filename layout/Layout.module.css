@@ -1,5 +1,5 @@
 .Layout {
-  @apply flex min-h-screen bg-gray-darkest;
+  @apply flex min-h-screen;
 }
 
 .Main {

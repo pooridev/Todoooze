@@ -1,9 +1,4 @@
-import {
-  HighIcon,
-  LowIcon,
-  MediumIcon,
-  UrgentIcon,
-} from "../components/shared/Icon";
+import { HighIcon, LowIcon, MediumIcon, UrgentIcon } from "../components/shared/Icon";
 import { TaskPriority, TaskStatus } from "../types/Task";
 
 export const priorityItems: { title: TaskPriority; icon: JSX.Element }[] = [

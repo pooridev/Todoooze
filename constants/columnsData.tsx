@@ -1,11 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  TodoIcon,
-  InProgressIcon,
-  InReviewIcon,
-  DoneIcon,
-} from "../components/shared/Icon";
+import { TodoIcon, InProgressIcon, InReviewIcon, DoneIcon } from "../components/shared/Icon";
 import { TaskType } from "../types/Task";
 
 export type Columns = {

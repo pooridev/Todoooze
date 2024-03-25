@@ -1,9 +1,4 @@
-import {
-  DoneIcon,
-  InProgressIcon,
-  InReviewIcon,
-  TodoIcon,
-} from "../components/shared/Icon";
+import { DoneIcon, InProgressIcon, InReviewIcon, TodoIcon } from "../components/shared/Icon";
 import { TaskStatus } from "../types/Task";
 
 export const statusItems: {

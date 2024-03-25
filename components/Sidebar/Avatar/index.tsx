@@ -1,7 +1,6 @@
 import { FC } from "react";
 import Image from "next/image";
 
-import userAvatar from "../../../assets/images/avatar.jpg";
 import styles from "./Avatar.module.css";
 
 /**
@@ -11,7 +10,13 @@ import styles from "./Avatar.module.css";
 const Avatar: FC = () => {
   return (
     <div className={styles["Avatar"]}>
-      <Image width={40} height={40} className={styles["UserAvatar"]} src={userAvatar} alt="pooria faramarzian" />
+      <Image
+        width={40}
+        height={40}
+        className={styles["UserAvatar"]}
+        src="/assets/images/avatar.jpg"
+        alt="pooria faramarzian"
+      />
       <p>Pooria</p>
     </div>
   );

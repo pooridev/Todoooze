@@ -6,6 +6,7 @@ import Navbar from "../../../components/shared/Navbar/Navbar";
 import styles from "./List.module.css";
 import { useLists } from "../../../providers/Lists";
 import { useEffect } from "react";
+import Layout from "../../../layout/Layout";
 
 const ProjectPage = () => {
   const query = useParams();
@@ -21,12 +22,12 @@ const ProjectPage = () => {
   }, [listId]);
 
   return (
-    <>
+    <Layout>
       <Navbar>
         <h2 className={styles.Title}>{listTitle}&apos; tasks </h2>
       </Navbar>
       <TasksArea list={list!} />
-    </>
+    </Layout>
   );
 };
 
