@@ -1,29 +1,46 @@
 "use client";
-import TasksArea from "../components/TasksArea";
-import Navbar from "../components/shared/Navbar/Navbar";
-import styles from "./Home.module.css";
-import { useLists } from "../providers/Lists";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Layout from "../layout/Layout";
+
+import TasksArea from "../components/TasksArea";
+import Navbar from "../components/shared/Navbar/Navbar";
+import ListProgress from "../components/shared/ListProgress";
+import styles from "./Home.module.css";
+import { useLists } from "../providers/Lists";
 
 const Home = () => {
   const router = useRouter();
 
   const lists = useLists();
-  const latestList = Object.values(lists)[0];
+  const firstList = Object.values(lists)[0];
+  const firstListId = firstList?.id;
 
   useEffect(() => {
-    router.push(`/list/${latestList.id}`);
-  }, [latestList.id]);
+    if (firstListId) router.replace(`/list/${firstListId}`);
+  }, [firstListId, router]);
+
+  if (!firstList) {
+    return (
+      <>
+        <Navbar>
+          <h2 className={styles.Title}>Todoooze</h2>
+        </Navbar>
+        <div className={styles.EmptyState}>
+          <h3>No lists yet</h3>
+          <p>Create your first list from the sidebar to get started.</p>
+        </div>
+      </>
+    );
+  }
 
   return (
-    <Layout>
+    <>
       <Navbar>
-        <h2 className={styles.Title}>{latestList?.title}&apos; tasks </h2>
+        <h2 className={styles.Title}>{firstList.title}&apos;s tasks </h2>
+        <ListProgress tasks={firstList.tasks} />
       </Navbar>
-      <TasksArea list={latestList} />
-    </Layout>
+      <TasksArea list={firstList} />
+    </>
   );
 };
 

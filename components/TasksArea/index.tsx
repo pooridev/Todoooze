@@ -1,91 +1,91 @@
 "use client";
-import { useState, useEffect, FC } from "react";
+import { FC, useMemo, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd-next";
-import { useParams } from "next/navigation";
+import classNames from "classnames";
 
 import styles from "./TasksArea.module.css";
 import { ListType } from "../../types/ListType";
+import { TaskStatus } from "../../types/Task";
 import DraggableTask from "./DraggableTask";
-import { Columns, columnsData } from "../../constants/columnsData";
-import { onDragEnd, Result } from "../../helpers/task-utils";
 import ColumnHeader from "./ColumnHeader";
+import TaskDetailPanel from "./TaskDetailPanel";
+import { statusItems } from "../../constants/statusItems";
 import { useSetLists } from "../../providers/Lists";
 
 interface IProps {
   list: ListType;
 }
 
+type DragResult = {
+  draggableId: string;
+  destination: {
+    droppableId: string;
+    index: number;
+  } | null;
+};
+
 const TasksArea: FC<IProps> = ({ list }) => {
-  const [columns, setColumns] = useState<Columns>(columnsData);
+  const { moveTask } = useSetLists();
 
-  const query = useParams();
-  const { list_id } = query;
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
 
-  const { updateTaskStatus } = useSetLists();
+  // Derive from state so the panel stays in sync (and closes when the task is deleted).
+  const selectedTask = list?.tasks?.find((task) => task.id === selectedTaskId) ?? null;
 
-  const tasks = list?.tasks || [];
+  // A column is simply the ordered subset of the list's tasks sharing a status,
+  // derived from provider state — no duplicated column state to keep in sync.
+  const columns = useMemo(() => {
+    const tasks = list?.tasks || [];
 
-  const todoTasks = tasks.filter((task) => task.status === "Todo");
-  const inProgressTasks = tasks.filter((task) => task.status === "In Progress");
-  const inReviewTasks = tasks.filter((task) => task.status === "In Review");
-  const DoneTasks = tasks.filter((task) => task.status === "Done");
+    return statusItems.map((status) => ({
+      name: status.title,
+      icon: status.icon,
+      items: tasks.filter((task) => task.status === status.title),
+    }));
+  }, [list?.tasks]);
 
-  useEffect(() => {
-    const columnsArray = Object.entries(columns);
-    columnsArray.forEach(([columnId, column]) => {
-      // To clear tasks while switching between lists
-      column.items = [];
+  const onDragEnd = (result: DragResult) => {
+    if (!result.destination) return;
 
-      if (column.name === "Todo" && todoTasks?.length) {
-        column.items = [...todoTasks];
-
-        setColumns({ ...columns, [columnId]: column });
-      }
-
-      if (column.name === "In Progress" && inProgressTasks?.length) {
-        column.items = [...inProgressTasks];
-
-        setColumns({ ...columns, [columnId]: column });
-      }
-
-      if (column.name === "In Review" && inReviewTasks?.length) {
-        column.items = [...inReviewTasks];
-
-        setColumns({ ...columns, [columnId]: column });
-      }
-
-      if (column.name === "Done" && DoneTasks?.length) {
-        column.items = [...DoneTasks];
-
-        setColumns({ ...columns, [columnId]: column });
-      }
+    moveTask({
+      listId: list.id,
+      taskId: result.draggableId,
+      newStatus: result.destination.droppableId as TaskStatus,
+      destinationIndex: result.destination.index,
     });
-  }, [list_id, list]);
+  };
 
   return (
-    <>
-      <section className={styles.TasksArea}>
-        <DragDropContext
-          onDragEnd={(result: Result) => onDragEnd(result, columns, setColumns, list.id, updateTaskStatus)}
-        >
-          {Object.entries(columns).map(([columnId, column]) => (
-            <div className={styles.TasksStatus} key={columnId}>
-              <ColumnHeader column={column} key={columnId} />
-              <div>
-                <Droppable droppableId={columnId} key={columnId}>
-                  {(provided: typeof Droppable) => (
-                    <div style={{ minHeight: "100vh" }} {...provided.droppableProps} ref={provided.innerRef}>
-                      <DraggableTask list={list} column={column} />
-                      {provided.placeholder}
-                    </div>
+    <section className={styles.TasksArea}>
+      <DragDropContext onDragEnd={onDragEnd}>
+        {columns.map((column) => (
+          <div className={styles.TasksStatus} key={column.name}>
+            <ColumnHeader column={column} />
+            <Droppable droppableId={column.name}>
+              {(provided: typeof Droppable, snapshot: { isDraggingOver?: boolean }) => (
+                <div
+                  className={classNames(styles.DropZone, { [styles.DraggingOver]: snapshot?.isDraggingOver })}
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  <DraggableTask
+                    list={list}
+                    column={column}
+                    onTaskClick={(task) => setSelectedTaskId(task.id)}
+                  />
+                  {provided.placeholder}
+                  {column.items.length === 0 && !snapshot?.isDraggingOver && (
+                    <div className={styles.EmptyColumn}>No tasks — drop one here</div>
                   )}
-                </Droppable>
-              </div>
-            </div>
-          ))}
-        </DragDropContext>
-      </section>
-    </>
+                </div>
+              )}
+            </Droppable>
+          </div>
+        ))}
+      </DragDropContext>
+
+      <TaskDetailPanel task={selectedTask} listId={list?.id} onClose={() => setSelectedTaskId(null)} />
+    </section>
   );
 };
 

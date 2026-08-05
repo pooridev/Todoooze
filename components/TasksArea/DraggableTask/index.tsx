@@ -1,29 +1,36 @@
-import { FC, ReactElement } from "react";
+"use client";
+import { FC, ReactElement, useState } from "react";
 import Image from "next/image";
 import { Draggable } from "react-beautiful-dnd-next";
 import * as ReactContextMenu from "@radix-ui/react-context-menu";
+import classNames from "classnames";
 
 import styles from "./styles.module.css";
 import { TaskPriority, TaskStatus, TaskType } from "../../../types/Task";
 import ContextMenu from "./ContextMenu";
 import Select from "../../shared/Select";
 import { statusItems } from "../../../constants/statusItems";
-import { priorityItems } from "../../../constants/priorityItems";
+import { priorityItems, priorityColors } from "../../../constants/priorityItems";
 import { ListType } from "../../../types/ListType";
+import { formatRelativeTime } from "../../../helpers/relative-time";
 
-import { useLists, useSetLists } from "../../../providers/Lists";
+import { useSetLists } from "../../../providers/Lists";
+import TaskModal from "../TaskModal";
 
 interface IProps {
   column: {
-    name: "Todo" | "In Progress" | "In Review" | "Done";
+    name: TaskStatus;
     icon: ReactElement | JSX.Element;
     items: Array<TaskType>;
   };
   list: ListType;
+  onTaskClick: (task: TaskType) => void;
 }
 
-const DraggableTask: FC<IProps> = ({ column, list }) => {
-  const { updateTaskPriority, updateTaskStatus } = useSetLists();
+const DraggableTask: FC<IProps> = ({ column, list, onTaskClick }) => {
+  const { updateTaskPriority, updateTaskStatus, deleteTask } = useSetLists();
+
+  const [editingTask, setEditingTask] = useState<TaskType | null>(null);
 
   const updateTaskStatusHandler = (taskId: string, newStatus: TaskStatus) => {
     updateTaskStatus({
@@ -41,23 +48,37 @@ const DraggableTask: FC<IProps> = ({ column, list }) => {
     });
   };
 
+  const deleteTaskHandler = (taskId: string) => {
+    deleteTask({ taskId, listId: list.id });
+  };
+
   return (
     <>
       {column?.items.map((item, index) => (
         <ReactContextMenu.Root key={item.id}>
           <ReactContextMenu.Trigger>
             <Draggable draggableId={item.id} index={index}>
-              {(provided: typeof Draggable) => (
+              {(provided: typeof Draggable, snapshot: { isDragging?: boolean }) => (
                 <div
-                  className={styles.Task}
+                  className={classNames(styles.Task, { [styles.Dragging]: snapshot?.isDragging })}
                   ref={provided.innerRef}
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
+                  onClick={(event) => {
+                    // react-beautiful-dnd preventDefaults the click that follows
+                    // a drag — don't open the detail panel in that case.
+                    if (!event.defaultPrevented) onTaskClick(item);
+                  }}
                 >
+                  <span
+                    className={styles.PriorityEdge}
+                    style={{ backgroundColor: priorityColors[item.priority] }}
+                    title={`${item.priority} priority`}
+                  />
                   <div className={styles.TaskHeader}>
                     <p title={item?.title}>{item?.title}</p>
                     <Image
-                      alt="Pooria Faramarzian"
+                      alt="Assignee avatar"
                       width={19}
                       height={19}
                       src="/assets/images/avatar.jpg"
@@ -65,7 +86,9 @@ const DraggableTask: FC<IProps> = ({ column, list }) => {
                     />
                     <div className={styles.AvatarStatus} />
                   </div>
-                  <div className={styles.TaskFooter}>
+                  {item.description && <p className={styles.Description}>{item.description}</p>}
+                  {/* Interacting with the selects shouldn't open the detail panel. */}
+                  <div className={styles.TaskFooter} onClick={(event) => event.stopPropagation()}>
                     <Select
                       items={priorityItems}
                       value={item.priority}
@@ -83,14 +106,25 @@ const DraggableTask: FC<IProps> = ({ column, list }) => {
                         updateTaskStatusHandler(item.id, selectedStatus);
                       }}
                     />
+                    <span className={styles.UpdatedAt}>{formatRelativeTime(item.updatedAt)}</span>
                   </div>
                 </div>
               )}
             </Draggable>
           </ReactContextMenu.Trigger>
-          <ContextMenu taskId={item.id} />
+          <ContextMenu onDelete={() => deleteTaskHandler(item.id)} onEdit={() => setEditingTask(item)} />
         </ReactContextMenu.Root>
       ))}
+
+      {editingTask && (
+        <TaskModal
+          isOpen
+          task={editingTask}
+          listId={list.id}
+          taskStatus={editingTask.status ?? column.name}
+          toggle={() => setEditingTask(null)}
+        />
+      )}
     </>
   );
 };

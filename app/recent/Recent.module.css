@@ -1,0 +1,23 @@
+.Title {
+  @apply text-xl font-medium text-gray-lightest;
+}
+
+.Scroll {
+  @apply flex-1 min-h-0 overflow-y-auto;
+}
+
+.Recent {
+  @apply max-w-2xl mx-auto px-4 mt-6 pb-10;
+}
+
+.Subtitle {
+  @apply text-gray-placeholder text-sm;
+}
+
+.Results {
+  @apply flex flex-col gap-2 mt-4;
+}
+
+.EmptyState {
+  @apply text-gray-placeholder text-sm mt-6 text-center;
+}

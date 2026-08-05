@@ -1,6 +1,10 @@
 .Avatar {
   color: rgb(215, 216, 219);
-  @apply flex items-center gap-2 text-lg;
+  @apply flex items-center gap-2 text-lg rounded-md p-1 -m-1 transition-all;
+}
+
+.Avatar:hover {
+  background: rgb(45, 47, 54);
 }
 
 .UserAvatar {

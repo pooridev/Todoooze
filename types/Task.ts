@@ -14,4 +14,7 @@ export type TaskType = {
   status?: TaskStatus;
   priority: TaskPriority;
   description?: string;
+  /** Unix epoch (ms). Optional for backwards compatibility with previously stored data. */
+  createdAt?: number;
+  updatedAt?: number;
 };

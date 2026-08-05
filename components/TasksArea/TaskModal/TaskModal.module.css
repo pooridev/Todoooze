@@ -18,3 +18,7 @@
 .Menus {
   @apply flex gap-2 relative;
 }
+
+.Error {
+  @apply text-red-400 text-sm mb-2;
+}

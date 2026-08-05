@@ -3,5 +3,5 @@
 }
 
 .Main {
-  @apply flex-1 lg:relative overflow-hidden;
+  @apply flex-1 flex flex-col h-screen lg:relative overflow-hidden;
 }

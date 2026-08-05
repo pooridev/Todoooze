@@ -1,3 +1,15 @@
 .Title {
-  @apply font-semibold
+  @apply font-semibold;
+}
+
+.EmptyState {
+  @apply flex flex-col items-center justify-center mt-32 text-center gap-2;
+}
+
+.EmptyState h3 {
+  @apply text-gray-lightest text-lg font-medium;
+}
+
+.EmptyState p {
+  @apply text-gray-placeholder text-sm;
 }

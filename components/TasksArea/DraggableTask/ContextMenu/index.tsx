@@ -5,18 +5,19 @@ import { DeleteIcon, WritingIcon } from "../../../shared/Icon";
 import style from "./ContextMenu.module.css";
 
 type Props = {
-  taskId: string;
+  onDelete: () => void;
+  onEdit: () => void;
 };
 
-const ContextMenu: FC<Props> = ({ taskId }) => {
+const ContextMenu: FC<Props> = ({ onDelete, onEdit }) => {
   return (
     <ReactContextMenu.Content className={style.Content} alignOffset={-5}>
-      <ReactContextMenu.Item className={style.Item}>
+      <ReactContextMenu.Item className={style.Item} onSelect={onDelete}>
         <DeleteIcon width="18" height="18" />
         <span className="flex-1 mr-2">Delete</span>
       </ReactContextMenu.Item>
       <ReactContextMenu.Separator className="h-px my-1 bg-neutral-200 dark:bg-neutral-700" />
-      <ReactContextMenu.Item className={style.Item}>
+      <ReactContextMenu.Item className={style.Item} onSelect={onEdit}>
         <WritingIcon width="20" height="15" />
         <span className="flex-1 mr-2">Edit</span>
       </ReactContextMenu.Item>

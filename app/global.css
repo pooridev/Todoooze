@@ -3,20 +3,34 @@
 @tailwind utilities;
 
 body {
-  @apply overflow-y-hidden bg-gray-darkest;
+  @apply overflow-y-hidden bg-gray-darkest text-gray-lightest antialiased;
+  background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(94, 106, 210, 0.15), transparent);
+}
+
+::selection {
+  background: rgba(94, 106, 210, 0.45);
+  color: #fff;
 }
 
 /* Handle */
 *::-webkit-scrollbar-thumb {
-  @apply bg-gray-dark;
+  @apply bg-gray-lighter rounded-full;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(90, 94, 102);
 }
 
 /* width and height */
 *::-webkit-scrollbar {
-  @apply w-[10px] h-[10px];
+  @apply w-[8px] h-[8px];
 }
 
 /* Track */
 *::-webkit-scrollbar-track {
-  @apply bg-gray-light rounded-sm;
+  background: transparent;
+}
+
+button {
+  @apply focus:outline-none;
 }

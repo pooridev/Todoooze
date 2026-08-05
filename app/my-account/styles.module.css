@@ -1,5 +1,9 @@
-.layout {
-  @apply h-96 flex justify-center items-center;
+.navTitle {
+  @apply text-xl font-medium text-gray-lightest;
+}
+
+.centered {
+  @apply flex-1 min-h-0 overflow-y-auto flex justify-center items-center;
 }
 
 .myAccount {
@@ -10,20 +14,36 @@
   @apply flex flex-col gap-4 w-full;
 }
 
+.heading {
+  @apply text-xl font-medium text-gray-lightest;
+}
+
+.hint {
+  @apply text-gray-placeholder text-xs mt-1 leading-relaxed;
+}
+
 .fields {
   @apply flex flex-col gap-1;
+}
+
+.label {
+  @apply text-gray-lightest text-sm;
 }
 
 .field {
   outline: 0;
 
-  @apply bg-transparent w-full text-gray-lightest py-1 caret-white placeholder-gray-placeholder;
-}
-
-.haveAccountButton {
-  @apply bg-gray-500 px-1 rounded-sm w-full;
+  @apply bg-transparent w-full text-gray-lightest py-1 caret-white placeholder-gray-placeholder border-b border-gray-lighter focus:border-indigo transition-all;
 }
 
 .submitButton {
   @apply bg-[#f2c94c] mb-2 rounded-sm w-full;
+}
+
+.dangerButton {
+  @apply w-full px-1 rounded-sm text-red-400 border border-red-400 text-sm py-0.5;
+}
+
+.dangerButton:hover {
+  @apply bg-red-400 text-gray-darkest;
 }

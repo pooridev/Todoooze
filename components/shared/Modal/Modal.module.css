@@ -1,17 +1,11 @@
-.Modal {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%) !important;
-  background: linear-gradient(
-    136.61deg,
-    rgb(39, 40, 43) 13.72%,
-    rgb(45, 46, 49) 74.3%
-  );
-  transition: all 0.2s ease-in-out;
-  @apply w-10/12 invisible lg:w-8/12 xl:w-5/12 z-30 top-44 opacity-0 shadow-lg rounded-lg;
+.Backdrop {
+  background: rgba(15, 16, 18, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  @apply fixed inset-0 z-30 flex items-start justify-center px-4 pt-32;
 }
 
-.Open {
-  transform: translate(-50%, -50%) !important;
-  @apply opacity-100 visible top-52;
+.Modal {
+  background: linear-gradient(136.61deg, rgb(39, 40, 43) 13.72%, rgb(45, 46, 49) 74.3%);
+  @apply w-full max-w-xl z-40 shadow-lg rounded-lg border border-gray-light;
 }

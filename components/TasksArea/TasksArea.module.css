@@ -1,7 +1,20 @@
 .TasksArea {
-  @apply flex min-h-full w-[96%] gap-1 overflow-x-auto overflow-y-hidden mx-auto mt-5 cursor-default select-none;
+  @apply flex flex-1 min-h-0 w-full gap-3 overflow-x-auto px-6 pt-5 pb-4 cursor-default select-none;
 }
 
 .TasksStatus {
-  @apply p-3 min-w-96 text-gray-lightest font-semibold;
+  background: rgba(255, 255, 255, 0.02);
+  @apply flex flex-col min-h-0 w-[21rem] flex-shrink-0 rounded-lg border border-gray-light p-3 text-gray-lightest font-semibold;
+}
+
+.DropZone {
+  @apply flex-1 min-h-0 overflow-y-auto overflow-x-hidden rounded-md transition-all mt-1 pr-1 -mr-1;
+}
+
+.DraggingOver {
+  background: rgba(94, 106, 210, 0.07);
+}
+
+.EmptyColumn {
+  @apply flex items-center justify-center h-24 mt-2 rounded-md border border-dashed border-gray-lighter text-gray-placeholder text-sm font-normal pointer-events-none;
 }

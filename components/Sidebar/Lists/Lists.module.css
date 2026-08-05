@@ -59,7 +59,15 @@
 }
 
 .Title {
-  @apply rounded-md font-medium text-sm flex px-3 py-1 justify-between text-gray-300;
+  @apply rounded-md font-medium text-sm flex items-center gap-1 px-3 py-1 justify-between text-gray-300 transition-all;
+}
+
+.TaskCount {
+  @apply text-xs text-gray-placeholder tabular-nums;
+}
+
+.Title:hover .TaskCount {
+  @apply hidden;
 }
 
 .Title svg {
@@ -72,6 +80,8 @@
 
 .ActiveLink {
   background: rgb(45, 47, 54);
+  box-shadow: inset 2px 0 0 rgb(94, 106, 210);
+  @apply text-white;
 }
 
 .OpenOptionsButton:hover.Title {
@@ -89,4 +99,28 @@
 
 .OpenOptionsButton:hover svg {
   fill: rgb(209, 213, 219);
+}
+
+.OptionsMenu {
+  @apply fixed z-50 w-32 rounded-md bg-gray-light border border-gray-lighter shadow-lg overflow-hidden;
+}
+
+.OptionsMenuItem {
+  @apply flex items-center gap-2 w-full px-3 py-1.5 text-sm text-gray-lightest;
+}
+
+.OptionsMenuItem:hover {
+  background: rgb(45, 47, 54);
+}
+
+.OptionsMenuItem svg {
+  fill: rgb(209, 213, 219);
+}
+
+.EmptyState {
+  @apply px-3 py-1 text-sm text-gray-placeholder;
+}
+
+.DeleteConfirmText {
+  @apply mx-4 mb-4 px-1 text-gray-lightest;
 }

@@ -1,5 +1,12 @@
 .NewTask {
-  @apply flex items-center justify-between transition-all hover:bg-gray-lighter mt-9 border-2 border-gray-lighter bg-gray-light rounded-md relative overscroll-none;
+  background: rgb(94, 106, 210);
+  border-color: rgb(94, 106, 210);
+  @apply flex items-center justify-between transition-all mt-9 border-2 rounded-md relative overscroll-none shadow-sm;
+}
+
+.NewTask:hover {
+  background: rgb(108, 120, 224);
+  border-color: rgb(108, 120, 224);
 }
 
 .NewTaskButtonWrapper {
@@ -7,9 +14,10 @@
 }
 
 .NewTaskButton {
-  @apply bg-transparent  w-full text-lg border-none text-gray-lightest flex gap-2 p-1 items-center;
+  @apply bg-transparent w-full text-base font-medium border-none text-white flex gap-2 p-1 items-center justify-center;
 }
 
 .newTaskIcon {
-  @apply transition-all w-[1.2rem] h-[1.2rem];
+  fill: #fff;
+  @apply transition-all w-[1.1rem] h-[1.1rem];
 }

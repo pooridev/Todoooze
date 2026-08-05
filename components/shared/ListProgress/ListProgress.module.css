@@ -1,0 +1,16 @@
+.Progress {
+  @apply ml-auto flex items-center gap-3;
+}
+
+.Label {
+  @apply text-xs text-gray-placeholder whitespace-nowrap font-normal;
+}
+
+.Bar {
+  @apply w-28 h-1.5 rounded-full bg-gray-light overflow-hidden hidden sm:block;
+}
+
+.Fill {
+  background: #4cb782;
+  @apply h-full rounded-full;
+}

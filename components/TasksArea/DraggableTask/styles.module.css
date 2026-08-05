@@ -1,27 +1,51 @@
 .Task {
   cursor: pointer !important;
-  @apply p-5 bg-gray-dark my-2 relative rounded-md;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  @apply p-4 pl-5 bg-gray-dark my-2 relative rounded-md border border-gray-light;
+}
+
+.Task:hover {
+  border-color: rgb(90, 94, 102);
+  @apply shadow-sm;
+}
+
+.Dragging {
+  border-color: rgb(94, 106, 210) !important;
+  @apply shadow-lg;
+}
+
+.PriorityEdge {
+  @apply absolute left-0 top-0 bottom-0 w-[3px];
 }
 
 .TaskHeader {
-  @apply flex justify-between items-start text-lg;
+  @apply flex justify-between items-start gap-2;
 }
 
 .TaskHeader p {
-  @apply max-w-[250px] overflow-hidden overflow-ellipsis whitespace-nowrap;
+  @apply flex-1 min-w-0 overflow-hidden overflow-ellipsis whitespace-nowrap text-sm font-medium;
+}
+
+.Description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  @apply text-gray-placeholder text-xs font-normal mt-1 pr-6;
 }
 
 .TaskFooter {
-  @apply flex gap-3 pt-4 items-center;
-}
-
-.TaskFooter > span {
-  color: rgb(138, 143, 152);
-  @apply px-1 flex text-sm py-1 bg-transparent hover:text-gray-lightest transition-all gap-2 items-center justify-start border border-gray-light rounded-md;
+  @apply flex gap-2 pt-3 items-center;
 }
 
 .TaskFooter svg:hover {
   @apply fill-lightest transition-all;
+}
+
+.UpdatedAt {
+  @apply ml-auto text-xs text-gray-placeholder font-normal whitespace-nowrap;
 }
 
 /* To Switch Cursor while dragging the task */

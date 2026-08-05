@@ -23,6 +23,19 @@ module.exports = {
         },
         indigo: {
           DEFAULT: "rgb(94, 106, 210)",
+          bright: "rgb(133, 143, 233)",
+        },
+        status: {
+          todo: "#8a8f98",
+          progress: "#f2c94c",
+          review: "#5e6ad2",
+          done: "#4cb782",
+        },
+        priority: {
+          urgent: "#eb5757",
+          high: "#f2994a",
+          medium: "#f2c94c",
+          low: "#8a8f98",
         },
       },
       fill: (theme) => ({

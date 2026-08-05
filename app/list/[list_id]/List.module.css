@@ -1,3 +1,11 @@
 .Title {
-  @apply font-semibold
+  @apply font-semibold;
+}
+
+.NotFound {
+  @apply flex flex-col items-center justify-center mt-32 text-center gap-2 text-gray-placeholder text-sm;
+}
+
+.NotFound a {
+  @apply text-indigo underline;
 }

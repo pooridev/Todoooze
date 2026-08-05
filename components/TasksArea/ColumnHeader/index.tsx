@@ -1,9 +1,9 @@
 "use client";
 import { FC, useState } from "react";
-import { ListType } from "../../../types/ListType";
 import { TaskStatusType, TaskType } from "../../../types/Task";
 import { AddIcon } from "../../shared/Icon";
 import NewTaskModal from "../TaskModal";
+import { statusColors } from "../../../constants/statusItems";
 import styles from "./ColumnHeader.module.css";
 
 type ColumnHeaderProps = {
@@ -27,7 +27,12 @@ const ColumnHeader: FC<ColumnHeaderProps> = ({ column }) => {
         <div className={styles.HeaderText}>
           {column.icon}
           <p>{column.name}</p>
-          <span>{column?.items?.length}</span>
+          <span
+            className={styles.Count}
+            style={{ backgroundColor: `${statusColors[column.name]}1f`, color: statusColors[column.name] }}
+          >
+            {column?.items?.length}
+          </span>
         </div>
         <button onClick={openNewTaskModal} title="Add new task" className={styles.AddTaskButton}>
           <AddIcon />

@@ -1,5 +1,5 @@
 .Navbar {
-  @apply border-b-2 text-white border-gray-light px-10 py-6 flex items-center gap-6;
+  @apply border-b text-white border-gray-light px-6 lg:px-8 py-4 flex items-center gap-4 flex-shrink-0;
 }
 
 .ToggleSidebar {

@@ -1,0 +1,41 @@
+.Row {
+  @apply flex items-center gap-3 px-4 py-3 rounded-md bg-gray-dark border border-gray-light transition-all;
+}
+
+.Row:hover {
+  @apply border-gray-lighter;
+}
+
+.Status {
+  @apply flex-shrink-0 flex items-center;
+}
+
+.TitleGroup {
+  @apply flex flex-col flex-1 min-w-0;
+}
+
+.Title {
+  @apply text-gray-lightest text-sm font-medium truncate;
+}
+
+.Description {
+  @apply text-gray-placeholder text-xs truncate mt-0.5;
+}
+
+.Meta {
+  @apply flex items-center gap-3 flex-shrink-0;
+}
+
+.ListName {
+  @apply text-gray-placeholder text-xs;
+}
+
+.Time {
+  @apply text-gray-placeholder text-xs hidden sm:inline;
+}
+
+.Mark {
+  background: rgba(94, 106, 210, 0.4);
+  color: inherit;
+  @apply rounded-sm;
+}

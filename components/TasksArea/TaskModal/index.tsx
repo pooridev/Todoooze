@@ -17,80 +17,99 @@ interface IProps {
   taskStatus: TaskStatus;
   toggle: (state: boolean) => void;
   isOpen: boolean;
+  /** When provided, the modal edits this task instead of creating a new one. */
+  task?: TaskType;
+  /** Required in edit mode; falls back to the route param in create mode. */
+  listId?: string;
 }
 
-const validateForm = (TASK_PAYLOAD: TaskType) => {
-  const { title, priority } = TASK_PAYLOAD;
+interface FormState {
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+}
 
-  if (!title) {
-    return false;
-  }
+const validateForm = ({ title, priority }: FormState): string | null => {
+  if (!title.trim()) return "Title is required";
+  if (priority === "Priority") return "Priority is required";
 
-  if (priority == "Priority") {
-    return false;
-  }
-
-  return true;
+  return null;
 };
 
-const NewTaskModal = ({ taskStatus, isOpen, toggle }: IProps) => {
-  const { addNewTask } = useSetLists();
+const TaskModal = ({ taskStatus, isOpen, toggle, task, listId }: IProps) => {
+  const { addNewTask, updateTask } = useSetLists();
+  const isEditMode = Boolean(task);
 
-  const [taskPayload, setTaskPayload] = useState({
-    title: "",
-    description: "",
-    status: taskStatus,
-    priority: "Priority" as TaskPriority,
+  const buildFormState = (): FormState => ({
+    title: task?.title ?? "",
+    description: task?.description ?? "",
+    status: task?.status ?? taskStatus,
+    priority: task?.priority ?? "Priority",
   });
+
+  const [taskPayload, setTaskPayload] = useState<FormState>(buildFormState);
+  const [error, setError] = useState<string | null>(null);
 
   const query = useParams();
   const { list_id } = query;
 
   const lists = useLists();
 
-  const recentList = Object.values(lists)[0];
+  const fallbackList = Object.values(lists)[0];
+  const targetListId = listId ?? String(list_id ?? fallbackList?.id ?? "");
 
-  const addTaskHandler = () => {
-    const TASK_PAYLOAD = {
-      title: taskPayload.title,
-      description: taskPayload.description,
-      id: uuidv4(),
-      status: taskPayload.status,
-      priority: taskPayload.priority,
-      listId: String(list_id || recentList.id),
-    };
+  const submitHandler = () => {
+    const validationError = validateForm(taskPayload);
 
-    const isValid = validateForm(TASK_PAYLOAD);
-
-    if (isValid) {
-      addNewTask(TASK_PAYLOAD);
-      resetForm();
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
-    alert("Title and Prority are required");
+    if (isEditMode && task) {
+      updateTask({
+        listId: targetListId,
+        taskId: task.id,
+        updates: {
+          title: taskPayload.title.trim(),
+          description: taskPayload.description,
+          status: taskPayload.status,
+          priority: taskPayload.priority,
+        },
+      });
+    } else {
+      addNewTask({
+        title: taskPayload.title.trim(),
+        description: taskPayload.description,
+        id: uuidv4(),
+        status: taskPayload.status,
+        priority: taskPayload.priority,
+        listId: targetListId,
+      });
+    }
+
+    closeModal();
   };
 
-  const resetForm = () => {
-    setTaskPayload({
-      title: "",
-      description: "",
-      status: taskStatus,
-      priority: "Priority",
-    });
+  const closeModal = () => {
+    setTaskPayload(buildFormState());
+    setError(null);
+    toggle(false);
   };
 
   useEffect(() => {
-    setTaskPayload({ ...taskPayload, status: taskStatus });
-  }, [taskStatus]);
+    setTaskPayload((prev) => ({ ...prev, status: task?.status ?? taskStatus }));
+  }, [taskStatus, task?.status]);
 
   return (
-    <Modal isOpen={isOpen}>
-      <Modal.Header toggle={toggle} />
+    <Modal isOpen={isOpen} onClose={closeModal}>
+      <Modal.Header toggle={closeModal} />
       <Modal.Body>
         <div className={styles.Content}>
           <input
             onChange={({ target }) => setTaskPayload({ ...taskPayload, title: target.value })}
+            onKeyDown={(event) => event.key === "Enter" && submitHandler()}
             type="text"
             autoFocus
             value={taskPayload.title}
@@ -104,9 +123,11 @@ const NewTaskModal = ({ taskStatus, isOpen, toggle }: IProps) => {
             onChange={({ target }) => setTaskPayload({ ...taskPayload, description: target.value })}
             className={styles.Description}
           />
+          {error && <p className={styles.Error}>{error}</p>}
           <div className={styles.Menus}>
             <Select
               onChange={(item) => {
+                setError(null);
                 setTaskPayload({ ...taskPayload, priority: item });
               }}
               defaultValue={{ title: "Priority", icon: <PriorityIcon /> }}
@@ -126,9 +147,9 @@ const NewTaskModal = ({ taskStatus, isOpen, toggle }: IProps) => {
           </div>
         </div>
       </Modal.Body>
-      <Modal.Footer toggle={toggle} onSubmit={addTaskHandler} />
+      <Modal.Footer toggle={closeModal} onSubmit={submitHandler} submitLabel={isEditMode ? "Save changes" : "Save"} />
     </Modal>
   );
 };
 
-export default NewTaskModal;
+export default TaskModal;
