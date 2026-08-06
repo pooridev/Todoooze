@@ -2,6 +2,7 @@
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useReducer, useState } from "react";
 import { TaskPriority, TaskStatus, TaskType } from "../types/Task";
 import { ListType } from "../types/ListType";
+import { v4 as uuidv4 } from "uuid";
 
 const STORAGE_KEY = "todoooze.lists.v1";
 
@@ -28,10 +29,13 @@ export interface Lists {
 
 const now = Date.now();
 
+const list1Id = uuidv4();
+const list2Id = uuidv4();
+
 const initialLists: Lists = {
   //👇🏼 List id
-  "1": {
-    id: "1",
+  [list1Id]: {
+    id: list1Id,
     title: "Snappfood",
     description: "A leading delivery service in Iran!",
     tasks: [
@@ -45,8 +49,8 @@ const initialLists: Lists = {
       },
     ],
   },
-  "2": {
-    id: "2",
+  [list2Id]: {
+    id: list2Id,
     title: "Digikala.com",
     description: "A leading Ecommerce in Iran!",
     tasks: [
@@ -205,8 +209,8 @@ export const listsReducer = (state: Lists, action: ListAction): Lists => {
         destinationIndex < destinationStatusIndexes.length
           ? destinationStatusIndexes[destinationIndex]
           : destinationStatusIndexes.length > 0
-          ? destinationStatusIndexes[destinationStatusIndexes.length - 1] + 1
-          : tasks.length;
+            ? destinationStatusIndexes[destinationStatusIndexes.length - 1] + 1
+            : tasks.length;
 
       tasks.splice(insertAt, 0, movedTask);
 
