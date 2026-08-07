@@ -1,20 +1,23 @@
 import { ReactElement } from "react";
 
-export type TaskStatus = "Todo" | "In Progress" | "In Review" | "Done";
 export type TaskPriority = "Priority" | "Urgent" | "High" | "Medium" | "Low";
-
-export type TaskStatusType = {
-  title: TaskStatus;
-  icon: ReactElement | JSX.Element;
-};
 
 export type TaskType = {
   title: string;
   id: string;
-  status?: TaskStatus;
+  /** Id of the column this task belongs to. */
+  columnId: string;
   priority: TaskPriority;
   description?: string;
   /** Unix epoch (ms). Optional for backwards compatibility with previously stored data. */
   createdAt?: number;
   updatedAt?: number;
+};
+
+/** @deprecated Kept only for typing legacy stored data during migration. */
+export type LegacyTaskStatus = "Todo" | "In Progress" | "In Review" | "Done";
+
+export type TaskStatusType = {
+  title: string;
+  icon: ReactElement | JSX.Element;
 };

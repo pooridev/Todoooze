@@ -1,23 +1,75 @@
 .StatusHeader {
-  @apply flex justify-between items-center w-full border-b pb-2 border-gray-light;
+  cursor: grab;
+  @apply flex justify-between items-center w-full border-b pb-2 border-gray-light gap-2;
+}
+
+.StatusHeader:active {
+  cursor: grabbing;
 }
 
 .HeaderText {
-  @apply flex gap-3 items-center;
+  @apply flex gap-2 items-center min-w-0 flex-1;
 }
 
 .HeaderText p {
-  @apply text-sm;
+  @apply text-sm truncate cursor-text;
+}
+
+.ColorDot {
+  @apply w-2.5 h-2.5 rounded-full flex-shrink-0;
+}
+
+.NameInput {
+  @apply bg-transparent outline-none text-sm text-gray-lightest border-b border-indigo w-full min-w-0;
 }
 
 .Count {
-  @apply text-xs font-medium rounded-full px-2 py-0.5 leading-4;
+  @apply text-xs font-medium rounded-full px-2 py-0.5 leading-4 flex-shrink-0;
 }
 
-.AddTaskButton {
-  @apply mr-1 cursor-pointer transition-all p-2 rounded-md hover:bg-gray-light;
+.Actions {
+  @apply flex items-center flex-shrink-0;
 }
 
-.AddTaskButton:hover.AddTaskButton svg {
+.IconButton {
+  @apply cursor-pointer transition-all p-2 rounded-md hover:bg-gray-light;
+}
+
+.IconButton:hover svg {
   @apply transition-all fill-lightest;
+}
+
+.OptionsMenu {
+  @apply fixed z-50 w-44 rounded-md bg-gray-light border border-gray-lighter shadow-lg overflow-hidden py-1;
+}
+
+.OptionsMenuItem,
+.OptionsMenuItemDanger {
+  @apply flex items-center gap-2 w-full px-3 py-1.5 text-sm text-gray-lightest text-left;
+}
+
+.OptionsMenuItem:hover:not(:disabled),
+.OptionsMenuItemDanger:hover:not(:disabled) {
+  background: rgb(45, 47, 54);
+}
+
+.OptionsMenuItem:disabled,
+.OptionsMenuItemDanger:disabled {
+  @apply opacity-40 cursor-not-allowed;
+}
+
+.OptionsMenuItemDanger {
+  @apply text-red-400 mt-1 border-t border-gray-lighter;
+}
+
+.ColorRow {
+  @apply flex flex-wrap gap-1.5 px-3 py-2 border-t border-b border-gray-lighter my-1;
+}
+
+.ColorSwatch {
+  @apply w-4 h-4 rounded-full;
+}
+
+.DeleteConfirmText {
+  @apply mx-4 mb-4 px-1 text-gray-lightest text-sm;
 }

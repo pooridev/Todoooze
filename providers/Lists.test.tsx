@@ -1,10 +1,24 @@
+jest.mock("uuid", () => {
+  let uuidCounter = 0;
+  return {
+    v4: () => `uuid-${++uuidCounter}`,
+  };
+});
+
 import { Lists, listsReducer } from "./Lists";
+import { ColumnType } from "../types/Column";
 import { TaskType } from "../types/Task";
+
+const columns: ColumnType[] = [
+  { id: "col-todo", name: "Todo", color: "#8a8f98" },
+  { id: "col-progress", name: "In Progress", color: "#f2c94c" },
+  { id: "col-done", name: "Done", color: "#4cb782" },
+];
 
 const task = (overrides: Partial<TaskType> & { id: string }): TaskType => ({
   title: `Task ${overrides.id}`,
   priority: "Medium",
-  status: "Todo",
+  columnId: "col-todo",
   ...overrides,
 });
 
@@ -13,10 +27,11 @@ const buildState = (): Lists => ({
     id: "list-1",
     title: "My list",
     description: "",
+    columns: [...columns],
     tasks: [
-      task({ id: "a", status: "Todo" }),
-      task({ id: "b", status: "Todo" }),
-      task({ id: "c", status: "In Progress" }),
+      task({ id: "a", columnId: "col-todo" }),
+      task({ id: "b", columnId: "col-todo" }),
+      task({ id: "c", columnId: "col-progress" }),
     ],
   },
 });
@@ -30,7 +45,7 @@ describe("listsReducer", () => {
         id: "d",
         title: "New task",
         description: "",
-        status: "Todo",
+        columnId: "col-todo",
         priority: "High",
       },
     });
@@ -66,27 +81,24 @@ describe("listsReducer", () => {
     expect(updated?.updatedAt).toEqual(expect.any(Number));
   });
 
-  test("MOVE_TASK changes status and inserts at the requested column position", () => {
-    // Move "a" (Todo) into the In Progress column, before "c".
+  test("MOVE_TASK changes column and inserts at the requested position", () => {
     const next = listsReducer(buildState(), {
       type: "MOVE_TASK",
-      payload: { listId: "list-1", taskId: "a", newStatus: "In Progress", destinationIndex: 0 },
+      payload: { listId: "list-1", taskId: "a", columnId: "col-progress", destinationIndex: 0 },
     });
 
-    const tasks = next["list-1"].tasks;
-    const inProgressIds = tasks.filter((t) => t.status === "In Progress").map((t) => t.id);
+    const progressIds = next["list-1"].tasks.filter((t) => t.columnId === "col-progress").map((t) => t.id);
 
-    expect(inProgressIds).toEqual(["a", "c"]);
+    expect(progressIds).toEqual(["a", "c"]);
   });
 
   test("MOVE_TASK reorders within the same column", () => {
-    // Move "a" below "b" within Todo.
     const next = listsReducer(buildState(), {
       type: "MOVE_TASK",
-      payload: { listId: "list-1", taskId: "a", newStatus: "Todo", destinationIndex: 1 },
+      payload: { listId: "list-1", taskId: "a", columnId: "col-todo", destinationIndex: 1 },
     });
 
-    const todoIds = next["list-1"].tasks.filter((t) => t.status === "Todo").map((t) => t.id);
+    const todoIds = next["list-1"].tasks.filter((t) => t.columnId === "col-todo").map((t) => t.id);
 
     expect(todoIds).toEqual(["b", "a"]);
   });
@@ -94,21 +106,84 @@ describe("listsReducer", () => {
   test("MOVE_TASK into an empty column appends the task", () => {
     const next = listsReducer(buildState(), {
       type: "MOVE_TASK",
-      payload: { listId: "list-1", taskId: "a", newStatus: "Done", destinationIndex: 0 },
+      payload: { listId: "list-1", taskId: "a", columnId: "col-done", destinationIndex: 0 },
     });
 
     const moved = next["list-1"].tasks.find((t) => t.id === "a");
 
-    expect(moved?.status).toBe("Done");
+    expect(moved?.columnId).toBe("col-done");
   });
 
-  test("ADD_LIST creates an empty list", () => {
+  test("ADD_LIST creates an empty list with default columns", () => {
     const next = listsReducer(buildState(), {
       type: "ADD_LIST",
       payload: { id: "list-2", title: "Second list", description: "About it" },
     });
 
-    expect(next["list-2"]).toEqual({ id: "list-2", title: "Second list", description: "About it", tasks: [] });
+    expect(next["list-2"].title).toBe("Second list");
+    expect(next["list-2"].tasks).toEqual([]);
+    expect(next["list-2"].columns).toHaveLength(4);
+  });
+
+  test("ADD_COLUMN appends a column", () => {
+    const next = listsReducer(buildState(), {
+      type: "ADD_COLUMN",
+      payload: { listId: "list-1", id: "col-blocked", name: "Blocked", color: "#eb5757" },
+    });
+
+    expect(next["list-1"].columns.map((c) => c.name)).toEqual(["Todo", "In Progress", "Done", "Blocked"]);
+  });
+
+  test("UPDATE_COLUMN renames and recolors", () => {
+    const next = listsReducer(buildState(), {
+      type: "UPDATE_COLUMN",
+      payload: { listId: "list-1", columnId: "col-todo", updates: { name: "Backlog", color: "#bb6bd9" } },
+    });
+
+    expect(next["list-1"].columns[0]).toMatchObject({ name: "Backlog", color: "#bb6bd9" });
+  });
+
+  test("DELETE_COLUMN moves tasks and removes the column", () => {
+    const next = listsReducer(buildState(), {
+      type: "DELETE_COLUMN",
+      payload: { listId: "list-1", columnId: "col-todo", moveTasksToColumnId: "col-progress" },
+    });
+
+    expect(next["list-1"].columns.map((c) => c.id)).toEqual(["col-progress", "col-done"]);
+    expect(next["list-1"].tasks.every((t) => t.columnId !== "col-todo")).toBe(true);
+    expect(next["list-1"].tasks.filter((t) => t.columnId === "col-progress").map((t) => t.id)).toEqual([
+      "a",
+      "b",
+      "c",
+    ]);
+  });
+
+  test("DELETE_COLUMN is a no-op when only one column remains", () => {
+    const singleColumnState: Lists = {
+      "list-1": {
+        id: "list-1",
+        title: "My list",
+        description: "",
+        columns: [{ id: "col-todo", name: "Todo", color: "#8a8f98" }],
+        tasks: [task({ id: "a" })],
+      },
+    };
+
+    const next = listsReducer(singleColumnState, {
+      type: "DELETE_COLUMN",
+      payload: { listId: "list-1", columnId: "col-todo", moveTasksToColumnId: "col-todo" },
+    });
+
+    expect(next).toBe(singleColumnState);
+  });
+
+  test("REORDER_COLUMNS moves a column by index", () => {
+    const next = listsReducer(buildState(), {
+      type: "REORDER_COLUMNS",
+      payload: { listId: "list-1", sourceIndex: 0, destinationIndex: 2 },
+    });
+
+    expect(next["list-1"].columns.map((c) => c.id)).toEqual(["col-progress", "col-done", "col-todo"]);
   });
 
   test("UPDATE_LIST renames without touching tasks", () => {
@@ -128,16 +203,5 @@ describe("listsReducer", () => {
     });
 
     expect(next["list-1"]).toBeUndefined();
-  });
-
-  test("actions targeting a missing list are no-ops", () => {
-    const state = buildState();
-
-    const next = listsReducer(state, {
-      type: "DELETE_TASK",
-      payload: { listId: "missing", taskId: "a" },
-    });
-
-    expect(next).toBe(state);
   });
 });

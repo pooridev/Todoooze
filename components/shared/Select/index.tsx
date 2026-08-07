@@ -1,11 +1,13 @@
 "use client";
-import { FC, ReactElement, useState, useRef } from "react";
+import { ReactElement, useState, useRef } from "react";
 
 import styles from "./Select.module.css";
 import useOutsideClickHandler from "../../../hooks/useOutsideClickHandler";
 
 interface Value<T> {
   title: T;
+  /** Display label; falls back to `title` when omitted. */
+  label?: string;
   icon?: ReactElement | JSX.Element;
 }
 
@@ -35,21 +37,19 @@ const Select = <T extends string>(props: IProps<T>) => {
   const selectClasses = [styles.Select];
   const buttonClasses = [styles.Button];
 
-  // If isOpen was true, add the Open class
   if (isOpen) selectClasses.push(styles.Open);
-
   if (variant === "outline") buttonClasses.push(styles.Outline);
 
-  // Close menu if clicked outside
   useOutsideClickHandler({ ref: selectRef, callback: closeSelect });
 
-  const valueWithIcon = items.find((i) => i.title == value) || null;
+  const valueWithIcon = items.find((item) => item.title == value) || null;
+  const displayLabel = valueWithIcon?.label || valueWithIcon?.title || defaultValue?.label || defaultValue?.title;
 
   return (
     <div className="relative">
-      <button className={buttonClasses.join(" ")} onClick={openSelect}>
+      <button className={buttonClasses.join(" ")} onClick={openSelect} type="button">
         <span>{valueWithIcon?.icon || defaultValue?.icon}</span>
-        {(!iconOnly && <span>{valueWithIcon?.title}</span>) || (!iconOnly && defaultValue?.title)}
+        {!iconOnly && <span>{displayLabel}</span>}
       </button>
       {!readonly && (
         <div className={selectClasses.join(" ")}>
@@ -64,7 +64,7 @@ const Select = <T extends string>(props: IProps<T>) => {
                 }}
               >
                 {item?.icon}
-                <span>{item.title}</span>
+                <span>{item.label || item.title}</span>
               </li>
             ))}
           </ul>

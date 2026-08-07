@@ -1,8 +1,12 @@
 "use client";
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useReducer, useState } from "react";
-import { TaskPriority, TaskStatus, TaskType } from "../types/Task";
-import { ListType } from "../types/ListType";
 import { v4 as uuidv4 } from "uuid";
+
+import { createDefaultColumns, SEED_COLUMNS } from "../constants/columns";
+import { migrateLists } from "../helpers/migrate-lists";
+import { ColumnType } from "../types/Column";
+import { ListType } from "../types/ListType";
+import { TaskPriority, TaskType } from "../types/Task";
 
 const STORAGE_KEY = "todoooze.lists.v1";
 
@@ -14,12 +18,16 @@ interface ListsContextType {
     addNewTask: (payload: AddNewTaskPayload) => void;
     deleteTask: (payload: DeleteTaskPayload) => void;
     updateTask: (payload: UpdateTaskPayload) => void;
-    updateTaskStatus: (payload: UpdateTaskStatusPayload) => void;
+    updateTaskColumn: (payload: UpdateTaskColumnPayload) => void;
     updateTaskPriority: (payload: UpdateTaskPriority) => void;
     moveTask: (payload: MoveTaskPayload) => void;
     addList: (payload: AddListPayload) => void;
     updateList: (payload: UpdateListPayload) => void;
     deleteList: (payload: DeleteListPayload) => void;
+    addColumn: (payload: AddColumnPayload) => void;
+    updateColumn: (payload: UpdateColumnPayload) => void;
+    deleteColumn: (payload: DeleteColumnPayload) => void;
+    reorderColumns: (payload: ReorderColumnsPayload) => void;
   };
 }
 
@@ -33,16 +41,16 @@ const list1Id = uuidv4();
 const list2Id = uuidv4();
 
 const initialLists: Lists = {
-  //👇🏼 List id
   [list1Id]: {
     id: list1Id,
     title: "Snappfood",
     description: "A leading delivery service in Iran!",
+    columns: SEED_COLUMNS,
     tasks: [
       {
         title: "Implement Foodstory uploader",
         id: "1",
-        status: "Done",
+        columnId: "col-done",
         priority: "Medium",
         createdAt: now,
         updatedAt: now,
@@ -53,11 +61,12 @@ const initialLists: Lists = {
     id: list2Id,
     title: "Digikala.com",
     description: "A leading Ecommerce in Iran!",
+    columns: SEED_COLUMNS.map((column) => ({ ...column })),
     tasks: [
       {
         title: "Implement RoundTable wizard component",
         id: "2",
-        status: "In Progress",
+        columnId: "col-progress",
         priority: "Urgent",
         createdAt: now,
         updatedAt: now,
@@ -71,7 +80,7 @@ export interface AddNewTaskPayload {
   title: string;
   description: string;
   id: string;
-  status: TaskStatus;
+  columnId: string;
   priority: TaskPriority;
 }
 
@@ -83,13 +92,13 @@ export interface DeleteTaskPayload {
 export interface UpdateTaskPayload {
   listId: string;
   taskId: string;
-  updates: Partial<Pick<TaskType, "title" | "description" | "status" | "priority">>;
+  updates: Partial<Pick<TaskType, "title" | "description" | "columnId" | "priority">>;
 }
 
-export interface UpdateTaskStatusPayload {
+export interface UpdateTaskColumnPayload {
   listId: string;
   taskId: string;
-  newStatus: TaskStatus;
+  columnId: string;
 }
 
 export interface UpdateTaskPriority {
@@ -101,8 +110,8 @@ export interface UpdateTaskPriority {
 export interface MoveTaskPayload {
   listId: string;
   taskId: string;
-  newStatus: TaskStatus;
-  /** Position among the tasks of `newStatus` (i.e. the index within the destination column). */
+  columnId: string;
+  /** Position among the tasks of the destination column. */
   destinationIndex: number;
 }
 
@@ -122,6 +131,32 @@ export interface DeleteListPayload {
   listId: string;
 }
 
+export interface AddColumnPayload {
+  listId: string;
+  id: string;
+  name: string;
+  color: string;
+}
+
+export interface UpdateColumnPayload {
+  listId: string;
+  columnId: string;
+  updates: Partial<Pick<ColumnType, "name" | "color">>;
+}
+
+export interface DeleteColumnPayload {
+  listId: string;
+  columnId: string;
+  /** Tasks in the deleted column are moved here. */
+  moveTasksToColumnId: string;
+}
+
+export interface ReorderColumnsPayload {
+  listId: string;
+  sourceIndex: number;
+  destinationIndex: number;
+}
+
 export type ListAction =
   | { type: "HYDRATE"; payload: Lists }
   | { type: "ADD_NEW_TASK"; payload: AddNewTaskPayload }
@@ -130,7 +165,11 @@ export type ListAction =
   | { type: "MOVE_TASK"; payload: MoveTaskPayload }
   | { type: "ADD_LIST"; payload: AddListPayload }
   | { type: "UPDATE_LIST"; payload: UpdateListPayload }
-  | { type: "DELETE_LIST"; payload: DeleteListPayload };
+  | { type: "DELETE_LIST"; payload: DeleteListPayload }
+  | { type: "ADD_COLUMN"; payload: AddColumnPayload }
+  | { type: "UPDATE_COLUMN"; payload: UpdateColumnPayload }
+  | { type: "DELETE_COLUMN"; payload: DeleteColumnPayload }
+  | { type: "REORDER_COLUMNS"; payload: ReorderColumnsPayload };
 
 const updateTaskInList = (list: ListType, taskId: string, updates: Partial<TaskType>): ListType => ({
   ...list,
@@ -183,7 +222,7 @@ export const listsReducer = (state: Lists, action: ListAction): Lists => {
     }
 
     case "MOVE_TASK": {
-      const { listId, taskId, newStatus, destinationIndex } = action.payload;
+      const { listId, taskId, columnId, destinationIndex } = action.payload;
       const list = state[listId];
 
       if (!list) return state;
@@ -194,22 +233,18 @@ export const listsReducer = (state: Lists, action: ListAction): Lists => {
       if (sourceIndex === -1) return state;
 
       const [moved] = tasks.splice(sourceIndex, 1);
-      const movedTask: TaskType = { ...moved, status: newStatus, updatedAt: Date.now() };
+      const movedTask: TaskType = { ...moved, columnId, updatedAt: Date.now() };
 
-      // Tasks are stored in a single array per list; a column is the ordered
-      // subset of tasks sharing a status. To drop the task at `destinationIndex`
-      // of its destination column we translate that column-relative index into
-      // an index of the underlying array.
-      const destinationStatusIndexes = tasks.reduce<number[]>(
-        (indexes, task, index) => (task.status === newStatus ? [...indexes, index] : indexes),
+      const destinationIndexes = tasks.reduce<number[]>(
+        (indexes, task, index) => (task.columnId === columnId ? [...indexes, index] : indexes),
         []
       );
 
       const insertAt =
-        destinationIndex < destinationStatusIndexes.length
-          ? destinationStatusIndexes[destinationIndex]
-          : destinationStatusIndexes.length > 0
-            ? destinationStatusIndexes[destinationStatusIndexes.length - 1] + 1
+        destinationIndex < destinationIndexes.length
+          ? destinationIndexes[destinationIndex]
+          : destinationIndexes.length > 0
+            ? destinationIndexes[destinationIndexes.length - 1] + 1
             : tasks.length;
 
       tasks.splice(insertAt, 0, movedTask);
@@ -225,7 +260,7 @@ export const listsReducer = (state: Lists, action: ListAction): Lists => {
 
       return {
         ...state,
-        [id]: { id, title, description, tasks: [] },
+        [id]: { id, title, description, columns: createDefaultColumns(), tasks: [] },
       };
     }
 
@@ -250,6 +285,83 @@ export const listsReducer = (state: Lists, action: ListAction): Lists => {
       return rest;
     }
 
+    case "ADD_COLUMN": {
+      const { listId, id, name, color } = action.payload;
+      const list = state[listId];
+
+      if (!list) return state;
+
+      return {
+        ...state,
+        [listId]: {
+          ...list,
+          columns: [...list.columns, { id, name, color }],
+        },
+      };
+    }
+
+    case "UPDATE_COLUMN": {
+      const { listId, columnId, updates } = action.payload;
+      const list = state[listId];
+
+      if (!list) return state;
+
+      return {
+        ...state,
+        [listId]: {
+          ...list,
+          columns: list.columns.map((column) => (column.id === columnId ? { ...column, ...updates } : column)),
+        },
+      };
+    }
+
+    case "DELETE_COLUMN": {
+      const { listId, columnId, moveTasksToColumnId } = action.payload;
+      const list = state[listId];
+
+      if (!list) return state;
+      if (list.columns.length <= 1) return state;
+      if (!list.columns.some((column) => column.id === moveTasksToColumnId)) return state;
+
+      return {
+        ...state,
+        [listId]: {
+          ...list,
+          columns: list.columns.filter((column) => column.id !== columnId),
+          tasks: list.tasks.map((task) =>
+            task.columnId === columnId
+              ? { ...task, columnId: moveTasksToColumnId, updatedAt: Date.now() }
+              : task
+          ),
+        },
+      };
+    }
+
+    case "REORDER_COLUMNS": {
+      const { listId, sourceIndex, destinationIndex } = action.payload;
+      const list = state[listId];
+
+      if (!list) return state;
+      if (sourceIndex === destinationIndex) return state;
+      if (
+        sourceIndex < 0 ||
+        destinationIndex < 0 ||
+        sourceIndex >= list.columns.length ||
+        destinationIndex >= list.columns.length
+      ) {
+        return state;
+      }
+
+      const columns = [...list.columns];
+      const [moved] = columns.splice(sourceIndex, 1);
+      columns.splice(destinationIndex, 0, moved);
+
+      return {
+        ...state,
+        [listId]: { ...list, columns },
+      };
+    }
+
     default: {
       return state;
     }
@@ -264,9 +376,8 @@ const readStoredLists = (): Lists | null => {
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== "object") return null;
 
-    return parsed as Lists;
+    return migrateLists(parsed);
   } catch {
-    // Corrupted storage should never take the app down; fall back to seed data.
     return null;
   }
 };
@@ -275,9 +386,6 @@ const ListsContext = createContext<ListsContextType | undefined>(undefined);
 
 export const ListsProvider = ({ children }: PropsWithChildren) => {
   const [Lists, dispatch] = useReducer(listsReducer, initialLists);
-
-  // Hydrate from localStorage after mount (not during render) so the first
-  // client render matches the server-rendered markup.
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
@@ -288,13 +396,12 @@ export const ListsProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   useEffect(() => {
-    // Don't overwrite storage with seed data before hydration has happened.
     if (!isHydrated) return;
 
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(Lists));
     } catch {
-      // Storage may be unavailable (private mode, quota); the app still works in-memory.
+      // Storage may be unavailable; the app still works in-memory.
     }
   }, [Lists, isHydrated]);
 
@@ -306,14 +413,18 @@ export const ListsProvider = ({ children }: PropsWithChildren) => {
         addNewTask: (payload: AddNewTaskPayload) => dispatch({ type: "ADD_NEW_TASK", payload }),
         deleteTask: (payload: DeleteTaskPayload) => dispatch({ type: "DELETE_TASK", payload }),
         updateTask: (payload: UpdateTaskPayload) => dispatch({ type: "UPDATE_TASK", payload }),
-        updateTaskStatus: ({ listId, taskId, newStatus }: UpdateTaskStatusPayload) =>
-          dispatch({ type: "UPDATE_TASK", payload: { listId, taskId, updates: { status: newStatus } } }),
+        updateTaskColumn: ({ listId, taskId, columnId }: UpdateTaskColumnPayload) =>
+          dispatch({ type: "UPDATE_TASK", payload: { listId, taskId, updates: { columnId } } }),
         updateTaskPriority: ({ listId, taskId, newPriority }: UpdateTaskPriority) =>
           dispatch({ type: "UPDATE_TASK", payload: { listId, taskId, updates: { priority: newPriority } } }),
         moveTask: (payload: MoveTaskPayload) => dispatch({ type: "MOVE_TASK", payload }),
         addList: (payload: AddListPayload) => dispatch({ type: "ADD_LIST", payload }),
         updateList: (payload: UpdateListPayload) => dispatch({ type: "UPDATE_LIST", payload }),
         deleteList: (payload: DeleteListPayload) => dispatch({ type: "DELETE_LIST", payload }),
+        addColumn: (payload: AddColumnPayload) => dispatch({ type: "ADD_COLUMN", payload }),
+        updateColumn: (payload: UpdateColumnPayload) => dispatch({ type: "UPDATE_COLUMN", payload }),
+        deleteColumn: (payload: DeleteColumnPayload) => dispatch({ type: "DELETE_COLUMN", payload }),
+        reorderColumns: (payload: ReorderColumnsPayload) => dispatch({ type: "REORDER_COLUMNS", payload }),
       },
     }),
     [Lists, isHydrated]

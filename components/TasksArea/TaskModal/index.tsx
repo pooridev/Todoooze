@@ -5,16 +5,16 @@ import { v4 as uuidv4 } from "uuid";
 
 import styles from "./TaskModal.module.css";
 import Select from "../../shared/Select";
-import { TaskPriority, TaskStatus, TaskType } from "../../../types/Task";
+import { TaskPriority, TaskType } from "../../../types/Task";
 
-import { statusItems } from "../../../constants/statusItems";
+import { columnSelectItems } from "../../../constants/columns";
 import { priorityItems } from "../../../constants/priorityItems";
 import { PriorityIcon } from "../../shared/Icon";
 import { useLists, useSetLists } from "../../../providers/Lists";
 import Modal from "../../shared/Modal";
 
 interface IProps {
-  taskStatus: TaskStatus;
+  columnId: string;
   toggle: (state: boolean) => void;
   isOpen: boolean;
   /** When provided, the modal edits this task instead of creating a new one. */
@@ -26,7 +26,7 @@ interface IProps {
 interface FormState {
   title: string;
   description: string;
-  status: TaskStatus;
+  columnId: string;
   priority: TaskPriority;
 }
 
@@ -37,14 +37,14 @@ const validateForm = ({ title, priority }: FormState): string | null => {
   return null;
 };
 
-const TaskModal = ({ taskStatus, isOpen, toggle, task, listId }: IProps) => {
+const TaskModal = ({ columnId, isOpen, toggle, task, listId }: IProps) => {
   const { addNewTask, updateTask } = useSetLists();
   const isEditMode = Boolean(task);
 
   const buildFormState = (): FormState => ({
     title: task?.title ?? "",
     description: task?.description ?? "",
-    status: task?.status ?? taskStatus,
+    columnId: task?.columnId ?? columnId,
     priority: task?.priority ?? "Priority",
   });
 
@@ -58,6 +58,8 @@ const TaskModal = ({ taskStatus, isOpen, toggle, task, listId }: IProps) => {
 
   const fallbackList = Object.values(lists)[0];
   const targetListId = listId ?? String(list_id ?? fallbackList?.id ?? "");
+  const targetList = lists[targetListId] ?? fallbackList;
+  const statusItems = columnSelectItems(targetList?.columns || []);
 
   const submitHandler = () => {
     const validationError = validateForm(taskPayload);
@@ -74,7 +76,7 @@ const TaskModal = ({ taskStatus, isOpen, toggle, task, listId }: IProps) => {
         updates: {
           title: taskPayload.title.trim(),
           description: taskPayload.description,
-          status: taskPayload.status,
+          columnId: taskPayload.columnId,
           priority: taskPayload.priority,
         },
       });
@@ -83,7 +85,7 @@ const TaskModal = ({ taskStatus, isOpen, toggle, task, listId }: IProps) => {
         title: taskPayload.title.trim(),
         description: taskPayload.description,
         id: uuidv4(),
-        status: taskPayload.status,
+        columnId: taskPayload.columnId,
         priority: taskPayload.priority,
         listId: targetListId,
       });
@@ -99,8 +101,8 @@ const TaskModal = ({ taskStatus, isOpen, toggle, task, listId }: IProps) => {
   };
 
   useEffect(() => {
-    setTaskPayload((prev) => ({ ...prev, status: task?.status ?? taskStatus }));
-  }, [taskStatus, task?.status]);
+    setTaskPayload((prev) => ({ ...prev, columnId: task?.columnId ?? columnId }));
+  }, [columnId, task?.columnId]);
 
   return (
     <Modal isOpen={isOpen} onClose={closeModal}>
@@ -138,11 +140,11 @@ const TaskModal = ({ taskStatus, isOpen, toggle, task, listId }: IProps) => {
               onChange={(item) =>
                 setTaskPayload({
                   ...taskPayload,
-                  status: item,
+                  columnId: item,
                 })
               }
               items={statusItems}
-              value={taskPayload.status}
+              value={taskPayload.columnId}
             />
           </div>
         </div>

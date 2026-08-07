@@ -1,0 +1,47 @@
+.Trigger {
+  background: rgba(255, 255, 255, 0.02);
+  @apply flex items-center justify-center gap-2 flex-shrink-0 w-[16rem] h-12 rounded-lg border border-dashed border-gray-lighter text-gray-placeholder text-sm font-medium transition-all;
+}
+
+.Trigger:hover {
+  @apply border-indigo text-gray-lightest;
+}
+
+.Trigger svg {
+  fill: currentColor;
+  @apply w-4 h-4;
+}
+
+.Form {
+  background: rgba(255, 255, 255, 0.02);
+  @apply flex flex-col gap-3 flex-shrink-0 w-[21rem] rounded-lg border border-gray-light p-3;
+}
+
+.Input {
+  @apply bg-transparent outline-none text-sm text-gray-lightest caret-white placeholder-gray-placeholder border-b border-gray-lighter focus:border-indigo pb-1;
+}
+
+.ColorRow {
+  @apply flex flex-wrap gap-1.5;
+}
+
+.ColorSwatch {
+  @apply w-4 h-4 rounded-full;
+}
+
+.Actions {
+  @apply flex justify-end gap-2;
+}
+
+.Cancel {
+  @apply text-sm text-gray-placeholder px-2 py-1 rounded-md hover:bg-gray-light;
+}
+
+.Submit {
+  background: rgb(94, 106, 210);
+  @apply text-sm text-white px-3 py-1 rounded-md;
+}
+
+.Submit:disabled {
+  @apply opacity-40 cursor-not-allowed;
+}

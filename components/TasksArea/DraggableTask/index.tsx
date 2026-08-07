@@ -1,15 +1,16 @@
 "use client";
-import { FC, ReactElement, useState } from "react";
+import { FC, useState } from "react";
 import Image from "next/image";
 import { Draggable } from "react-beautiful-dnd-next";
 import * as ReactContextMenu from "@radix-ui/react-context-menu";
 import classNames from "classnames";
 
 import styles from "./styles.module.css";
-import { TaskPriority, TaskStatus, TaskType } from "../../../types/Task";
+import { TaskPriority, TaskType } from "../../../types/Task";
+import { ColumnType } from "../../../types/Column";
 import ContextMenu from "./ContextMenu";
 import Select from "../../shared/Select";
-import { statusItems } from "../../../constants/statusItems";
+import { columnSelectItems } from "../../../constants/columns";
 import { priorityItems, priorityColors } from "../../../constants/priorityItems";
 import { ListType } from "../../../types/ListType";
 import { formatRelativeTime } from "../../../helpers/relative-time";
@@ -18,24 +19,21 @@ import { useSetLists } from "../../../providers/Lists";
 import TaskModal from "../TaskModal";
 
 interface IProps {
-  column: {
-    name: TaskStatus;
-    icon: ReactElement | JSX.Element;
-    items: Array<TaskType>;
-  };
+  column: ColumnType & { items: Array<TaskType> };
   list: ListType;
   onTaskClick: (task: TaskType) => void;
 }
 
 const DraggableTask: FC<IProps> = ({ column, list, onTaskClick }) => {
-  const { updateTaskPriority, updateTaskStatus, deleteTask } = useSetLists();
+  const { updateTaskPriority, updateTaskColumn, deleteTask } = useSetLists();
 
   const [editingTask, setEditingTask] = useState<TaskType | null>(null);
+  const statusItems = columnSelectItems(list.columns);
 
-  const updateTaskStatusHandler = (taskId: string, newStatus: TaskStatus) => {
-    updateTaskStatus({
-      newStatus,
-      taskId: taskId,
+  const updateTaskColumnHandler = (taskId: string, columnId: string) => {
+    updateTaskColumn({
+      columnId,
+      taskId,
       listId: list.id,
     });
   };
@@ -54,7 +52,7 @@ const DraggableTask: FC<IProps> = ({ column, list, onTaskClick }) => {
 
   return (
     <>
-      {column?.items.map((item, index) => (
+      {column.items.map((item, index) => (
         <ReactContextMenu.Root key={item.id}>
           <ReactContextMenu.Trigger>
             <Draggable draggableId={item.id} index={index}>
@@ -65,8 +63,6 @@ const DraggableTask: FC<IProps> = ({ column, list, onTaskClick }) => {
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
                   onClick={(event) => {
-                    // react-beautiful-dnd preventDefaults the click that follows
-                    // a drag — don't open the detail panel in that case.
                     if (!event.defaultPrevented) onTaskClick(item);
                   }}
                 >
@@ -87,7 +83,6 @@ const DraggableTask: FC<IProps> = ({ column, list, onTaskClick }) => {
                     <div className={styles.AvatarStatus} />
                   </div>
                   {item.description && <p className={styles.Description}>{item.description}</p>}
-                  {/* Interacting with the selects shouldn't open the detail panel. */}
                   <div className={styles.TaskFooter} onClick={(event) => event.stopPropagation()}>
                     <Select
                       items={priorityItems}
@@ -100,10 +95,10 @@ const DraggableTask: FC<IProps> = ({ column, list, onTaskClick }) => {
                     />
                     <Select
                       items={statusItems}
-                      value={column.name}
+                      value={item.columnId}
                       variant="outline"
-                      onChange={(selectedStatus) => {
-                        updateTaskStatusHandler(item.id, selectedStatus);
+                      onChange={(selectedColumnId) => {
+                        updateTaskColumnHandler(item.id, selectedColumnId);
                       }}
                     />
                     <span className={styles.UpdatedAt}>{formatRelativeTime(item.updatedAt)}</span>
@@ -121,7 +116,7 @@ const DraggableTask: FC<IProps> = ({ column, list, onTaskClick }) => {
           isOpen
           task={editingTask}
           listId={list.id}
-          taskStatus={editingTask.status ?? column.name}
+          columnId={editingTask.columnId}
           toggle={() => setEditingTask(null)}
         />
       )}

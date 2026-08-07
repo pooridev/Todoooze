@@ -6,8 +6,9 @@ import Image from "next/image";
 
 import styles from "./TaskDetailPanel.module.css";
 import { TaskType } from "../../../types/Task";
+import { ColumnType } from "../../../types/Column";
 import Select from "../../shared/Select";
-import { statusItems } from "../../../constants/statusItems";
+import { columnSelectItems } from "../../../constants/columns";
 import { priorityItems, priorityColors } from "../../../constants/priorityItems";
 import { formatRelativeTime } from "../../../helpers/relative-time";
 import { useSetLists } from "../../../providers/Lists";
@@ -17,6 +18,7 @@ type Props = {
   /** The task to show; the panel is hidden when null. */
   task: TaskType | null;
   listId: string;
+  columns: ColumnType[];
   onClose: () => void;
 };
 
@@ -24,7 +26,7 @@ type Props = {
  * A slide-in drawer with the full task detail. Edits save live as you type,
  * so the card on the board updates in real time.
  */
-const TaskDetailPanel: FC<Props> = ({ task, listId, onClose }) => {
+const TaskDetailPanel: FC<Props> = ({ task, listId, columns, onClose }) => {
   useEffect(() => {
     if (!task) return;
 
@@ -55,8 +57,7 @@ const TaskDetailPanel: FC<Props> = ({ task, listId, onClose }) => {
             exit={{ x: "100%" }}
             transition={{ type: "spring", duration: 0.4, bounce: 0.1 }}
           >
-            {/* Keyed by task id so switching tasks resets the local edit state. */}
-            <PanelContent key={task.id} task={task} listId={listId} onClose={onClose} />
+            <PanelContent key={task.id} task={task} listId={listId} columns={columns} onClose={onClose} />
           </motion.aside>
         </>
       )}
@@ -66,16 +67,23 @@ const TaskDetailPanel: FC<Props> = ({ task, listId, onClose }) => {
   return typeof window !== "undefined" ? createPortal(content, document.body) : content;
 };
 
-const PanelContent: FC<{ task: TaskType; listId: string; onClose: () => void }> = ({ task, listId, onClose }) => {
+const PanelContent: FC<{
+  task: TaskType;
+  listId: string;
+  columns: ColumnType[];
+  onClose: () => void;
+}> = ({ task, listId, columns, onClose }) => {
   const { updateTask, deleteTask } = useSetLists();
 
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description ?? "");
 
+  const statusItems = columnSelectItems(columns);
+  const currentColumn = columns.find((column) => column.id === task.columnId);
+
   const titleChangeHandler = (value: string) => {
     setTitle(value);
 
-    // Live-save, but never persist an empty title.
     if (value.trim()) updateTask({ listId, taskId: task.id, updates: { title: value.trim() } });
   };
 
@@ -93,7 +101,10 @@ const PanelContent: FC<{ task: TaskType; listId: string; onClose: () => void }> 
     <>
       <header className={styles.Header}>
         <span className={styles.HeaderLabel}>
-          <span className={styles.PriorityDot} style={{ backgroundColor: priorityColors[task.priority] }} />
+          <span
+            className={styles.PriorityDot}
+            style={{ backgroundColor: currentColumn?.color || priorityColors[task.priority] }}
+          />
           Task details
         </span>
         <button className={styles.CloseButton} title="Close (Esc)" onClick={onClose}>
@@ -125,8 +136,8 @@ const PanelContent: FC<{ task: TaskType; listId: string; onClose: () => void }> 
             <span className={styles.PropertyLabel}>Status</span>
             <Select
               items={statusItems}
-              value={task.status ?? "Todo"}
-              onChange={(status) => updateTask({ listId, taskId: task.id, updates: { status } })}
+              value={task.columnId}
+              onChange={(columnId) => updateTask({ listId, taskId: task.id, updates: { columnId } })}
             />
           </div>
           <div className={styles.PropertyRow}>

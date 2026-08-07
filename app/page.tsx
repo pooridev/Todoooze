@@ -37,7 +37,7 @@ const Home = () => {
     <>
       <Navbar>
         <h2 className={styles.Title}>{firstList.title}&apos;s tasks </h2>
-        <ListProgress tasks={firstList.tasks} />
+        <ListProgress tasks={firstList.tasks} columns={firstList.columns} />
       </Navbar>
       <TasksArea list={firstList} />
     </>

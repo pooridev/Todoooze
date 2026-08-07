@@ -4,24 +4,27 @@ import { motion } from "framer-motion";
 
 import styles from "./ListProgress.module.css";
 import { TaskType } from "../../../types/Task";
+import { ColumnType } from "../../../types/Column";
 
 type Props = {
   tasks: TaskType[];
+  columns: ColumnType[];
 };
 
 /**
- * Shows how much of a list is done — a small count plus an animated progress bar.
+ * Shows how much of a list is done — tasks in the last column count as done.
  */
-const ListProgress: FC<Props> = ({ tasks }) => {
+const ListProgress: FC<Props> = ({ tasks, columns }) => {
   const total = tasks.length;
 
-  if (total === 0) return null;
+  if (total === 0 || columns.length === 0) return null;
 
-  const done = tasks.filter((task) => task.status === "Done").length;
+  const doneColumnId = columns[columns.length - 1].id;
+  const done = tasks.filter((task) => task.columnId === doneColumnId).length;
   const percent = Math.round((done / total) * 100);
 
   return (
-    <div className={styles.Progress} title={`${percent}% done`}>
+    <div className={styles.Progress} title={`${percent}% in ${columns[columns.length - 1].name}`}>
       <span className={styles.Label}>
         {done}/{total} done
       </span>

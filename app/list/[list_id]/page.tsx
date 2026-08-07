@@ -46,7 +46,7 @@ const ProjectPage = () => {
         <h2 className={styles.Title} title={list.description}>
           {listTitle}&apos;s tasks{" "}
         </h2>
-        <ListProgress tasks={list.tasks} />
+        <ListProgress tasks={list.tasks} columns={list.columns} />
       </Navbar>
       <TasksArea list={list} />
     </>

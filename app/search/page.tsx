@@ -6,6 +6,7 @@ import TaskRow from "../../components/shared/TaskRow";
 import { SearchIcon } from "../../components/shared/Icon";
 import { useLists } from "../../providers/Lists";
 import { TaskType } from "../../types/Task";
+import { ColumnType } from "../../types/Column";
 
 import styles from "./Search.module.css";
 
@@ -13,6 +14,7 @@ type SearchResult = {
   task: TaskType;
   listId: string;
   listTitle: string;
+  column?: ColumnType;
 };
 
 const SearchPage = () => {
@@ -29,7 +31,12 @@ const SearchPage = () => {
           (task) =>
             task.title.toLowerCase().includes(needle) || task.description?.toLowerCase().includes(needle)
         )
-        .map((task) => ({ task, listId: list.id, listTitle: list.title }))
+        .map((task) => ({
+          task,
+          listId: list.id,
+          listTitle: list.title,
+          column: list.columns.find((column) => column.id === task.columnId),
+        }))
     );
   }, [query, lists]);
 
@@ -42,34 +49,41 @@ const SearchPage = () => {
       </Navbar>
       <div className={styles.Scroll}>
         <div className={styles.Search}>
-        <div className={styles.InputWrapper}>
-          <SearchIcon className={styles.InputIcon} />
-          <input
-            type="search"
-            autoFocus
-            value={query}
-            onChange={({ target }) => setQuery(target.value)}
-            placeholder="Search tasks by title or description..."
-            className={styles.Input}
-          />
-        </div>
+          <div className={styles.InputWrapper}>
+            <SearchIcon className={styles.InputIcon} />
+            <input
+              type="search"
+              autoFocus
+              value={query}
+              onChange={({ target }) => setQuery(target.value)}
+              placeholder="Search tasks by title or description..."
+              className={styles.Input}
+            />
+          </div>
 
-        {hasQuery && (
-          <p className={styles.ResultCount}>
-            {results.length} result{results.length !== 1 && "s"}
-          </p>
-        )}
+          {hasQuery && (
+            <p className={styles.ResultCount}>
+              {results.length} result{results.length !== 1 && "s"}
+            </p>
+          )}
 
-        <div className={styles.Results}>
-          {results.map(({ task, listId, listTitle }) => (
-            <TaskRow key={task.id} task={task} listId={listId} listTitle={listTitle} highlight={query} />
-          ))}
-        </div>
+          <div className={styles.Results}>
+            {results.map(({ task, listId, listTitle, column }) => (
+              <TaskRow
+                key={task.id}
+                task={task}
+                listId={listId}
+                listTitle={listTitle}
+                column={column}
+                highlight={query}
+              />
+            ))}
+          </div>
 
-        {!hasQuery && <p className={styles.EmptyState}>Start typing to search across all your lists.</p>}
-        {hasQuery && results.length === 0 && (
-          <p className={styles.EmptyState}>No tasks match &quot;{query.trim()}&quot;.</p>
-        )}
+          {!hasQuery && <p className={styles.EmptyState}>Start typing to search across all your lists.</p>}
+          {hasQuery && results.length === 0 && (
+            <p className={styles.EmptyState}>No tasks match &quot;{query.trim()}&quot;.</p>
+          )}
         </div>
       </div>
     </>

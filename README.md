@@ -7,8 +7,9 @@ A Linear-inspired, fully client-side project management app. Organize work into 
 ## Features
 
 - **Lists (projects)** — create, rename, and delete lists from the sidebar
-- **Kanban board** — four status columns with drag-and-drop; card order is persisted
-- **Tasks** — create, edit, and delete tasks (right-click a card for the context menu), with title, description, status, and priority (Urgent / High / Medium / Low)
+- **Kanban board** — drag-and-drop between columns; card order is persisted
+- **Custom columns** — add, rename, recolor, reorder, and delete columns per list
+- **Tasks** — create, edit, and delete tasks (right-click a card for the context menu), with title, description, column, and priority (Urgent / High / Medium / Low)
 - **Search** — instant client-side search across every task in every list
 - **Recent** — a feed of recently updated tasks across all lists
 - **Local profile** — set your display name; no auth service, all data stays on your device
