@@ -13,6 +13,7 @@ import { priorityItems, priorityColors } from "../../../constants/priorityItems"
 import { formatRelativeTime } from "../../../helpers/relative-time";
 import { useSetLists } from "../../../providers/Lists";
 import { CloseIcon, DeleteIcon } from "../../shared/Icon";
+import MarkdownEditor from "../../shared/MarkdownEditor";
 
 type Props = {
   /** The task to show; the panel is hidden when null. */
@@ -123,12 +124,12 @@ const PanelContent: FC<{
           }}
         />
 
-        <textarea
-          className={styles.DescriptionInput}
+        <MarkdownEditor
           value={description}
-          placeholder="Add a description..."
-          rows={5}
-          onChange={({ target }) => descriptionChangeHandler(target.value)}
+          onChange={descriptionChangeHandler}
+          placeholder="Add a description… Markdown supported"
+          minRows={4}
+          defaultMode={task.description?.trim() ? "preview" : "write"}
         />
 
         <div className={styles.Properties}>

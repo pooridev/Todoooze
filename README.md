@@ -10,6 +10,7 @@ A Linear-inspired, fully client-side project management app. Organize work into 
 - **Kanban board** — drag-and-drop between columns; card order is persisted
 - **Custom columns** — add, rename, recolor, reorder, and delete columns per list
 - **Tasks** — create, edit, and delete tasks (right-click a card for the context menu), with title, description, column, and priority (Urgent / High / Medium / Low)
+- **Markdown descriptions** — a GitHub-style editor with a formatting toolbar, keyboard shortcuts (⌘B / ⌘I / ⌘K…), live preview, and interactive checklists; cards show checklist progress
 - **Search** — instant client-side search across every task in every list
 - **Recent** — a feed of recently updated tasks across all lists
 - **Offline-first** — installable PWA with a service worker; lists/tasks live in localStorage and keep working without a network
@@ -22,6 +23,7 @@ A Linear-inspired, fully client-side project management app. Organize work into 
 - Tailwind CSS + CSS Modules
 - React Context + `useReducer` for state, persisted to localStorage
 - [`next-pwa`](https://github.com/shadowwalker/next-pwa) (Workbox) for the offline service worker and precaching
+- `react-markdown` + `remark-gfm` for rendering task descriptions
 - `react-beautiful-dnd-next` for drag-and-drop, Radix UI for the context menu, Framer Motion for micro-interactions
 - Jest + Testing Library
 

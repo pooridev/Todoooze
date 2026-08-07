@@ -12,6 +12,7 @@ import { priorityItems } from "../../../constants/priorityItems";
 import { PriorityIcon } from "../../shared/Icon";
 import { useLists, useSetLists } from "../../../providers/Lists";
 import Modal from "../../shared/Modal";
+import MarkdownEditor from "../../shared/MarkdownEditor";
 
 interface IProps {
   columnId: string;
@@ -119,12 +120,14 @@ const TaskModal = ({ columnId, isOpen, toggle, task, listId }: IProps) => {
             placeholder="Task title"
             title="Task title"
           />
-          <textarea
-            value={taskPayload.description}
-            placeholder="Add description..."
-            onChange={({ target }) => setTaskPayload({ ...taskPayload, description: target.value })}
-            className={styles.Description}
-          />
+          <div className={styles.Description}>
+            <MarkdownEditor
+              value={taskPayload.description}
+              onChange={(description) => setTaskPayload({ ...taskPayload, description })}
+              placeholder="Add a description… Markdown supported"
+              minRows={4}
+            />
+          </div>
           {error && <p className={styles.Error}>{error}</p>}
           <div className={styles.Menus}>
             <Select

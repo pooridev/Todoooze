@@ -36,6 +36,16 @@
   @apply text-gray-placeholder text-xs font-normal mt-1 pr-6;
 }
 
+.ChecklistChip {
+  background: rgba(255, 255, 255, 0.05);
+  @apply inline-flex items-center gap-1 mt-2 px-1.5 py-0.5 rounded text-xs text-gray-placeholder;
+}
+
+.ChecklistDone {
+  color: #4cb782;
+  background: rgba(76, 183, 130, 0.12);
+}
+
 .TaskFooter {
   @apply flex gap-2 pt-3 items-center;
 }

@@ -33,10 +33,6 @@
   @apply bg-transparent outline-none text-xl font-semibold text-gray-lightest caret-white placeholder-gray-placeholder w-full;
 }
 
-.DescriptionInput {
-  @apply bg-transparent outline-none text-sm text-gray-lightest caret-white placeholder-gray-placeholder w-full resize-none leading-relaxed;
-}
-
 .Properties {
   @apply flex flex-col gap-2 mt-2;
 }

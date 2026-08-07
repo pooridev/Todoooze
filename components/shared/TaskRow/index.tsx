@@ -6,6 +6,7 @@ import { TaskType } from "../../../types/Task";
 import { ColumnType } from "../../../types/Column";
 import { priorityItems } from "../../../constants/priorityItems";
 import { formatRelativeTime } from "../../../helpers/relative-time";
+import { stripMarkdown } from "../../../helpers/markdown";
 
 type Props = {
   task: TaskType;
@@ -49,7 +50,7 @@ const TaskRow: FC<Props> = ({ task, listId, listTitle, column, highlight }) => {
       <span className={styles.TitleGroup}>
         <span className={styles.Title}>{highlightMatches(task.title, highlight)}</span>
         {task.description && (
-          <span className={styles.Description}>{highlightMatches(task.description, highlight)}</span>
+          <span className={styles.Description}>{highlightMatches(stripMarkdown(task.description), highlight)}</span>
         )}
       </span>
       <span className={styles.Meta}>

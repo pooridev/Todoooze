@@ -1,0 +1,74 @@
+.Editor {
+  background: rgba(15, 16, 18, 0.35);
+  @apply flex flex-col rounded-lg border border-gray-light overflow-hidden transition-all;
+}
+
+.Editor:focus-within {
+  border-color: rgb(94, 106, 210);
+  box-shadow: 0 0 0 1px rgba(94, 106, 210, 0.35);
+}
+
+.Header {
+  background: rgba(255, 255, 255, 0.03);
+  @apply flex items-center justify-between gap-2 px-2 border-b border-gray-light flex-wrap;
+}
+
+.Tabs {
+  @apply flex items-center gap-1;
+}
+
+.Tab {
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  @apply px-2 py-2 text-xs text-gray-placeholder transition-all hover:text-gray-lightest;
+}
+
+.ActiveTab {
+  border-bottom-color: rgb(94, 106, 210);
+  @apply text-gray-lightest;
+}
+
+.Toolbar {
+  @apply flex items-center gap-0.5 py-1;
+}
+
+.ToolButton {
+  @apply p-1.5 rounded text-gray-placeholder transition-all hover:text-gray-lightest hover:bg-gray-light;
+}
+
+.Divider {
+  width: 1px;
+  height: 16px;
+  @apply bg-gray-light mx-1;
+}
+
+.Textarea {
+  min-height: 90px;
+  @apply w-full bg-transparent outline-none resize-none px-3 py-2.5 text-sm leading-relaxed text-gray-lightest caret-white placeholder-gray-placeholder;
+}
+
+.Preview {
+  min-height: 90px;
+  max-height: 320px;
+  @apply px-3 py-2.5 overflow-y-auto;
+}
+
+.EmptyPreview {
+  @apply text-sm text-gray-placeholder italic;
+}
+
+.Footer {
+  background: rgba(255, 255, 255, 0.02);
+  @apply px-3 py-1.5 border-t border-gray-light;
+}
+
+.Hint {
+  font-size: 0.68rem;
+  @apply text-gray-placeholder;
+}
+
+.Hint code {
+  font-size: 0.66rem;
+  background: rgba(255, 255, 255, 0.06);
+  @apply px-1 rounded;
+}

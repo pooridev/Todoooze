@@ -14,6 +14,7 @@ import { columnSelectItems } from "../../../constants/columns";
 import { priorityItems, priorityColors } from "../../../constants/priorityItems";
 import { ListType } from "../../../types/ListType";
 import { formatRelativeTime } from "../../../helpers/relative-time";
+import { stripMarkdown, checklistStats } from "../../../helpers/markdown";
 
 import { useSetLists } from "../../../providers/Lists";
 import TaskModal from "../TaskModal";
@@ -23,6 +24,24 @@ interface IProps {
   list: ListType;
   onTaskClick: (task: TaskType) => void;
 }
+
+/** A small "n/m" progress chip shown when the description contains a checklist. */
+const ChecklistChip: FC<{ description?: string }> = ({ description }) => {
+  const { done, total } = checklistStats(description ?? "");
+  if (total === 0) return null;
+
+  return (
+    <span
+      className={classNames(styles.ChecklistChip, { [styles.ChecklistDone]: done === total })}
+      title={`${done} of ${total} checklist items done`}
+    >
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <path d="m4 12 5 5L20 6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      {done}/{total}
+    </span>
+  );
+};
 
 const DraggableTask: FC<IProps> = ({ column, list, onTaskClick }) => {
   const { updateTaskPriority, updateTaskColumn, deleteTask } = useSetLists();
@@ -82,7 +101,8 @@ const DraggableTask: FC<IProps> = ({ column, list, onTaskClick }) => {
                     />
                     <div className={styles.AvatarStatus} />
                   </div>
-                  {item.description && <p className={styles.Description}>{item.description}</p>}
+                  {item.description && <p className={styles.Description}>{stripMarkdown(item.description)}</p>}
+                  <ChecklistChip description={item.description} />
                   <div className={styles.TaskFooter} onClick={(event) => event.stopPropagation()}>
                     <Select
                       items={priorityItems}

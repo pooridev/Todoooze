@@ -1,0 +1,121 @@
+.Markdown {
+  @apply text-sm text-gray-lightest leading-relaxed break-words;
+}
+
+.Markdown > * + * {
+  @apply mt-2;
+}
+
+/* --- headings --- */
+
+.Markdown h1,
+.Markdown h2,
+.Markdown h3,
+.Markdown h4,
+.Markdown h5,
+.Markdown h6 {
+  @apply font-semibold text-gray-lightest;
+}
+
+.Markdown h1 {
+  @apply text-lg mt-3;
+}
+
+.Markdown h2 {
+  @apply text-base mt-3;
+}
+
+.Markdown h3,
+.Markdown h4,
+.Markdown h5,
+.Markdown h6 {
+  @apply text-sm uppercase tracking-wide text-gray-placeholder mt-3;
+}
+
+.Markdown > :first-child {
+  @apply mt-0;
+}
+
+/* --- code --- */
+
+.Markdown :not(pre) > code {
+  font-size: 0.85em;
+  background: rgba(255, 255, 255, 0.08);
+  @apply px-1 py-0.5 rounded text-indigo-bright;
+}
+
+.Markdown pre {
+  background: rgba(15, 16, 18, 0.6);
+  @apply rounded-md border border-gray-light px-3 py-2 overflow-x-auto text-xs leading-relaxed;
+}
+
+/* --- quotes & rules --- */
+
+.Markdown blockquote {
+  border-left: 3px solid rgb(94, 106, 210);
+  @apply pl-3 text-gray-placeholder italic;
+}
+
+.Markdown hr {
+  @apply border-gray-light my-3;
+}
+
+/* --- lists --- */
+
+.Markdown ul,
+.Markdown ol {
+  @apply pl-5 flex flex-col gap-1;
+}
+
+.Markdown ul {
+  list-style: disc;
+}
+
+.Markdown ol {
+  list-style: decimal;
+}
+
+.Markdown ::marker {
+  @apply text-gray-placeholder;
+}
+
+.TaskItem {
+  list-style: none;
+  @apply flex items-start gap-2 -ml-5;
+}
+
+.Checkbox {
+  accent-color: rgb(94, 106, 210);
+  @apply mt-1 flex-shrink-0 cursor-pointer;
+}
+
+.Checkbox:disabled {
+  @apply cursor-default;
+}
+
+.TaskDone {
+  @apply line-through text-gray-placeholder;
+}
+
+/* --- links --- */
+
+.Markdown a {
+  text-underline-offset: 2px;
+  @apply text-indigo-bright underline hover:opacity-80 transition-opacity;
+}
+
+/* --- tables (GFM) --- */
+
+.Markdown table {
+  @apply w-full text-xs border-collapse;
+}
+
+.Markdown th,
+.Markdown td {
+  @apply border border-gray-light px-2 py-1 text-left;
+}
+
+.Markdown th {
+  background: rgba(255, 255, 255, 0.04);
+  @apply font-semibold;
+}

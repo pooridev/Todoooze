@@ -18,6 +18,9 @@
     "react": "^18.2.0",
     "react-beautiful-dnd-next": "^11.0.5",
     "react-dom": "^18.2.0",
+    "react-markdown": "^10.1.0",
+    "remark-breaks": "^4.0.0",
+    "remark-gfm": "^4.0.1",
     "uuid": "^14.0.1"
   },
   "resolutions": {

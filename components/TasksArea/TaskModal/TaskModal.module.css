@@ -2,17 +2,12 @@
   @apply flex flex-col mx-4 mb-4 px-1;
 }
 
-.Description,
 .Title {
-  @apply bg-transparent outline-none text-gray-lightest caret-white placeholder-gray-placeholder;
-}
-
-.Title {
-  @apply mt-1 text-xl;
+  @apply bg-transparent outline-none text-gray-lightest caret-white placeholder-gray-placeholder mt-1 text-xl;
 }
 
 .Description {
-  @apply flex flex-col bg-transparent mt-3 text-base resize-none;
+  @apply mt-3 mb-3;
 }
 
 .Menus {
