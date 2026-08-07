@@ -10,6 +10,7 @@ import ColumnHeader from "./ColumnHeader";
 import TaskDetailPanel from "./TaskDetailPanel";
 import AddColumn from "./AddColumn";
 import { useSetLists } from "../../providers/Lists";
+import { asColumnId } from "../../types/Column";
 
 interface IProps {
   list: ListType;
@@ -60,7 +61,8 @@ const TasksArea: FC<IProps> = ({ list }) => {
     moveTask({
       listId: list.id,
       taskId: result.draggableId,
-      columnId: result.destination.droppableId,
+      // Task droppable ids are column ids (see the <Droppable> below).
+      columnId: asColumnId(result.destination.droppableId),
       destinationIndex: result.destination.index,
     });
   };

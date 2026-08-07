@@ -7,7 +7,7 @@ import classNames from "classnames";
 
 import styles from "./styles.module.css";
 import { TaskPriority, TaskType } from "../../../types/Task";
-import { ColumnType } from "../../../types/Column";
+import { ColumnId, ColumnType } from "../../../types/Column";
 import ContextMenu from "./ContextMenu";
 import Select from "../../shared/Select";
 import { columnSelectItems } from "../../../constants/columns";
@@ -49,7 +49,7 @@ const DraggableTask: FC<IProps> = ({ column, list, onTaskClick }) => {
   const [editingTask, setEditingTask] = useState<TaskType | null>(null);
   const statusItems = columnSelectItems(list.columns);
 
-  const updateTaskColumnHandler = (taskId: string, columnId: string) => {
+  const updateTaskColumnHandler = (taskId: string, columnId: ColumnId) => {
     updateTaskColumn({
       columnId,
       taskId,

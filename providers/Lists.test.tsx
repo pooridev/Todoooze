@@ -6,19 +6,23 @@ jest.mock("uuid", () => {
 });
 
 import { Lists, listsReducer } from "./Lists";
-import { ColumnType } from "../types/Column";
+import { asColumnId, ColumnType } from "../types/Column";
 import { TaskType } from "../types/Task";
 
+const TODO = asColumnId("col-todo");
+const PROGRESS = asColumnId("col-progress");
+const DONE = asColumnId("col-done");
+
 const columns: ColumnType[] = [
-  { id: "col-todo", name: "Todo", color: "#8a8f98" },
-  { id: "col-progress", name: "In Progress", color: "#f2c94c" },
-  { id: "col-done", name: "Done", color: "#4cb782" },
+  { id: TODO, name: "Todo", color: "#8a8f98" },
+  { id: PROGRESS, name: "In Progress", color: "#f2c94c" },
+  { id: DONE, name: "Done", color: "#4cb782" },
 ];
 
 const task = (overrides: Partial<TaskType> & { id: string }): TaskType => ({
   title: `Task ${overrides.id}`,
   priority: "Medium",
-  columnId: "col-todo",
+  columnId: TODO,
   ...overrides,
 });
 
@@ -29,9 +33,9 @@ const buildState = (): Lists => ({
     description: "",
     columns: [...columns],
     tasks: [
-      task({ id: "a", columnId: "col-todo" }),
-      task({ id: "b", columnId: "col-todo" }),
-      task({ id: "c", columnId: "col-progress" }),
+      task({ id: "a", columnId: TODO }),
+      task({ id: "b", columnId: TODO }),
+      task({ id: "c", columnId: PROGRESS }),
     ],
   },
 });
@@ -45,7 +49,7 @@ describe("listsReducer", () => {
         id: "d",
         title: "New task",
         description: "",
-        columnId: "col-todo",
+        columnId: TODO,
         priority: "High",
       },
     });
@@ -84,7 +88,7 @@ describe("listsReducer", () => {
   test("MOVE_TASK changes column and inserts at the requested position", () => {
     const next = listsReducer(buildState(), {
       type: "MOVE_TASK",
-      payload: { listId: "list-1", taskId: "a", columnId: "col-progress", destinationIndex: 0 },
+      payload: { listId: "list-1", taskId: "a", columnId: PROGRESS, destinationIndex: 0 },
     });
 
     const progressIds = next["list-1"].tasks.filter((t) => t.columnId === "col-progress").map((t) => t.id);
@@ -95,7 +99,7 @@ describe("listsReducer", () => {
   test("MOVE_TASK reorders within the same column", () => {
     const next = listsReducer(buildState(), {
       type: "MOVE_TASK",
-      payload: { listId: "list-1", taskId: "a", columnId: "col-todo", destinationIndex: 1 },
+      payload: { listId: "list-1", taskId: "a", columnId: TODO, destinationIndex: 1 },
     });
 
     const todoIds = next["list-1"].tasks.filter((t) => t.columnId === "col-todo").map((t) => t.id);
@@ -106,7 +110,7 @@ describe("listsReducer", () => {
   test("MOVE_TASK into an empty column appends the task", () => {
     const next = listsReducer(buildState(), {
       type: "MOVE_TASK",
-      payload: { listId: "list-1", taskId: "a", columnId: "col-done", destinationIndex: 0 },
+      payload: { listId: "list-1", taskId: "a", columnId: DONE, destinationIndex: 0 },
     });
 
     const moved = next["list-1"].tasks.find((t) => t.id === "a");
@@ -128,7 +132,7 @@ describe("listsReducer", () => {
   test("ADD_COLUMN appends a column", () => {
     const next = listsReducer(buildState(), {
       type: "ADD_COLUMN",
-      payload: { listId: "list-1", id: "col-blocked", name: "Blocked", color: "#eb5757" },
+      payload: { listId: "list-1", id: asColumnId("col-blocked"), name: "Blocked", color: "#eb5757" },
     });
 
     expect(next["list-1"].columns.map((c) => c.name)).toEqual(["Todo", "In Progress", "Done", "Blocked"]);
@@ -137,7 +141,7 @@ describe("listsReducer", () => {
   test("UPDATE_COLUMN renames and recolors", () => {
     const next = listsReducer(buildState(), {
       type: "UPDATE_COLUMN",
-      payload: { listId: "list-1", columnId: "col-todo", updates: { name: "Backlog", color: "#bb6bd9" } },
+      payload: { listId: "list-1", columnId: TODO, updates: { name: "Backlog", color: "#bb6bd9" } },
     });
 
     expect(next["list-1"].columns[0]).toMatchObject({ name: "Backlog", color: "#bb6bd9" });
@@ -146,7 +150,7 @@ describe("listsReducer", () => {
   test("DELETE_COLUMN moves tasks and removes the column", () => {
     const next = listsReducer(buildState(), {
       type: "DELETE_COLUMN",
-      payload: { listId: "list-1", columnId: "col-todo", moveTasksToColumnId: "col-progress" },
+      payload: { listId: "list-1", columnId: TODO, moveTasksToColumnId: PROGRESS },
     });
 
     expect(next["list-1"].columns.map((c) => c.id)).toEqual(["col-progress", "col-done"]);
@@ -164,14 +168,14 @@ describe("listsReducer", () => {
         id: "list-1",
         title: "My list",
         description: "",
-        columns: [{ id: "col-todo", name: "Todo", color: "#8a8f98" }],
+        columns: [{ id: TODO, name: "Todo", color: "#8a8f98" }],
         tasks: [task({ id: "a" })],
       },
     };
 
     const next = listsReducer(singleColumnState, {
       type: "DELETE_COLUMN",
-      payload: { listId: "list-1", columnId: "col-todo", moveTasksToColumnId: "col-todo" },
+      payload: { listId: "list-1", columnId: TODO, moveTasksToColumnId: TODO },
     });
 
     expect(next).toBe(singleColumnState);

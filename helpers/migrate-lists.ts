@@ -1,9 +1,10 @@
 import { createDefaultColumns } from "../constants/columns";
-import { ColumnType } from "../types/Column";
+import { asColumnId, ColumnType } from "../types/Column";
 import { ListType } from "../types/ListType";
 import { TaskType } from "../types/Task";
 
-type LegacyTask = Partial<TaskType> & {
+// Stored data is untyped JSON, so ids are plain strings until validated here.
+type LegacyTask = Omit<Partial<TaskType>, "columnId"> & {
   id: string;
   title: string;
   priority: TaskType["priority"];
@@ -32,7 +33,7 @@ export const migrateLists = (raw: Record<string, LegacyList>): Record<string, Li
     const columns =
       Array.isArray(list.columns) && list.columns.length > 0
         ? list.columns.map((column) => ({
-            id: String(column.id),
+            id: asColumnId(String(column.id)),
             name: String(column.name || "Untitled"),
             color: String(column.color || "#8a8f98"),
           }))
@@ -44,7 +45,7 @@ export const migrateLists = (raw: Record<string, LegacyList>): Record<string, Li
     const tasks: TaskType[] = (list.tasks || []).map((task) => {
       const columnId =
         task.columnId && columns.some((column) => column.id === task.columnId)
-          ? task.columnId
+          ? asColumnId(task.columnId)
           : columnByName[task.status || ""] || fallbackColumnId;
 
       return {

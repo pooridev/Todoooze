@@ -1,8 +1,7 @@
 "use client";
 import { FC, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
-import { COLUMN_COLOR_PALETTE } from "../../../constants/columns";
+import { COLUMN_COLOR_PALETTE, newColumnId } from "../../../constants/columns";
 import { useSetLists } from "../../../providers/Lists";
 import { AddIcon } from "../../shared/Icon";
 import styles from "./AddColumn.module.css";
@@ -31,7 +30,7 @@ const AddColumn: FC<Props> = ({ listId, nextColorIndex }) => {
 
     addColumn({
       listId,
-      id: uuidv4(),
+      id: newColumnId(),
       name: trimmed,
       color,
     });

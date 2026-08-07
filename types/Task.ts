@@ -1,12 +1,14 @@
 import { ReactElement } from "react";
 
+import { ColumnId } from "./Column";
+
 export type TaskPriority = "Priority" | "Urgent" | "High" | "Medium" | "Low";
 
 export type TaskType = {
   title: string;
   id: string;
   /** Id of the column this task belongs to. */
-  columnId: string;
+  columnId: ColumnId;
   priority: TaskPriority;
   description?: string;
   /** Unix epoch (ms). Optional for backwards compatibility with previously stored data. */

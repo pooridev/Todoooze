@@ -5,7 +5,7 @@ import { AddIcon, DeleteIcon, ThreeDotsIcon } from "../../shared/Icon";
 import NewTaskModal from "../TaskModal";
 import Modal from "../../shared/Modal";
 import { COLUMN_COLOR_PALETTE } from "../../../constants/columns";
-import { ColumnType } from "../../../types/Column";
+import { ColumnId, ColumnType } from "../../../types/Column";
 import { TaskType } from "../../../types/Task";
 import { useSetLists } from "../../../providers/Lists";
 import useOutsideClickHandler from "../../../hooks/useOutsideClickHandler";
@@ -15,7 +15,7 @@ type ColumnHeaderProps = {
   listId: string;
   column: ColumnType & { items: TaskType[] };
   columnCount: number;
-  fallbackColumnId: string;
+  fallbackColumnId: ColumnId;
   /** Spread onto the drag handle so the whole header can reorder columns. */
   dragHandleProps?: Record<string, unknown>;
 };

@@ -2,9 +2,9 @@
 import { PropsWithChildren, createContext, useContext, useEffect, useMemo, useReducer, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { createDefaultColumns, SEED_COLUMNS } from "../constants/columns";
+import { createDefaultColumns, SEED_COLUMNS, SEED_COLUMN_IDS } from "../constants/columns";
 import { migrateLists } from "../helpers/migrate-lists";
-import { ColumnType } from "../types/Column";
+import { ColumnId, ColumnType } from "../types/Column";
 import { ListType } from "../types/ListType";
 import { TaskPriority, TaskType } from "../types/Task";
 
@@ -38,41 +38,40 @@ export interface Lists {
 const now = Date.now();
 
 const list1Id = uuidv4();
-const list2Id = uuidv4();
 
 const initialLists: Lists = {
   [list1Id]: {
     id: list1Id,
-    title: "Snappfood",
-    description: "A leading delivery service in Iran!",
+    title: "Sample List",
+    description: "A sample list for testing",
     columns: SEED_COLUMNS,
     tasks: [
       {
-        title: "Implement Foodstory uploader",
-        id: "1",
-        columnId: "col-done",
+        title: "Sample Task",
+        id: uuidv4(),
+        columnId: SEED_COLUMN_IDS.todo,
+        priority: "Low",
+        createdAt: now,
+        updatedAt: now,
+      },
+      {
+        title: "Sample Task 2",
+        id: uuidv4(),
+        columnId: SEED_COLUMN_IDS.todo,
         priority: "Medium",
         createdAt: now,
         updatedAt: now,
       },
-    ],
-  },
-  [list2Id]: {
-    id: list2Id,
-    title: "Digikala.com",
-    description: "A leading Ecommerce in Iran!",
-    columns: SEED_COLUMNS.map((column) => ({ ...column })),
-    tasks: [
       {
-        title: "Implement RoundTable wizard component",
-        id: "2",
-        columnId: "col-progress",
-        priority: "Urgent",
+        title: "Sample Task 3",
+        id: uuidv4(),
+        columnId: SEED_COLUMN_IDS.inProgress,
+        priority: "High",
         createdAt: now,
         updatedAt: now,
-      },
+      }
     ],
-  },
+  }
 };
 
 export interface AddNewTaskPayload {
@@ -80,7 +79,7 @@ export interface AddNewTaskPayload {
   title: string;
   description: string;
   id: string;
-  columnId: string;
+  columnId: ColumnId;
   priority: TaskPriority;
 }
 
@@ -98,7 +97,7 @@ export interface UpdateTaskPayload {
 export interface UpdateTaskColumnPayload {
   listId: string;
   taskId: string;
-  columnId: string;
+  columnId: ColumnId;
 }
 
 export interface UpdateTaskPriority {
@@ -110,7 +109,7 @@ export interface UpdateTaskPriority {
 export interface MoveTaskPayload {
   listId: string;
   taskId: string;
-  columnId: string;
+  columnId: ColumnId;
   /** Position among the tasks of the destination column. */
   destinationIndex: number;
 }
@@ -133,22 +132,22 @@ export interface DeleteListPayload {
 
 export interface AddColumnPayload {
   listId: string;
-  id: string;
+  id: ColumnId;
   name: string;
   color: string;
 }
 
 export interface UpdateColumnPayload {
   listId: string;
-  columnId: string;
+  columnId: ColumnId;
   updates: Partial<Pick<ColumnType, "name" | "color">>;
 }
 
 export interface DeleteColumnPayload {
   listId: string;
-  columnId: string;
+  columnId: ColumnId;
   /** Tasks in the deleted column are moved here. */
-  moveTasksToColumnId: string;
+  moveTasksToColumnId: ColumnId;
 }
 
 export interface ReorderColumnsPayload {

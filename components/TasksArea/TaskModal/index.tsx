@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "./TaskModal.module.css";
 import Select from "../../shared/Select";
 import { TaskPriority, TaskType } from "../../../types/Task";
+import { ColumnId } from "../../../types/Column";
 
 import { columnSelectItems } from "../../../constants/columns";
 import { priorityItems } from "../../../constants/priorityItems";
@@ -15,7 +16,7 @@ import Modal from "../../shared/Modal";
 import MarkdownEditor from "../../shared/MarkdownEditor";
 
 interface IProps {
-  columnId: string;
+  columnId: ColumnId;
   toggle: (state: boolean) => void;
   isOpen: boolean;
   /** When provided, the modal edits this task instead of creating a new one. */
@@ -27,7 +28,7 @@ interface IProps {
 interface FormState {
   title: string;
   description: string;
-  columnId: string;
+  columnId: ColumnId;
   priority: TaskPriority;
 }
 
