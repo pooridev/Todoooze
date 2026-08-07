@@ -1,0 +1,20 @@
+.Title {
+  @apply text-xl font-medium text-gray-lightest;
+}
+
+.Content {
+  @apply flex-1 min-h-0 overflow-y-auto flex flex-col items-center justify-center px-6 text-center gap-3;
+}
+
+.Heading {
+  @apply text-2xl font-semibold text-gray-lightest;
+}
+
+.Copy {
+  @apply text-sm text-gray-placeholder max-w-md leading-relaxed;
+}
+
+.Link {
+  background: rgb(94, 106, 210);
+  @apply mt-2 text-sm text-white px-4 py-2 rounded-md;
+}

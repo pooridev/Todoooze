@@ -1,0 +1,4 @@
+.Banner {
+  background: rgb(94, 106, 210);
+  @apply fixed top-0 left-0 right-0 z-50 text-center text-white text-sm font-medium px-4 py-2 shadow-sm;
+}
